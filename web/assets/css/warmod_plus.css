@@ -1,0 +1,202 @@
+.box {
+  width: 200px; height: 300px;
+  position: relative;
+  border: 1px solid #BBB;
+  background: #EEE;
+}
+.ribbon {
+  position: absolute;
+  left: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#F70505 0%, #8F0808 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; left: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #8F0808;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #8F0808;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #8F0808;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #8F0808;
+}
+
+.blurbg {
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: block;
+  filter: blur(5px);
+  min-height:1600px;
+  min-width:100%;
+  left: 0px;
+  position: fixed;
+  right: 0px;
+  z-index: -1;
+  -webkit-filter: blur(5px);
+}
+
+.match-data-list {
+}
+.match-data-list table {
+	width: 80%;
+	margin-bottom: 20px
+}
+.match-data-list table tr.odd {
+	background: rgba(255, 255, 255, .1);
+}
+.match-data-list table td, .match-data-list table th {
+	padding: 4px;
+	text-align: center;
+	width: 30px;
+	height: 35px;
+	line-height: 16px
+}
+.match-data-list i.icons, .match-data-list table th {
+	font-size: 18px;
+	color: #FFFFFF;
+}
+.match-data-list table td {
+	border-left: 1px solid rgba(255, 255, 255, .1);
+	font-size: 20px
+}
+.match-data-list table.group1 td {
+	color: #99E5FF
+}
+.match-data-list table.group2 td {
+	color: #FFE599
+}
+.match-data-list table td.icon, .match-data-list table th.icon {
+	border: none;
+	text-align: right
+}
+.match-data-list table td.name, .match-data-list table th.name {
+	text-align: left;
+	border: none;
+	width: 240px;
+	font-size: 20px
+}
+.match-data-list table td.name i {
+	margin: 0 5px 0 0;
+	padding: 0
+}
+.match-data-list table td.name i.flag {
+	margin-top: 3px
+}
+.match-data-list table td.name a.name {
+	margin-right: 5px;
+	color: #fff
+}
+.match-data-list table td.name a.name:hover {
+	color: #15C5FF
+}
+.match-data-list table td.name a.name.vip {
+	color: #FDC03D
+}
+.match-data-list table th.hsp, .match-data-list table th.rws {
+	width: 50px
+}
+.match-data-list table th.rating {
+	width: 60px
+}
+.match-data-list table th.rank span, .match-data-list table th.rating span, .match-data-list table th.rws span {
+	font-size: 11px;
+	font-weight: 400
+}
+.match-data-list table th.rank {
+	width: 42px
+}
+.match-data-list table th.rank a {
+	color: #1B93BB
+}
+.match-data-list table td.rating, .match-data-list table td.rws {
+	color: #FF7373
+}
+.match-data-list table td.rating.high, .match-data-list td.elo .change.add {
+	color: #00D936
+}
+.match-data-list table th.elo {
+	width: 85px
+}
+.match-data-list table td.elo {
+	padding: 4px 0
+}
+.match-data-list td.elo .origin {
+	float: left;
+	padding-right: 5px;
+	text-align: right;
+	width: 35px
+}
+.match-data-list td.elo .change {
+	float: left;
+	width: 50px;
+	text-align: left
+}
+.match-data-list td.elo .change.less {
+	color: #fff
+}
+.match-data-list .icon i.icons {
+	float: right;
+	margin-left: 5px;
+	display: block;
+	width: 16px;
+	height: 16px;
+	border-radius: 16px
+}
+
+.profile-bg {
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: top-center;
+  background-size: cover;
+  display: block;
+  min-height:1600px;
+  min-width:100%;
+  left: 0px;
+  position: fixed;
+  right: 0px;
+  z-index: -1;
+}
+
+.card-wmprofile .card-header {
+	width: 50%;
+    padding: 0 0 0 0;
+}
+
+.card-wmprofile {
+	margin: 0 0 25px 0 !important;
+}
+
+.card-wmprofile img {
+	width:124px; 
+	border-radius:3px; 
+	float:right;
+}

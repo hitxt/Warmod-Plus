@@ -1,0 +1,2030 @@
+//**********************************************  Valid Colors	********************************************************
+// {NORMAL}, {DARKRED}, {PINK}, {YELLOW}, {GREEN}, {LIGHTGREEN}, {RED}, {GRAY}, {BLUE}, {DARKBLUE}, {PURPLE}, {ORANGE} *
+//**********************************************************************************************************************
+//                                     http://i.imgur.com/q2wb8Cu.png                                                  *
+//{NORMAL} = x01 | {DARKRED} = x02 | {PINK} = x03 | {GREEN} = x04 | {YELLOW} = x09 | {LIGHTGREEN} = x06 | {RED} = x07  *
+//{GRAY} = x08 | {BLUE} = x0B | {DARKBLUE} = x0C | {PURPLE} = x0E|  {ORANGE} = x10                                     *
+//**********************************************************************************************************************
+
+"Phrases"
+{
+
+	//******************* PrintToChat *******************
+	
+	"Safe Mode"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Safe Mode Enabled. Feature is disabled."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 已開啟安全模式. 功能無法使用."
+	}
+	"Match Reset"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match Reset - Game is not live!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽重置 - 比賽沒有開始!"
+	}
+	"Half Reset"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match Half Reset - Game is not live!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match Half Reset - Game is not live!"
+	}
+	"Half Time"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Half Time! {NORMAL}Please swap teams..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 上半場結束! {NORMAL}請交換隊伍..."
+	}
+	"Half Time Auto Swap"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Half Time! {NORMAL}Swapping teams..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 上半場結束! {NORMAL}正在交換隊伍..."
+	}
+	"Full Time"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Full Time!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽結束!"
+	}
+	"Over Time"
+	//MR = Max Rounds
+	//{2} = mp_overtime_maxrounds / 2
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Overtime! MR{2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 延長賽! MR{2}"
+	}
+//	"Over Time Sudden Death"
+//	{
+//		"#format"		"{1:s}"
+//		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Overtime! Sudden Death"
+//		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 延長賽! Sudden Death"
+//	}
+	"Playing Out Notice"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Note: All {2} rounds must be played out!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Note: All {2} rounds must be played out!"
+	}
+	"Ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} You have been marked as ready."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 你已準備完畢."
+	}
+	"Not Ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} You have been marked as not ready."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 你已取消準備."
+	}
+	"First Half scores"
+	{
+		"#format"		"{1:s},{2:i},{3:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} First Half scores: CT = {2}, T = {3}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} First Half scores: CT = {2}, T = {3}"
+	}
+	"Second Half scores"
+	{
+		"#format"		"{1:s},{2:i},{3:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Second Half scores: CT = {2}, T = {3}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Second Half scores: CT = {2}, T = {3}"
+	}
+	"Total scores"
+	{
+		"#format"		"{1:s},{2:i},{3:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Total scores: CT = {2}, T = {3}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Total scores: CT = {2}, T = {3}"
+	}
+	"Play Score"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{2}"
+	}
+	"Score Overtime"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Overtime: {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 延長賽: {2}"
+	}
+	"Score Overall"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Overall: {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Overall: {2}"
+	}
+	"Score Overall 2"
+	//{2}=lt_t_name, {3}=lt_t_overall_score, {4}=lt_ct_overall_score, {5}=lt_ct_name
+	{
+		"#format"		"{1:s},{2:s},{3:d},{4:d},{5:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Previous: {ORANGE}{2} {GREEN}{3}{PINK}-{GREEN}{4} {BLUE}{5}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Previous: {ORANGE}{2} {GREEN}{3}{PINK}-{GREEN}{4} {BLUE}{5}"
+	}
+	"Knife Round Cancelled"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Knife Round cancelled - Not Live"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 刀戰取消 - 比賽沒有開始"
+	}
+	"Knife Round Inactive"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Knife Round is not active"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 刀戰沒有開始"
+	}
+	"Set Active"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Set to Active"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 設為啟用"
+	}
+	"Set Inactive"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Set to Inactive"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 設為停用"
+	}
+	"Console Ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Console cannot be marked as ready"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 無法將控制台設為準備完畢"
+	}
+	"Console Not Ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Console cannot be marked as not ready"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 無法將控制台設為未準備"
+	}
+	"Not on Team"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} You are not on a team"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 你不在隊伍裡"
+	}
+	"Already Ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} You have already been marked as ready"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 你已準備完畢"
+	}
+	"Already Not Ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} You have already been marked as not ready"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 你已取消準備"
+	}
+	"Forced Ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Forced all players ready"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 強制所有人準備"
+	}
+	"Forced Not Ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Forced all players unready"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 強制所有人取消準備"
+	}
+//	"Forced Spectate"
+//	{
+//		"#format"		"{1:s}"
+//		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Forced all players to spectate"
+//		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 強制移動所有人到觀察者"
+//	}
+	"Match Not In Progress"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match is not in progress!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽沒有開始!"
+	}
+	"T Winning"
+	//{1}=g_t_name, {2}=t_score, {3}=ct_score
+	{
+		"#format"		"{1:s},{2:d},{3:d}"
+		"en"			"{ORANGE} {1} {NORMAL}are winning {ORANGE}{2} {NORMAL}- {BLUE}{3}"
+		"zho"			"{ORANGE} {1} {NORMAL}處於領先 {ORANGE}{2} {NORMAL}- {BLUE}{3}"
+	}
+	"Tied"
+	{
+		"#format"		"{1:d},{2:d}"
+		"en"			"{NORMAL} Scores are tied {BLUE}{1} {NORMAL}- {ORANGE}{2}"
+		"zho"			"{NORMAL} 雙方平手 {BLUE}{1} {NORMAL}- {ORANGE}{2}"
+	}
+	"CT Winning"
+	//{1}=g_ct_name, {2}=ct_score, {3}=t_score
+	{
+		"#format"		"{1:s},{2:d},{3:d}"
+		"en"			"{BLUE} {1} {NORMAL}are winning {BLUE}{2} {NORMAL}- {ORANGE}{3}"
+		"zho"			"{BLUE} {1} {NORMAL}處於領先 {BLUE}{2} {NORMAL}- {ORANGE}{3}"
+	}
+	"Change Teams Midgame"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Blocked - Match is in progress"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽進行中無法變換隊伍"
+	}
+	"Change Teams Pug"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Blocked - Pug is in progress"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Pug進行中無法變換隊伍"
+	}
+	"Maximum Players"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Teams have reached the maximum player limit"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 隊伍已到達人數上限"
+	}
+///	"Nightvision Blocked"
+///	{
+///		"#format"		"{1:s}"
+///		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Night vision is disabled"
+///		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 夜視鏡已停用"
+///	}
+	"Grenades Blocked"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Grenades in warmup are disabled"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 你無法在暖場使用手榴彈"
+	}
+	"Match Begin Msg"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Match will begin after {PINK}{2}{NORMAL} players are ready"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 比賽將在 {PINK}{2}{NORMAL} 位完家準備完畢後開始"
+	}
+	"No Players Found"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} No players found"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 找不到玩家"
+	}
+	"Ready System Disabled2"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} The Ready System is not enabled"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 沒有開啟準備系統"
+	}
+	"ShowInfo Disabled"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} The Ready System display is not enabled"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 沒有開啟準備系統顯示"
+	}
+	"Match Is Live"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} The match is live"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} The match is live"
+	}
+	"WarMod Inactive"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Warmod+ is not active"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Warmod+ 未啟用"
+	}
+	"Change T Name"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorists{NORMAL} name set to {PINK}{2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} 恐怖分子{NORMAL}的名字變更為 {PINK}{2}"
+	}
+	"Change CT Name"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter-Terrorists{NORMAL} name set to {PINK}{2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} 反恐小組{NORMAL}的名字變更為 {PINK}{2}"
+	}
+	"Console"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Console: "
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 控制台: "
+	}
+	"No Permission"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} You do not have permission to use this command"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 你沒有使用這個指令的權限"
+	}
+	"Set Minready"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} wm_min_ready set to {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} wm_min_ready 設定為 {2}"
+	}
+	"Set Maxrounds"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} wm_max_rounds set to {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} wm_max_rounds 設定為 {2}"
+	}
+	"WarMod Rcon Only"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Admin commands have been restricted to RCON only"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 管理員指令限制為RCON"
+	}
+	"Set Password"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} sv_password set to '{2}'"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} sv_password 設定為 '{2}'"
+	}
+///	"Autokick"
+///	{
+///		"#format"		"{1:s}"
+///		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} You have been automatically kicked from the server"
+///		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 你已被自動踢出伺服器"
+///	}
+	"Names Required"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match will not lo3 until both team names have been set"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽在雙方隊伍名稱設定後才能開始"
+	}
+	"Pause Freeze Time"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Game will pause at freeze time"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽將在下回合開始時暫停"
+	}
+	"Pause Round End"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Game will pause at the end of the round"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽將在本回合結束時暫停"
+	}
+	"Pause Limit"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} You have used all your pauses already"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 你已經用光了你的暫停機會"
+	}
+	"Pause Non-player"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} You must be on T or CT to use /pause"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 你必須加入隊伍才能使用 {PINK}/pause{RED} 指令"
+	}
+	"Pause Offer T"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}have asked for a {RED}Pause. Please type {PINK}/pause{NORMAL} to pause the match"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}要求{RED}暫停比賽{NORMAL}. 請輸入 {PINK}/pause{NORMAL} 暫停"
+	}
+	"Pause Offer CT"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}have asked for a {RED}Pause. Please type {PINK}/pause{NORMAL} to pause the match"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}要求{RED}暫停比賽{NORMAL}. 請輸入 {PINK}/pause{NORMAL} 暫停"
+	}
+	"Pause Not Enabled"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} sv_pauseable is set to 0. {RED}Pause function not enabled"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} sv_pauseable 的設定為 0. {RED}暫停功能未啟用"
+	}
+	"Unpause Notice"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match is now Paused. {NORMAL}Please type {PINK}/unpause{NORMAL} to unpause the match"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽已暫停. {NORMAL}請輸入 {PINK}/unpause{NORMAL} 繼續比賽"
+	}
+	"Unpause Offer T"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}have asked to {RED}unpause the game{NORMAL}. Please type {PINK}/unpause{NORMAL} to unpause the match"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}要求{RED}繼續比賽{NORMAL}. 請輸入 {PINK}/unpause{NORMAL} 繼續比賽"
+	}
+	"Unpause Offer CT"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}have asked to {RED}unpause the game{NORMAL}. Please type {PINK}/unpause{NORMAL} to unpause the match"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}要求{RED}繼續比賽{NORMAL}. 請輸入 {PINK}/unpause{NORMAL} 繼續比賽"
+	}
+	"Unpaused Match T"
+	//{2}=player name, {3}=team name
+	{
+		"#format"		"{1:s},{2:s},{3:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {ORANGE}{2} - {3} {NORMAL}have unpaused the match"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {ORANGE}{2} - {3} {NORMAL}取消暫停比賽"
+	}
+	"Unpaused Match CT"
+	//{2}=player name, {3}=team name
+	{
+		"#format"		"{1:s},{2:s},{3:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2} - {3} {NORMAL}have unpaused the match"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2} - {3} {NORMAL}取消暫停比賽"
+	}
+	"Unpause Non-player"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} You must be on T or CT to use {PINK}/unpause"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 你必須加入隊伍才能使用 {PINK}/unpause{RED} 指令"
+	}
+	"Pause Not Confirmed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Pause offer was not confirmed by the other team"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 暫停請求被對方拒絕"
+	}
+	"Unpause Timer"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} {2} {NORMAL}seconds until game is auto unpaused"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} {2} {NORMAL}秒後比賽自動開始"
+	}
+	"Unpause Auto"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match was auto Unpaused because time limit reached"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 暫停時間到{NORMAL}, 比賽自動開始"
+	}
+	"Auto Pause Notice T"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match will be paused because a player from {ORANGE}{2} {RED}has left the server"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽將自動暫停, 因為隊伍 {ORANGE}{2} {RED}的玩家離開伺服器"
+	}
+	"Auto Pause Notice CT"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match will be paused because a player from {BLUE}{2} {RED}has left the server"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽將自動暫停, 因為隊伍 {BLUE}{2} {RED}的玩家離開伺服器"
+	}
+	"Auto Unpause Notice T"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match has been auto paused because a player from {ORANGE}{2} {RED}has left the server"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽已自動暫停, 因為隊伍 {ORANGE}{2} {RED}的玩家離開伺服器"
+	}
+	"Auto Unpause Notice CT"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match has been auto paused because a player from {BLUE}{2} {RED}has left the server"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽已自動暫停, 因為隊伍 {BLUE}{2} {RED}的玩家離開伺服器"
+	}
+	"Paused Via Rcon"
+	{
+		"#format"		"{1:s}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Server is not paused or was paused via rcon"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 伺服器並未暫停, 或已經由rcon暫停"
+	}
+	"Knife Vote Team T"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}are voting to stay or switch teams"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}正在選擇是否交換隊伍"
+	}
+	"Knife Vote Team CT"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}are voting to stay or switch teams"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}正在選擇是否交換隊伍"
+	}
+	"Knife Vote"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Please type {PINK}/stay{NORMAL} or {PINK}/switch"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 請輸入 {PINK}/stay{NORMAL} 或 {PINK}/switch"
+	}
+	"Knife Stay T"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}have voted to stay"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}選擇維持目前隊伍"
+	}
+	"Knife Stay CT"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}have voted to stay"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}選擇維持目前隊伍"
+	}
+	"Knife Switch T"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}have voted to switch teams"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}選擇交換隊伍"
+	}
+	"Knife Switch CT"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}have voted to switch teams"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}選擇交換隊伍"
+	}
+	"Set Name CT"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} CT's{NORMAL} please set team name"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 請{BLUE}反恐小組{NORMAL}設定隊伍名稱"
+	}
+	"Set Name T"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} T's{NORMAL} please set team name"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 請{ORANGE}恐怖分子{NORMAL}設定隊伍名稱"
+	}
+	"Set Name Both"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Teams please set team name"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 請雙方設定隊伍名稱"
+	}
+	"Set Name CMD"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} To set team name please type {PINK}/team TeamName"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 請輸入 {PINK}/team{NORMAL} 設定隊伍名稱"
+	}
+	"Logos Required"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match will not lo3 until both team logos have been set"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽在雙方隊伍LOGO設定後才能開始"
+	}
+	"Set Logo CT"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} CT's{NORMAL} please set team logo"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 請{BLUE}反恐小組{NORMAL}設定隊伍LOGO"
+	}
+	"Set Logo T"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} T's{NORMAL} please set team logo"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 請{ORANGE}恐怖分子{NORMAL}設定隊伍LOGO"
+	}
+	"Set Logo Both"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Teams please set team logos"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 請雙方隊伍設定隊伍LOGO"
+	}
+	"Set Logo CMD"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} To set team logo please type {PINK}/logo"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 請輸入 {PINK}/logo{NORMAL} 設定隊伍LOGO"
+	}
+	"Live"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} The match is now LIVE!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽開始！"
+	}
+	"Live on 3"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Live on 3"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 比賽將在 {RED}3{NORMAL} 秒後開始"
+	}
+	"Live on 2"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Live on 2"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 比賽將在 {RED}2{NORMAL} 秒後開始"
+	}
+	"Live on 1"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Live on 1"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 比賽將在 {RED}1{NORMAL} 秒後開始"
+	}
+	"Knife On 3"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Knife on 3"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 刀戰將在 {RED}3{NORMAL} 秒後開始"
+	}
+	"Knife on 2"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Knife on 2"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 刀戰將在 {RED}2{NORMAL} 秒後開始"
+	}
+	"Knife on 1"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Knife on 1"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 刀戰將在 {RED}1{NORMAL} 秒後開始"
+	}
+	"Knife"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} KNIFE!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 刀戰開始！"
+	}
+	"Zeus"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} ZEUS!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 電擊槍戰!"
+	}
+	"Good Luck"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} Good Luck, Have Fun!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} 祝你好運，玩得開心！"
+	}
+	"Powered By"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Powered by {PINK}WarMod [BFG] {NORMAL}&{PINK} Kento"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Powered by {PINK}WarMod [BFG] {NORMAL}&{PINK} Kento"
+	}	
+	"GOTV Is"
+	{
+		"#format"		"{1:s},{2:d},{3:d},{4:d},{5:d},{6:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} The GOTV adress of this server is {PINK}{2}.{3}.{4}.{5}:{6}{NORMAL}. Invite your friend to spec this match!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 這個伺服器的GOTV為 {PINK}{2}.{3}.{4}.{5}:{6}{NORMAL}, 邀請好友來觀戰吧!"
+	}	
+	"Warm Up Active"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Warm Up Active"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 暖場"
+	}
+	"FTP Upload Failed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Failed uploading demo file. Please report this to admin."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 上傳DEMO檔失敗. 請通知伺服器管理員."
+	}
+	"FTP Log Upload Successful"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} Log file uploaded successfully"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} 成功上傳記錄檔"
+	}
+	"FTP Demo Upload Successful"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} Demo uploaded successfully"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} 成功上傳DEMO檔"
+	}
+	"Veto Offer Not Confirmed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Veto offer was not confirmed by the other team"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 連續地圖比賽請求被對方拒絕"
+	}
+	"Veto No Maps"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} No maps in bo{1} list"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 沒有地圖在 BO{1} 列表裡"
+	}
+	"Veto Bo3 Map List"
+	{
+		"#format"		"{1:s},{2:s},{3:s},{4:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Map 1 = {PINK}{2}{NORMAL}, Map 2 = {PINK}{3}{NORMAL}, Map 3 = {PINK}{4}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 第一張地圖 = {PINK}{2}{NORMAL}, 第二張地圖 = {PINK}{3}{NORMAL}, 第三張地圖 = {PINK}{4}"
+	}
+	"Veto Bo5 Map List"
+	{
+		"#format"		"{1:s},{2:s},{3:s},{4:s},{5:s},{6:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Map 1 = {PINK}{2}{NORMAL}, Map 2 = {PINK}{3}{NORMAL}, Map 3 = {PINK}{4}{NORMAL}, Map 4 = {PINK}{5}{NORMAL}, Map 5 = {PINK}{6}{NORMAL}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 第一張地圖 = {PINK}{2}{NORMAL}, 第二張地圖 = {PINK}{3}{NORMAL}, 第三張地圖 = {PINK}{4}{NORMAL}, 第四張地圖 = {PINK}{5}{NORMAL}, 第五張地圖 = {PINK}{6}{NORMAL}"
+	}
+	"Veto Bo2 Map List"
+	{
+		"#format"		"{1:s},{2:s},{3:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Map 1 = {PINK}{2}{NORMAL}, Map 2 = {PINK}{3}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 第一張地圖 = {PINK}{2}{NORMAL}, 第二張地圖 = {PINK}{3}"
+	}
+	"Veto Disabled"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Veto system is disabled"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 連續地圖比賽系統已停用"
+	}
+	"Veto Non-player"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} You must be on Terrorist or Counter Terrorist to use {PINK}!veto"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 你必須加入隊伍才能使用 {PINK}!veto{RED} 指令"
+	}
+	"Veto Offer CT"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter Terrorist{NORMAL} have asked for a veto {RED}Bo{2}{NORMAL}. Please type {PINK}!veto{NORMAL} to start"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} 反恐小組{NORMAL}要求進行 {RED}Bo{2}{NORMAL} 比賽. 請輸入 {PINK}!veto{NORMAL} 同意"
+	}
+	"Veto Offer T"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorist{NORMAL} have asked for a veto {RED}Bo{2}{NORMAL}. Please type {PINK}!veto{NORMAL} to start"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} 恐怖分子{NORMAL}要求進行 {RED}Bo{2}{NORMAL} 比賽. 請輸入 {PINK}!veto{NORMAL} 同意"
+	}
+	"Veto Captain T"
+	{
+		"#format"		"{1:s},{2:N},{3:.2f}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorists{NORMAL} captain will be {ORANGE}{2}, {NORMAL}RWS {PINK}{3}{NORMAL}."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} 恐怖分子{NORMAL}的隊長將會是 {ORANGE}{2}, {NORMAL}RWS {PINK}{3}{NORMAL}."
+	}
+	"Veto Captain CT"
+	{
+		"#format"		"{1:s},{2:N},{3:.2f}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter Terrorists{NORMAL} captain will be {BLUE}{2}, {NORMAL}RWS {PINK}{3}{NORMAL}."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} 反恐小組{NORMAL}的隊長將會是 {BLUE}{2}, {NORMAL}RWS {PINK}{3}{NORMAL}."
+	}
+	"Getting a random Terrorists Captain"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Getting a random Terrorists Captain"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 正在隨機選擇一位恐怖分子為隊長"
+	}
+	"Could not find a Terrorists Captain"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Could not find a Terrorists Captain"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 找不到恐怖分子的隊長"
+	}
+	"Getting a random Counter-Terrorists Captain"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Getting a random Counter-Terrorists Captain"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 正在隨機選擇一位反恐小組為隊長"
+	}
+	"Could not find a Counter-Terrorists Captain"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Could not find a Counter-Terrorists Captain"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 找不到反恐小組的隊長"
+	}
+	"Veto First Second T"
+	{
+		"#format"		"{1:s},{2:N}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}is picking to go first or second in the veto."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {2} {NORMAL}正在選擇Veto順序"
+	}
+	"Veto First Second CT"
+	{
+		"#format"		"{1:s},{2:N}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}is picking to go first or second in the veto."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {2} {NORMAL}正在選擇Veto順序."
+	}
+	"Veto Cancelled"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} {2} Veto Cancelled."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} {2} Veto取消."
+	}
+	"Non-player"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} You must be on {ORANGE}Terrorist{RED} or {BLUE}Counter Terrorist{RED} to use this command"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 你必須加入隊伍才能使用這個指令"
+	}
+	"Default Offer CT"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter Terrorist{NORMAL} have asked for a default match. Please type {PINK}!default{NORMAL} to accept"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter Terrorist{NORMAL} have asked for a default match. Please type {PINK}!default{NORMAL} to accept"
+	}
+	"Default Offer T"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorist{NORMAL} have asked for a default match. Please type {PINK}!default{NORMAL} to accept"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorist{NORMAL} have asked for a default match. Please type {PINK}!default{NORMAL} to accept"
+	}
+	"Default Offer Not Confirmed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Default offer was not confirmed by the other team"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Default offer was not confirmed by the other team"
+	}
+	"PlayOut Offer T"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorist {NORMAL}have asked for a play out match. Please type {PINK}!playout{NORMAL} to accept"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorist {NORMAL}have asked for a play out match. Please type {PINK}!playout{NORMAL} to accept"
+	}
+	"PlayOut Offer CT"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter Terrorist {NORMAL}have asked for a play out match. Please type {PINK}!playout{NORMAL} to accept"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter Terrorist {NORMAL}have asked for a play out match. Please type {PINK}!playout{NORMAL} to accept"
+	}
+	"PlayOut Offer Not Confirmed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Play Out offer was not confirmed by the other team"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Play Out offer was not confirmed by the other team"
+	}
+	"OverTime Offer CT"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter Terrorist{NORMAL} have asked for a over time match. Please type {PINK}!overtime{NORMAL} to accept"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} 反恐小組{NORMAL}要求進行延長賽. 請輸入 {PINK}!overtime{NORMAL} 接受請求"
+	}
+	"OverTime Offer T"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorist{NORMAL} have asked for a over time match. Please type {PINK}!overtime to accept"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} 恐怖分子{NORMAL}要求進行延長賽. 請輸入 {PINK}!overtime{NORMAL} 接受請求"
+	}
+	"OverTime Offer Not Confirmed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Over Time offer was not confirmed by the other team"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 延長賽請求被對方拒絕"
+	}
+	"Something went wrong"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Something went wrong, please manually change level"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 發生錯誤, 請手動變換地圖"
+	}
+	"Changing map to"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Changing map to {PINK}{2}{NORMAL} ..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 正在變換地圖為 {PINK}{2}{NORMAL} ..."
+	}
+	"Map will change to"
+	{
+		"#format"		"{1:s},{2:s},{3:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Map will change to {PINK}{2}{NORMAL} in {RED}{3}{NORMAL} seconds"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 將在{RED}{3}秒{NORMAL}後變換地圖為 {PINK}{2}"
+	}
+	"Changing map to 10"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Changing map to {PINK}{2}{NORMAL} in {RED}10{NORMAL} seconds..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 10秒{NORMAL}後變換地圖為 {PINK}{2}{NORMAL}..."
+	}
+	"Ready System"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Ready System"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 準備系統"
+	}
+	"Info Not Ready"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} UNREADY: {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 未準備: {PINK}{2}"
+	}
+//	"Info Exit"
+//	{
+//		"#format"		"{1:s}"
+//		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Exit"
+//		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 離開"
+//	}
+	"Ready Player"
+	{
+		"#format"		"{1:s},{2:N}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} READY > {PINK}{2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} 準備完成 > {PINK}{2}"
+	}
+	"Unready Player"
+	{
+		"#format"		"{1:s},{2:N}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} UNREADY > {PINK}{2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 未準備 > {PINK}{2}"
+	}
+	"Veto Knife"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Veto Knife!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Veto Knife!"
+	}
+	"Team cant empty"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Team name can not be empty"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 隊伍名稱不能為空白"
+	}
+	"Setting team complete"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} Setting team complete"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} 隊伍設定完成"
+	}
+	"Team not allowed"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Only the captain of {PINK}{2}{RED} can set this team name."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 只有隊伍 {PINK}{2}{RED} 的隊長才能設定這個名字"
+	}
+	"Terrorists are called"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorists{NORMAL} are called {PINK}{2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} 恐怖分子{NORMAL}的隊伍名稱為 {PINK}{2}"
+	}
+	"Counter Terrorists are called"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter Terrorists{NORMAL} are called {PINK}{2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} 反恐小組{NORMAL}的隊伍名稱為 {PINK}{2}"
+	}
+	"Team Name not in file"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Team Name not in file"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 檔案裡找不到隊伍名稱"
+	}
+	"Choose a score"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Choose a score between 0 and 30"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 請選擇一個 0 到 30 間的分數"
+	}
+	"T score changed to"
+	{
+		"#format"		"{1:s},{2:d}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} Terrorists{NORMAL} score changed to {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} 恐怖分子{NORMAL}的分數變更為 {2}"
+	}
+	"CT score changed to"
+	{
+		"#format"		"{1:s},{2:d}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} Counter Terrorists{NORMAL} score changed to {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} 反恐小組{NORMAL}的分數變更為 {2}"
+	}
+	"Vetoed 1"
+	{
+		"#format"		"{1:s},{2:N},{3:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} {2} {NORMAL}banned {RED}{3}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} {2} {NORMAL}封鎖了 {RED}{3}"
+	}
+	"Vetoed 2"
+	{
+		"#format"		"{1:s},{2:N},{3:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} {2} {NORMAL}choose {RED}{3}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} {2} {NORMAL}選擇了 {RED}{3}"
+	}
+	"Banned player reason"
+	{
+		"#format"		"{1:s},{2:s},{3:d},{4:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Banned player {PINK}\"{2}\"{RED} for {GREEN}{3} minutes {NORMAL}(reason: {4})."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 封鎖玩家 {PINK}\"{2}\"{RED} {GREEN}{3} 分鐘 {NORMAL}(原因: {4})."
+	}
+	"Has paused the match T"
+	//{2}=player name, {3}=team name
+	{
+		"#format"		"{1:s},{2:s},{3:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} {2}{NORMAL} from {ORANGE}{3}{NORMAL} has paused the match"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{ORANGE} {3}{NORMAL} 的玩家 {PINK}{2}{NORMAL} 暫停比賽"
+	}
+	"Has paused the match CT"
+	//{2}=player name, {3}=team name
+	{
+		"#format"		"{1:s},{2:s},{3:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} {2}{NORMAL} from {BLUE}{3}{NORMAL} has paused the match"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{BLUE} {3}{NORMAL} 的玩家 {PINK}{2}{NORMAL} 暫停比賽"
+	}
+	"wm_min_ready"
+	{
+		"#format"		"{1:s},{2:d}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} wm_min_ready = {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} wm_min_ready = {2}"
+	}
+	"sv_password"
+	{
+		"#format"		"{1:s},{2:d}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} sv_password = {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} sv_password = {2}"
+	}
+	"You are already a spectator"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} You are already a spectator"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 你已經是觀察者了"
+	}
+	"Player"
+	//{2}=player_money, {3}=has_weapon, {4}=player_name
+	{
+		"#format"		"{1:s},{2:s},{3:s},{4:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} {4} {NORMAL}> {LIGHTGREEN}${2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{PINK} {4} {NORMAL}> {LIGHTGREEN}${2}"
+	}
+	"--------"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} --------"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} --------"
+	}
+	"Practice Mode Active"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Practice Mode Active"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Practice Mode Active"
+	}
+	"Veto Active Already"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Veto Active Already"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Veto已在進行中"
+	}
+	"Waiting for GOTV delay"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Waiting for GOTV delay."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 等待GOTV結束轉播."
+	}
+	"Waiting for Upload delay"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Waiting for demo upload delay."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 等待DEMO檔上傳完畢."
+	}
+	"GetDivFromLogocode"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} GetDivFromLogocode, code = {2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} GetDivFromLogocode, code = {2}"
+	}
+	"MySQL data uploaded"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} Match data uploaded"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{LIGHTGREEN} 已上傳比賽資料"
+	}
+	"MySQL Match_ID"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Match ID = {PINK}{2}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 比賽ID = {PINK}{2}"
+	}
+	"Damage Report"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} Damage Report:"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 傷害統計報告:"
+	}
+	"Damage Report 2"
+	//({DMG_TO} dmg / {HITS_TO} hits) to ({DMG_FROM} dmg / {HITS_FROM} hits) from {NAME} ({HEALTH} HP)
+	{
+		"#format"		"{1:d},{2:d},{3:d},{4:d},{5:s},{6:d}"
+		"en"			"{LIGHTGREEN}--> {BLUE}Given({1} in {2}){NORMAL}, {RED}Taken ({3} in {4}){NORMAL}; {YELLOW}{5} {NORMAL}({6} HP)"
+		"zho"			"{LIGHTGREEN}--> {BLUE}Given({1} in {2}){NORMAL}, {RED}Taken ({3} in {4}){NORMAL}; {YELLOW}{5} {NORMAL}({6} HP)"
+	}
+	"No Damage Report"
+	{
+		"#format"		"{1:s}"
+		"en"			"{LIGHTGREEN}--> {RED}No Damage Report In This Round."
+		"zho"			"{LIGHTGREEN}--> {RED}無攻擊傷害數據可供顯示."
+	}
+	"Match statistics page failed to upload"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Match statistics page failed to upload, Please report this to admin."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 上傳比賽紀錄頁面失敗, 請通知伺服器管理員"
+	}
+	"Can Not Veto"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} The match is live. You can not veto now."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽已經開始, 你無法進行BAN圖"
+	}
+	"Can Not Name"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} The match is live. You can not change team name now."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽已經開始, 你無法變更隊伍名字"
+	}
+	"Match End 1"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} The match is over."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽結束"
+	}
+	"Match End 2"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} You can visit {PINK}{2}{NORMAL} to check your match stats and download GOTV demo."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{NORMAL} 你可以前往 {PINK}{2}{NORMAL} 查看比賽紀錄並下載比賽DEMO"
+	}
+	"Usage sm_backup"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} Usage: sm_backup <file>"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 請使用sm_backup <檔案>"
+	}
+	"sm_backup Can not be empty"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} <file> can not be empty or 0."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} <檔案> 不能為0或空白"
+	}
+	"Restore Match 1"
+	{
+		"#format"		"{1:s},{2:i},{3:i}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {NORMAL}Restoring match. Scores: {BLUE}CT = {2}, {ORANGE}T = {3}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {NORMAL}恢復比賽中. 分數: {BLUE}CT = {2}, {ORANGE}T = {3}"
+	}
+	"Restore Match 2"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {NORMAL}Restoring match. Please ready up!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {NORMAL}恢復比賽中. 請準備!"
+	}
+	"Admin Pause"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {PINK}Admin {NORMAL}has paused the match."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {PINK}管理員 {NORMAL}暫停比賽."
+	}
+	"Admin Unpause"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {PINK}Admin {NORMAL}has unpaused the match."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {PINK}管理員 {NORMAL}取消暫停比賽."
+	}
+	"Match Has Been Paused By Admin"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {NORMAL}Match has been paused by {PINK}Admin."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {PINK}管理員 {NORMAL}已經暫停比賽."
+	}
+	"RWS"
+	{
+		"#format"		"{1:s},{2:.2f}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {NORMAL}Your RWS is {PINK}{2}{NORMAL}."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {NORMAL}你的 RWS 為 {PINK}{2}{NORMAL}."
+	}
+	"RWS disabled"
+	{
+		"#format"		"{1:s},{2:.2f}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}RWS is disabled now."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}RWS 已停用."
+	}
+	"RWS Update"
+	{
+		"#format"		"{1:s},{2:.2f},{3:.2f}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {NORMAL}RWS Update! {PINK}{2} {LIGHTGREEN}--> {PINK}{3}"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {NORMAL}RWS 更新! {PINK}{2} {LIGHTGREEN}--> {PINK}{3}"
+	}
+	"Can Not Balance"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} The match is live. You can not balance team by rws."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}]{RED} 比賽已經開始, 你無法依照RWS平均隊伍"
+	}
+	"Admin Balance"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {PINK}Admin {NORMAL}forced team balanced by rws."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {PINK}管理員 {NORMAL}強制隊伍依照 RWS 平衡."
+	}
+	"Vote Balance Success"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}RWS Blance vote success."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}RWS 隊伍平衡投票成功."
+	}
+	"Vote Balance Failed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}RWS blance vote failed."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}RWS 隊伍平衡投票失敗."
+	}
+	"Balance Team"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}Balancing Team By RWS..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}正在依RWS平衡隊伍..."
+	}
+	"Finish Balance Team"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}Teams are now balanced by RWS."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}隊伍已照 RWS 平衡"
+	}
+	"Team Captain Reset"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Teams settings and captains have been reset."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}隊長及隊伍設定已重置"
+	}
+	"T Captain Reset"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {ORANGE}Terrorists {RED}team settings has been reset."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {ORANGE}恐怖分子{RED}的隊伍設定已重置"
+	}
+	"CT Captain Reset"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}Counter-Terrorists {RED}team settings has been reset."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}反恐小組{RED}的隊伍設定已重置"
+	}
+	"Choosing PUG Captain"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}Choosing PUG Captains by RWS..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}正在依RWS高低選擇兩隊隊長..."
+	}
+	"Can Not Pug"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}The match is live. You can not start PUG."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}比賽已經開始, 你無法開始PUG"
+	}
+	"Admin Pug"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {PINK}Admin {NORMAL}force start PUG."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {PINK}管理員 {NORMAL}強制 PUG 開始."
+	}
+	"Vote Pug Success"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}PUG vote success."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}PUG 投票成功"
+	}
+	"Vote Pug Failed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}PUG vote failed."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}PUG 投票失敗"
+	}
+	"Pug Not enough players"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Not enough players for picking, aborting..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}玩家數不足以開始PUG, 取消中..."
+	}
+	"Pug Not enough players"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Not enough players for picking, aborting pug..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}玩家數不足以開始PUG, 取消PUG中..."
+	}
+	"Pug captain is missing"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}A captain is missing, aborting pug..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}找不到其中一方的隊長, 取消PUG中..."
+	}
+	"PlayerPickChoice T"
+	{
+		"#format"		"{1:s},{2:N},{3:N},{4:.2f}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {ORANGE}{2} {NORMAL}has picked {PINK}{3}{NORMAL}, RWS {PINK}{4}."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {ORANGE}{2} {NORMAL}選擇了 {PINK}{3}{NORMAL}, RWS {PINK}{4}."
+	}
+	"PlayerPickChoice CT"
+	{
+		"#format"		"{1:s},{2:N},{3:N},{4:.2f}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2} {NORMAL}has picked {PINK}{3}, {NORMAL}RWS {PINK}{4}."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2} {NORMAL}選擇了 {PINK}{3}, {NORMAL}RWS {PINK}{4}."
+	}
+	"Pug failed to get captain pick T"
+	{
+		"#format"		"{1:s},{2:N}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Failed to get captain {ORANGE}{2}{RED}'s pick. Aborting pug..."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}無法取得隊長 {ORANGE}{2} {RED}的選擇, 取消PUG中..."
+	}
+	"Pug failed to get captain pick CT"
+	{
+		"#format"		"{1:s},{2:N}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Failed to get captain {BLUE}{2}{RED}'s pick. Aborting pug..." 
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}無法取得隊長 {BLUE}{2} {RED}的選擇, 取消PUG中..."
+	}
+	"Pug Pick Finished"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}Pug Pick Finished."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}PUG 結束"
+	}
+	"Logo Downloaded"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}Your team logo has been downloaded, you can set your team by {RED}!team {LIGHTGREEN}command."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}你的隊伍LOGO已下載至伺服器, 你可以使用 {RED}!team {LIGHTGREEN}指令設定隊伍."
+	}
+	"Profile Error"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Failed to load your player data. Please ask server admin for help."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}讀取玩家資料失敗, 請洽詢伺服器管理員."
+	}
+	"Profile Auth Failed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Failed to verify your StemID. Please rejoin the server."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}驗證玩家資料失敗, 請重新加入伺服器."
+	}
+	"Profile Loaded"
+	{
+		"#format"		"{1:s},{2:.2f}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}Your profile has been loaded, your RWS is {PINK}{2}{LIGHTGREEN}."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}成功讀取玩家資料, 你的 RWS 為 {PINK}{2}{LIGHTGREEN}."
+	}
+	"Profile not ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Please wait till your profile loaded."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}請等待玩家資料讀取完成."
+	}
+	"Team Loaded Leader"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}Your team data has been loaded, you can set your team by {PINK}!team {LIGHTGREEN}command."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {LIGHTGREEN}成功讀取隊伍資料, 你可以使用 {PINK}!team {LIGHTGREEN}指令設定隊伍."
+	}
+	"Not In Team"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}You are not in any team."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}你不在任何隊伍裡."
+	}
+	"Team not ready"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}You must wait for your team logo to download."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}你必須等待隊伍LOGO下載完成."
+	}
+	"Can Not Call"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}The match is live. You can not call player from Discord now."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}比賽已經開始, 你無法傳送訊息到Discord."
+	}
+	"Call Discord"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {GREEN}Successfully send a message to discord server."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {GREEN}成功傳送訊息到Discord."
+	}
+	"Can Not Call Time"
+	{
+		"#format"		"{1:s},{2:d}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}You have to wait {2} seconds to send a call."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}你需要再等待{2}秒才能傳送訊息到Discord."
+	}
+	"Team not team"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}You can only set your team when all 5 players in your side are in your team."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}只有同陣營內5位玩家都在同隊伍才能使用這個指令."
+	}
+	"BombExplodedTimeLeftMessage"
+    {
+        "#format"		"{1:s},{2:s},{3:s}"
+        "en"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2}{NORMAL} was too late by {RED}{3}s{NORMAL}!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2}{NORMAL} 差 {RED}{3} {NORMAL}秒就能拆除炸彈!"
+    }
+	"SuccessfulDefuseTimeLeftMessage"
+    {
+        "#format"   	"{1:s},{2:s},{3:s}"
+        "en"        	"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2}{NORMAL} defused with {RED}{3}s{NORMAL} remaining!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2}{NORMAL} 在剩下 {RED}{3}{NORMAL} 秒時拆除炸彈!"
+    }
+	"DefuserDiedTimeLeftMessage"
+    {
+        "#format"		"{1:s},{2:s},{3:s}"
+        "en" 			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2}{NORMAL} was {RED}{3}s{NORMAL} away from defusing!"
+        "zho"			"{GREEN}[{BLUE}{1}{GREEN}] {BLUE}{2}{NORMAL} 剩下 {RED}{3}{NORMAL} 秒就能拆除炸彈了!"
+    }
+    "PostDefuseKillTimeMessage"
+    {
+        "#format"   	"{1:s},{2:s},{3:s}"
+        "en"        	"{GREEN}[{BLUE}{1}{GREEN}] {ORANGE}{2}{NORMAL} was {RED}{3}s{NORMAL} too late to stop the defuser!"
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {ORANGE}{2}{NORMAL} 差 {RED}{3}{NORMAL} 秒就能阻止炸彈被拆除!"
+    }
+	"Logo Download Failed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Failed to download your team logo to server. Please contact server admin."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}下載你的隊伍LOGO至伺服器失敗, 請聯絡管理員."
+	}
+	"Logo Download Failed Client"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Failed to download team logo. Please rejoin the server."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}下載隊伍LOGO失敗, 請重新進入伺服器."
+	}
+	"Logo Downloaded Next Map"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Your logo is not downloaded to your client, please rejoin the server."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}你的隊伍LOGO並未下載至遊戲, 請重新進入伺服器."
+	}
+	"Not Authed"
+	{
+		"#format"		"{1:s}"
+		"en"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}Please wait till your server be authorized."
+		"zho"			"{GREEN}[{BLUE}{1}{GREEN}] {RED}請等待伺服器驗證完成."
+	}
+	
+	//****************** PrintHintText ******************
+	
+	"Available Commands"
+	{
+		"en"			"<font color='#28FF28'>Check console for available commands"
+		"zho"			"<font color='#28FF28'>開啟控制台查詢可用指令"
+	}
+	"Veto Offer Hint CT"
+	{
+		"#format"		"{1:i}"
+		"en"			"<font color='#0080FF'>Counter Terrorist</font> have asked for a veto <font color='#FF0000'>Bo{1}</font>. Please type <font color='#B15BFF'>!veto</font> to start"
+		"zho"			"<font color='#0080FF'>反恐小組</font>要求進行 <font color='#FF0000'>Bo{1}</font> 比賽. <br>請輸入 <font color='#B15BFF'>!veto</font> 同意"
+	}
+	"Veto Offer Hint T"
+	{
+		"#format"		"{1:i}"
+		"en"			"<font color='#EAC100'>Terrorist</font> have asked for a veto <font color='#FF0000'>Bo{1}</font>. Please type <font color='#B15BFF'>!veto</font> to start"
+		"zho"			"<font color='#EAC100'>恐怖分子</font>要求進行 <font color='#FF0000'>Bo{1}</font> 比賽. <br>請輸入 <font color='#B15BFF'>!veto</font> 同意"
+	}
+	"Your Team is voting"
+	{
+		"en"			"Your Team is voting."
+		"zho"			"你的隊伍正在選擇地圖"
+	}
+	"Other Team is voting"
+	{
+		"en"			"Other Team is voting. Please Wait."
+		"zho"			"對方正在選擇地圖. <br>請稍候..."
+	}
+	
+	//C4 Timer
+	"countdown 1"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 2"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 3"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 4"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 5"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 6"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 7"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 8"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 9"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 10"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1}</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1}</font>"
+	}
+	"countdown 20"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1} seconds until explosion</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1} 秒後C4爆炸</font>"
+	}
+	"countdown 30"
+	{
+		"#format"	"{1:i}"
+		"en"		"<font size='50' color='#FF0000'>{1} seconds until explosion</font>"
+		"zho"		"<font size='50' color='#FF0000'>{1} 秒後C4爆炸</font>"
+	}
+
+	//*********************** Menu ***********************
+	
+	"Admin_Menu WarMod Commands"
+	{
+		"en"			"WarMod+ Commands"
+		"zho"			"WarMod+ 指令"
+	}
+	"Admin_Menu Enable ReadyUp"
+	{
+		"en"			"Enable ReadyUp"
+		"zho"			"開啟準備系統"
+	}
+	"Admin_Menu Disable ReadyUp"
+	{
+		"en"			"Disable ReadyUp"
+		"zho"			"關閉準備系統"
+	}
+	"Admin_Menu Knife"
+	{
+		"en"			"Knife"
+		"zho"			"刀戰"
+	}
+	"Admin_Menu Force Start"
+	{
+		"en"			"Force Start"
+		"zho"			"強制比賽開始"
+	}
+	"Admin_Menu Force End"
+	{
+		"en"			"Force End"
+		"zho"			"強制比賽結束"
+	}
+	"Admin_Menu Cancel Half"
+	{
+		"en"			"Cancel Half"
+		"zho"			"取消中場休息"
+	}
+	"Admin_Menu Cancel Match"
+	{
+		"en"			"Cancel Match"
+		"zho"			"取消比賽"
+	}
+	"Admin_Menu Cancel Knife"
+	{
+		"en"			"Cancel Knife"
+		"zho"			"取消刀戰"
+	}
+	"Admin_Menu ForceAllReady"
+	{
+		"en"			"Force All Ready"
+		"zho"			"強制所有人準備"
+	}
+	"Admin_Menu ForceAllUnready"
+	{
+		"en"			"Force All Unready"
+		"zho"			"強制所有人取消準備"
+	}
+	"Admin_Menu ForceAllSpectate"
+	{
+		"en"			"Force All Spectate"
+		"zho"			"強制移動所有人到觀察者"
+	}
+	"Admin_Menu Activate WarMod"
+	{
+		"en"			"Activate Warmod+"
+		"zho"			"開啟Warmod+"
+	}
+	"Admin_Menu Deactivate WarMod"
+	{
+		"en"			"Deactivate Warmod+"
+		"zho"			"關閉Warmod+"
+	}
+	"Admin_Menu Pause"
+	{
+		"en"			"Pause Match"
+		"zho"			"暫停比賽"
+	}
+	"Admin_Menu Unpause"
+	{
+		"en"			"Unpause Match"
+		"zho"			"取消暫停比賽"
+	}
+	"Admin_Menu Force Balance"
+	{
+		"en"			"Force RWS Balance"
+		"zho"			"強制將隊伍照RWS平衡"
+	}
+	"Admin_Menu Force Pug"
+	{
+		"en"			"Force Pug"
+		"zho"			"強制開始PUG"
+	}
+	"Ready System Panel"
+	{
+		"en"			"Ready System"
+		"zho"			"準備系統"
+	}
+	"Info Not Ready Panel"
+	{
+		"en"			"Unready:"
+		"zho"			"未準備:"
+	}
+	"Exit Panel"
+	{
+		"en"			"Exit"
+		"zho"			"離開"
+	}
+	"Match Begin Msg Panel"
+	{
+		"#format"		"{1:i}"
+		"en"			"Match will begin after {1} players are ready"
+		"zho"			"比賽將在 {1} 位完家準備完畢後開始"
+	}
+	"Veto Maps Left"
+	{
+		"en"			"Veto Maps Left"
+		"zho"			"剩餘地圖"
+	}
+	"Select to Vote first or second"
+	{
+		"en"			"Select to Vote first or second"
+		"zho"			"請決定選圖的先後順序"
+	}
+	"First"
+	{
+		"en"			"First"
+		"zho"			"先"
+	}
+	"Second"
+	{
+		"en"			"Second"
+		"zho"			"後"
+	}
+	"Logo Select"
+	{
+		"en"			"Logo Select"
+		"zho"			"選擇Logo"
+	}
+	"None"
+	{
+		"en"			"None"
+		"zho"			"None"
+	}
+	"Division Select"
+	{
+		"en"			"Division Select"
+		"zho"			"Division Select"
+	}
+	"Division Select 2"
+	{
+		"#format"		"{1:s}"
+		"en"			"Division Select {1}"
+		"zho"			"Division Select {1}"
+	}
+	"Select a map to veto"
+	{
+		"en"			"Select a map to ban"
+		"zho"			"選擇想封鎖地圖"
+	}
+	"Select a map to play"
+	{
+		"en"			"Select a map to play"
+		"zho"			"選擇比賽地圖"
+	}
+	"Vote Balance Titile"
+	{
+		"en"			"Team Balanced By RWS?"
+		"zho"			"是否依照RWS平衡隊伍?"
+	}
+	"Pug Vote Titile"
+	{
+		"en"			"Start PUG?"
+		"zho"			"是否開始PUG?"
+	}
+	"PlayerPickTitle"
+	{
+		"en"			"Pick your players:"
+		"zho"			"選擇你的隊員"
+	}
+	
+	//***************** Server / Console *****************
+	
+	"Ready System Enabled"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Ready System - Enabled"
+		"zho"			"[{1}] 準備系統 - 開啟"
+	}
+	"Ready System Disabled"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Ready System - Disabled"
+		"zho"			"[{1}] 準備系統 - 關閉"
+	}
+	"Set Inactive Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Set to Inactive"
+		"zho"			"[{1}] 設為停用"
+	}
+	"Set Active"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Set to Active"
+		"zho"			"[{1}] 設為啟用"
+	}
+	"Unpause Offer Console"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"[{1}] {2} have asked to unpause the game. Please type /unpause to unpause the match"
+		"zho"			"[{1}] {2} 要求繼續比賽. 請輸入 /unpause 繼續比賽"
+	}
+	"Unpause Non-player Console"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] You must be on T or CT to use /unpause"
+		"zho"			"[{1}] 你必須加入隊伍才能使用 /unpause 指令"
+	}
+	"Set Minready Server"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"[{1}] wm_min_ready set to {2}"
+		"zho"			"[{1}] wm_min_ready 設定為 {2}"
+	}
+	"wm_min_ready Server"
+	{
+		"#format"		"{1:s},{2:d}"
+		"en"			"[{1}] wm_min_ready = {2}"
+		"zho"			"[{1}] wm_min_ready = {2}"
+	}
+	"Set Maxrounds Server"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"[{1}] wm_max_rounds set to {2}"
+		"zho"			"[{1}] wm_max_rounds 設定為 {2}"
+	}
+	"Set Password Server"
+	{
+		"#format"		"{1:s},{2:i}"
+		"en"			"[{1}] sv_password set to '{2}'"
+		"zho"			"[{1}] sv_password 設定為 '{2}'"
+	}
+	"sv_password Server"
+	{
+		"#format"		"{1:s},{2:d}"
+		"en"			"[{1}] sv_password = {2}"
+		"zho"			"[{1}] sv_password = {2}"
+	}
+	"Forced Ready Console"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Forced all players ready"
+		"zho"			"[{1}] 強制所有人準備"
+	}
+	"Ready System Disabled2 Console"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] The Ready System is not enabled"
+		"zho"			"[{1}] The Ready System is not enabled"
+	}
+	"Forced Not Ready Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Forced all players unready"
+		"zho"			"[{1}] 強制所有人取消準備"
+	}
+//	"Forced Spectate Server"
+//	{
+//		"#format"		"{1:s}"
+//		"en"			"[{1}] Forced all players to spectate"
+//		"zho"			"[{1}] 強制移動所有人到觀察者"
+//	}
+	"Match Is Live Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] The match is live"
+		"zho"			"[{1}] The match is live"
+	}
+	"Match Not In Progress Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Match is not in progress!"
+		"zho"			"[{1}] 比賽沒有開始!"
+	}
+	"Half Reset Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Match Half Reset - Game is not live!"
+		"zho"			" Match Half Reset - Game is not live!"
+	}
+	"Warm Up Active Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Warm Up Active"
+		"zho"			"[{1}] 暖場"
+	}
+	"Practice Mode Active Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Practice Mode Active"
+		"zho"			"[{1}] Practice Mode Active"
+	}
+	"Match Reset Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Match Reset - Game is not live!"
+		"zho"			"[{1}] 比賽重置 - 比賽沒有開始!"
+	}
+	"Knife Round Cancelled Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Knife Round cancelled - Not Live"
+		"zho"			"[{1}] 刀戰取消 - 比賽沒有開始"
+	}
+	"Knife Round Inactive Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Knife Round is not active"
+		"zho"			"[{1}] 刀戰沒有開始"
+	}
+	"WarMod Inactive Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Warmod+ is not active"
+		"zho"			"[{1}] Warmod+ is not active"
+	}
+	"Change T Name Server"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"[{1}] Terrorists name set to '{2}'"
+		"zho"			"[{1}] 恐怖分子的名字變更為 '{2}'"
+	}
+	"Change CT Name Server"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"[{1}] Counter-Terrorists name set to '{2}'"
+		"zho"			"[{1}] 反恐小組的名字變更為 '{2}'"
+	}
+	"Veto Active Already Server"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Veto Active Already"
+		"zho"			"[{1}] Veto Active Already"
+	}
+	"Usage wm_forceteam"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Usage: wm_forceteam <steamid64> <team>"
+		"zho"			"[{1}] 請使用: wm_forceteam <steamid64> <隊伍>"
+	}
+	"Usage wm_forcename"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Usage: wm_forcename <steamid64> <name>"
+		"zho"			"[{1}] 請使用: wm_forcename <steamid64> <name>"
+	}
+	"No client could be found matching the given SteamID64"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] No client could be found matching the given SteamID64"
+		"zho"			"[{1}] No client could be found matching the given SteamID64"
+	}
+	"Must be Terrorist or Counter-Terrorist teams"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Must be Terrorist or Counter-Terrorist teams"
+		"zho"			"[{1}] Must be Terrorist or Counter-Terrorist teams"
+	}
+	"Added to force team array CS_TEAM_CT"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Added to force team array CS_TEAM_CT"
+		"zho"			"[{1}] Added to force team array CS_TEAM_CT"
+	}
+	"Already added to force team array CS_TEAM_CT"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Already added to force team array CS_TEAM_CT"
+		"zho"			"[{1}] Already added to force team array CS_TEAM_CT"
+	}
+	"Added to force team array CS_TEAM_T"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Added to force team array CS_TEAM_T"
+		"zho"			"[{1}] Added to force team array CS_TEAM_T"
+	}
+	"Already added to force team array CS_TEAM_CT"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Already added to force team array CS_TEAM_T"
+		"zho"			"[{1}] Already added to force team array CS_TEAM_T"
+	}
+	"No room in array"
+	{
+		"#format"		"{1:s},{2:d}"
+		"en"			"[{1}] No room in array. Please clear list for team {2}"
+		"zho"			"[{1}] No room in array. Please clear list for team {2}"
+	}
+	"Clearing Force teams list"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Clearing Force teams list"
+		"zho"			"[{1}] Clearing Force teams list"
+	}
+	"Clearing Force team CS_TEAM_T list"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Clearing Force team CS_TEAM_T list"
+		"zho"			"[{1}] Clearing Force team CS_TEAM_T list"
+	}
+	"Clearing Force team CS_TEAM_CT list"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Clearing Force team CS_TEAM_CT list"
+		"zho"			"[{1}] Clearing Force team CS_TEAM_CT list"
+	}
+	"Cleared Force team CS_TEAM_CT list"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Cleared Force team CS_TEAM_CT list"
+		"zho"			"[{1}] Cleared Force team CS_TEAM_CT list"
+	}
+	"Cleared Force team CS_TEAM_T list"
+	{
+		"#format"		"{1:s}"
+		"en"			"[{1}] Cleared Force team CS_TEAM_T list"
+		"zho"			"[{1}] Cleared Force team CS_TEAM_T list"
+	}
+	"Loading team logo"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"[{1}] Loading team logo: {2}"
+		"zho"			"[{1}] 讀取隊伍LOGO: {2}"
+	}
+	"Console Info 1"
+	//{1}=WM_VERSION
+	{
+		"#format"		"{1:s}"
+		"en"			"This server is running Warmod+ {1} Server Plugin"
+		"zho"			"這個伺服器使用 Warmod+ {1} 插件"
+	}
+	"Console Info 2"
+	{
+		"en"			"Created by Versatile [BFG] & Kento"
+		"zho"			"Created by Versatile [BFG] & Kento"
+	}
+	"Console Info 3"
+	{
+		"en"			"Messagemode commands:				Aliases:"
+		"zho"			"可用指令:				縮寫:"
+	}
+	"Console Info 4"
+	{
+		"en"			"  /ready - Mark yourself as ready 		  /rdy /r"
+		"zho"			"  /ready - 準備				/rdy /r"
+	}
+	"Console Info 5"
+	{
+		"en"			"  /unready - Mark yourself as not ready 	  /unrdy /ur"
+		"zho"			"  /unready - 取消準備				/unrdy /ur"
+	}
+	"Console Info 6"
+	{
+		"en"			"  /info - Display the Ready System if enabled 	  /i"
+		"zho"			"  /info - 顯示比賽準備系統				/i"
+	}
+	"Console Info 7"
+	{
+		"en"			"  /scores - Display the match score if live 	  /score /s"
+		"zho"			"  /scores - 比賽時顯示分數				/score /s"
+	}
+	"Console Info 8"
+	{
+		"en"			"  /veto - Vetomap"
+		"zho"			"  /veto - 進行比賽BAN圖"
+	}
+	"Console Info 9"
+	{
+		"en"			"  /team - Set team"
+		"zho"			"  /team - 設定隊伍"
+	}
+	"Console Info 10"
+	{
+		"en"			"  /balance - Vote balance team by RWS"
+		"zho"			"  /balance- 投票是否依RWS平衡隊伍"
+	}
+	"Console Info 11"
+	{
+		"en"			"  /pug - Vote to start a pug game"
+		"zho"			"  /pug - 投票是否開始PUG"
+	}
+	"Console Info 12"
+	//{1}=max_rounds, {2}=GetConVarInt(mp_maxrounds), {3}=min_ready, {4}=GetConVarInt(wm_min_ready), {5}=GetConVarInt(mp_match_can_clinch)
+	{
+		"#format"		"{1:s},{2:d},{3:s},{4:d},{5:d}"
+		"en"			"Current settings: {1}: {2} / {3}: {4} / mp_match_can_clinch: {5}"
+		"zho"			"目前設定: {1}: {2} / {3}: {4} / mp_match_can_clinch: {5}"
+	}
+	"Kick Auth"
+	{
+		"en"			"Steam ID auth failed, please rejoin the server."
+		"zho"			"Steam ID驗證失敗，請重新加入伺服器"
+	}
+	"Kick Load"
+	{
+		"en"			"Failed to load player data, please try again."
+		"zho"			"玩家資料讀取失敗，請再試一次"
+	}
+}

@@ -1,0 +1,8 @@
+#define license_api ""
+#define player_api ""
+#define stats_api ""
+#define score_api ""
+#define logo_web ""
+#define siteLocation ""
+#define dsicord_webhook ""
+#define demoftp ""

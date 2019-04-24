@@ -94,11 +94,11 @@
 												</a>
 												</li>
 												<?php
-													$lastPage = $page-1;
-													if($lastPage < 1)	$lastPage = 1;
-													$nextPage = $page+1;
-													if($nextPage > $totlaPage)	$nextPage = $totlaPage;
-													for($i=1;$i<=$totlaPage; $i++){
+													$firstPage = $page-3;
+													if($firstPage < 1)	$firstPage = 1;
+													$lastPage = $page+3;
+													if($lastPage > $totlaPage)	$lastPage = $totlaPage;
+													for($i=$firstPage;$i<=$lastPage; $i++){
 														?>
 															<li class="page-item <?=($i == $page)?"active":""?>">
 																<a class="page-link" href="?page=<?=$i?>"><?=$i?></a>

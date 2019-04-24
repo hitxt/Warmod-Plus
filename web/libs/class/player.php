@@ -111,7 +111,7 @@
 					<div class="card card-stats">
 						<div class="card-header card-header-icon card-header-<?=$this->color?>">
 							<div class="card-icon" data-header-animation='true'>
-								<?=($this->rank <= 4)?"<div class='ribbon'><span>".ordinal($this->rank)."</span></div>":""?>
+								<?=(($index && $this->rank <= 4) || (!$index && $this->rank < 4))?"<div class='ribbon'><span>".ordinal($this->rank)."</span></div>":""?>
 								<img src='<?=$avatar?>' width="90px">
 							</div>
 							<p class="card-category text-danger">RWS: <?=$this->rws?></p>

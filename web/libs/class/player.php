@@ -88,11 +88,16 @@
 		public function __construct(Array $data = array())
 		{
 			foreach($data as $key => $value){
+				if($key == "1k")	$key = "k1";
+				elseif($key == "2k")	$key = "k2";
+				elseif($key == "3k")	$key = "k3";
+				elseif($key == "4k")	$key = "k4";
+				elseif($key == "5k")	$key = "k5";
 			  $this->{$key} = $value;
 			}
 
 			$this->color = "warning";
-			if($this->rank < 4)	$this->color = $this->cardColor[$this->rank];
+			if(!empty($this->rank) && $this->rank < 4)	$this->color = $this->cardColor[$this->rank];
 		}
 		public function Card($name, $avatar, $index)
 		{
@@ -140,6 +145,50 @@
 						</div>
 					</div>
 				</div>
+			<?php
+		}
+
+		public function matchStats($name, $cc){
+			$this->rws2 = substr($this->rws, 0, 1);
+			$this->rws = floor_dec($this->rws,2);
+				
+			if($this->deaths == 0)	$this->kdr = round($this->kills/1, 2);
+			else	$this->kdr = round($this->kills/$this->deaths, 2);
+				
+			$this->kpr = round($this->kills/$this->rounds_played, 2);
+			$this->dpr = round($this->damage/$this->rounds_played, 2);
+			
+			if($this->shots == 0) $this->ac = 0;
+			else	$this->ac = round($this->hits/$this->shots,2);
+			
+			$this->la2 = round($this->clutch_won/$this->rounds_played, 2);
+			
+			if($this->last_alive == 0)	$this->clutch_won = 0;
+			else	$this->clutch_won = round($this->clutch_won/$this->last_alive, 2);
+			?>
+				<tr>
+					<td class='icon' data-th="Country"><img src='./assets/img/flags/<?=$cc?>.png' width='25'/></td>
+					<td class='text-left text-match-name font-weight-bold text-<?=($this->team == 1)?"ct":"t"?>' data-th="Name"><?=$name?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="Kills"><?=$this->kills?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="Deaths"><?=$this->deaths?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="Assists"><?=$this->assists?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="HS"><?=$this->head_shots?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="TK"><?=$this->team_kills?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="ATA"><?=$this->assists_team_attack?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="KDR"><?=$this->kdr?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="KPR"><?=$this->kpr?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="DPR"><?=$this->dpr?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="1K"><?=$this->k1?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="2K"><?=$this->k2?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="3K"><?=$this->k3?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="4K"><?=$this->k4?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="ACE"><?=$this->k5?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="MVP"><?=$this->mvp?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="LA"><?=$this->la2?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="CW"><?=$this->clutch_won?></td>
+					<td class="text-match-<?=($this->team == 1)?"ct":"t"?>" data-th="AC"><?=$this->ac?></td>
+					<td class="<?=($this->rws >=0)?"text-positive":"text-negative"?>" data-th="RWS"><?=($this->rws >=0)?"+":""?><?=sprintf("%01.2f",$this->rws);?></td>
+				</tr>
 			<?php
 		}
 	}

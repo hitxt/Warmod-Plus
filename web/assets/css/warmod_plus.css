@@ -73,17 +73,17 @@
   -webkit-filter: blur(5px);
 }
 
-.match-data-list table {
+table.table-stats {
   width: 80%;
   margin-bottom: 20px
 }
 
-.match-data-list table tr.odd {
+table.table-stats tr:nth-child(even) {
   background: rgba(255, 255, 255, .1);
 }
 
-.match-data-list table td,
-.match-data-list table th {
+table.table-stats td,
+table.table-stats th {
   padding: 4px;
   text-align: center;
   width: 30px;
@@ -91,100 +91,104 @@
   line-height: 16px
 }
 
+table.table-stats td.text-match-name{
+  word-break: break-all;
+}
+
 .match-data-list i.icons,
-.match-data-list table th {
+table.table-stats th {
   font-size: 18px;
   color: #FFFFFF;
 }
 
-.match-data-list table td {
+table.table-stats td {
   border-left: 1px solid rgba(255, 255, 255, .1);
   font-size: 20px
 }
 
-.match-data-list table.group1 td {
+table.table-stats.group1 td {
   color: #99E5FF
 }
 
-.match-data-list table.group2 td {
+table.table-stats.group2 td {
   color: #FFE599
 }
 
-.match-data-list table td.icon,
-.match-data-list table th.icon {
+table.table-stats td.icon,
+table.table-stats th.icon {
   border: none;
   text-align: right
 }
 
-.match-data-list table td.name,
-.match-data-list table th.name {
+table.table-stats td.name,
+table.table-stats th.name {
   text-align: left;
   border: none;
   width: 240px;
   font-size: 20px
 }
 
-.match-data-list table td.name i {
+table.table-stats td.name i {
   margin: 0 5px 0 0;
   padding: 0
 }
 
-.match-data-list table td.name i.flag {
+table.table-stats td.name i.flag {
   margin-top: 3px
 }
 
-.match-data-list table td.name a.name {
+table.table-stats td.name a.name {
   margin-right: 5px;
   color: #fff
 }
 
-.match-data-list table td.name a.name:hover {
+table.table-stats td.name a.name:hover {
   color: #15C5FF
 }
 
-.match-data-list table td.name a.name.vip {
+table.table-stats td.name a.name.vip {
   color: #FDC03D
 }
 
-.match-data-list table th.hsp,
-.match-data-list table th.rws {
+table.table-stats th.hsp,
+table.table-stats th.rws {
   width: 50px
 }
 
-.match-data-list table th.rating {
+table.table-stats th.rating {
   width: 60px
 }
 
-.match-data-list table th.rank span,
-.match-data-list table th.rating span,
-.match-data-list table th.rws span {
+table.table-stats th.rank span,
+table.table-stats th.rating span,
+table.table-stats th.rws span {
   font-size: 11px;
   font-weight: 400
 }
 
-.match-data-list table th.rank {
+table.table-stats th.rank {
   width: 42px
 }
 
-.match-data-list table th.rank a {
+table.table-stats th.rank a {
   color: #1B93BB
 }
 
-.match-data-list table td.rating,
-.match-data-list table td.rws {
+table.table-stats td.rating,
+table.table-stats td.rws {
   color: #FF7373
 }
 
-.match-data-list table td.rating.high,
+table.table-stats td.rating.high,
 .match-data-list td.elo .change.add {
   color: #00D936
 }
 
-.match-data-list table th.elo {
+table.table-stats th.elo {
   width: 85px
 }
 
-.match-data-list table td.elo {
+table.table-stats td.elo {
   padding: 4px 0
 }
 
@@ -243,14 +247,6 @@
   float: right;
 }
 
-.text-ct {
-  color: #2793e8;
-}
-
-.text-t {
-  color: #cc181e;
-}
-
 .material-icons {
   vertical-align: bottom;
 }
@@ -278,14 +274,62 @@
   vertical-align: middle;
 }
 
-.text-ct{
-  color:#3399ff;
-}
-
-.text-t{
-  color:#ff4040;
-} 
-
 .text-match-title{
   font-size:35px;
+}
+
+.text-match-t{
+  color: #FFE599 !important;
+}
+
+.text-match-ct{
+  color: #99E5FF !important;
+}
+
+.text-ct {
+  color: #2793e8 !important;
+}
+
+.text-t {
+  color: #cc181e !important;
+}
+
+.text-positive{
+  color: #00ff00 !important;
+}
+
+.text-negative{
+  color: #ff0000 !important;
+}
+
+@media (max-width: 1200px) {
+  .table-rwd{
+    min-width: 100%;
+  }
+  tr.tr-only-hide {
+    display: none !important;
+  }
+  .table-rwd tr{
+    display: block;
+    border: 1px solid #ddd;
+    margin-top: 15px;
+  }
+  .table-rwd td {
+    text-align: left !important;
+    font-size: 15px;
+    overflow: hidden;
+    width: 49% !important;
+    display: inline-block;
+	}
+	.table-rwd td:before {
+    content: attr(data-th) " : ";
+    display: inline-block;
+    font-weight: bold;
+	  margin-right: 10px;
+    color: #fff;
+    text-align: left !important;
+  }
+  .table-rwd.table-bordered td,.table-rwd.table-bordered th,.table-rwd.table-bordered{
+    border:0;
+  }
 }

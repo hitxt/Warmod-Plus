@@ -23,7 +23,7 @@
 ?>
 <div class="sidebar" data-color="rose" data-background-color="black" data-image="<?=$sideImage?>">
 	<div class="logo">
-		<a href="#" class="simple-text logo-mini">
+		<a href="./index.php" class="simple-text logo-mini">
 			<img src="./assets/img/logo_white.png" width="30px" class="align-baseline">
 		</a>
 		<a href="#" class="simple-text logo-normal">

@@ -5,7 +5,6 @@
 	require_once("./libs/steamauth/steamauth.php");
 	require_once("./libs/steamauth/userInfo.php");
 	require_once("./libs/steam/SourceQuery.php");
-	require_once("./libs/steam/steam.php");
 	require_once("./libs/geoip/geoip.php");
 	$gi = geoip_open("./libs/geoip/GeoIP.dat",GEOIP_STANDARD);	
 	require_once("./libs/functions.php");

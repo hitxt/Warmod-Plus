@@ -37,9 +37,9 @@
 		<button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
 			aria-expanded="false" aria-label="Toggle navigation">
 			<span class="sr-only">Toggle navigation</span>
-			<span class="navbar-toggler-icon icon-bar"></span>
-			<span class="navbar-toggler-icon icon-bar"></span>
-			<span class="navbar-toggler-icon icon-bar"></span>
+			<span class="navbar-toggler-icon icon-bar" style="<?=($activePage == "showmatch")?"background-color:#fff !important":""?>"></span>
+			<span class="navbar-toggler-icon icon-bar" style="<?=($activePage == "showmatch")?"background-color:#fff !important":""?>"></span>
+			<span class="navbar-toggler-icon icon-bar" style="<?=($activePage == "showmatch")?"background-color:#fff !important":""?>"></span>
 		</button>
 		<div class="collapse navbar-collapse justify-content-end">
 			<form class="navbar-form" action="./libs/api.php?action=search" method="post">

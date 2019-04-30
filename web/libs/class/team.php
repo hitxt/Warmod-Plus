@@ -124,7 +124,7 @@
 
 	class Team
 	{
-		protected $cardColor = array("", "rose", "info", "success", "warning");
+		protected $cardColor = array("", "rose", "info", "warning", "success");
 
 		public function __construct(Array $data = array())
 		{
@@ -132,9 +132,11 @@
 			  $this->{$key} = $value;
 			}
 
-			$this->color = "warning";
-			if($this->rank < 4)	$this->color = $this->cardColor[$this->rank];
-
+			if(!empty($this->rank)){
+					$this->color = "success";
+				if($this->rank < 4)	$this->color = $this->cardColor[$this->rank];
+			}
+	
 			$this->logo = "./assets/img/teams/unknown.png";
 			if(!empty($this->logo) && file_exists("./assets/img/teams/".$this->logo))	$this->logo = "./assets/img/teams/".$this->logo;
 		}

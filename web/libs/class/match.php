@@ -7,11 +7,16 @@
 
 	class Match
 	{
-		public function __construct(Array $data = array())
+		public function __construct(Array $data = array(), $timezone)
 		{
 			foreach($data as $key => $value){
 			  $this->{$key} = $value;
 			}
+			
+			$this->timestamp = strtotime( $this->match_start );
+			$dt = new DateTime("now", new DateTimeZone( $timezone ));
+			$dt->setTimestamp($this->timestamp);
+			$this->timestamp = $dt->format('Y/m/d g:i:s A');
 		}
 
 		static function emptyCard()
@@ -54,11 +59,6 @@
 
 			$t_name = $this->t_name;
 			if(empty($t_name))	$t_name = "Unknown";
-
-			$timestamp = strtotime($this->match_start);
-			$dt = new DateTime("now", new DateTimeZone('Asia/Taipei'));
-			$dt->setTimestamp($timestamp);
-			$timestamp = $dt->format('Y/m/d g:i:s A');
 			?>
 				<div class="col-lg-6 col-xl-4 col-md-6 col-12 <?=($index)?"d-xl-last-none":""?>">
 					<a href="./showmatch.php?id=<?=$this->id?>">
@@ -80,7 +80,7 @@
 							</div>
 							<div class="card-footer text-center">
 								<div class="stats">
-									<i class='material-icons align-bottom'>access_time</i>&emsp;<?=$timestamp?>
+									<i class='material-icons align-bottom'>access_time</i>&emsp;<?=$this->timestamp?>
 								</div>
 							</div>
 						</div>

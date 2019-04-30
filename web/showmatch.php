@@ -29,7 +29,7 @@
 		$pdo = null;
 		exit;
 	}
-	else $match = new Match($result[0]);
+	else $match = new Match($result[0], $timezone);
 
 	if(empty($match->ct_name)){
 		$match->ct_name="Unknown"; 
@@ -164,7 +164,7 @@
 						<!-- STATS -->
 						<div class="row text-white my-4">
 							<div class="col-12">
-								<table class="w-100 table-stats table-rwd">
+								<table class="w-100 table-stats table-rwd-match">
 									<tr class='tr-only-hide'>
 										<th class='icon'></th>
 										<th class='name'>Name</th>
@@ -200,8 +200,8 @@
 											$steam = SteamData::GetData($SteamAPI_Key, $steamids);
 											foreach($result as $row){
 												$stats = new Player($row);
-												$cc = geoip_country_code_by_addr($gi, $row["last_ip"]);
-												$stats->matchStats($steam["name"][$row["steam_id_64"]], $cc);
+												$stats->cc = geoip_country_code_by_addr($gi, $stats->last_ip);
+												$stats->matchStats($steam["name"][$row["steam_id_64"]]);
 											}
 										}
 										else echo '<tr><td colspan="21" class="text-match-ct td-empty font-weight-bold">No player in this team.</td></tr>'
@@ -212,7 +212,7 @@
 						<hr class="d-xl-none border-bottom border-white">
 						<div class="row text-white my-4">
 							<div class="col-12 ">
-								<table class="w-100 table-stats table-rwd">
+								<table class="w-100 table-stats table-rwd-match">
 									<tr class='tr-only-hide'>
 										<th class='icon'></th>
 										<th class='name'>Name</th>
@@ -248,8 +248,8 @@
 											$steam = SteamData::GetData($SteamAPI_Key, $steamids);
 											foreach($result as $row){
 												$stats = new Player($row);
-												$cc = geoip_country_code_by_addr($gi, $row["last_ip"]);
-												$stats->matchStats($steam["name"][$row["steam_id_64"]], $cc);
+												$stats->cc = geoip_country_code_by_addr($gi, $stats->last_ip);
+												$stats->matchStats($steam["name"][$row["steam_id_64"]]);
 											}
 										}
 										else echo '<tr><td colspan="21" class="text-match-t td-empty font-weight-bold">No player in this team.</td></tr>'

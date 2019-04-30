@@ -64,7 +64,7 @@
 								$result = $sth->fetchAll();
 								if(count($result) > 0){
 									foreach($result as $row){
-										$match = new Match($row);
+										$match = new Match($row, $timezone);
 										$match->Card(1);
 									}
 								}

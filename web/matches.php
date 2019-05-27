@@ -19,7 +19,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
-	<title>Welcome To Warmod+</title>
+	<title>Warmod+ | Matches</title>
 	
 	<!-- Icons -->
 	<link rel="apple-touch-icon" href="./assets/img/icon.ico">
@@ -37,11 +37,11 @@
 	<link href="./assets/css/warmod_plus.css" rel="stylesheet" />
 
 	<!-- Facebook Meta -->
-	<meta property="og:title" content="Warmod+">
+	<meta property="og:title" content="Warmod+  Matches">
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="Warmod+">
 	<meta property="og:image" content="./assets/img/logo.png">
-	<meta property="og:description" content="Warmod+">
+	<meta property="og:description" content="Warmod+ Mathces">
 </head>
 
 <body class="">

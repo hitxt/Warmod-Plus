@@ -8,7 +8,6 @@
 	require_once("./libs/geoip/geoip.php");
 	$gi = geoip_open("./libs/geoip/GeoIP.dat",GEOIP_STANDARD);	
 	require_once("./libs/functions.php");
-	require_once("./libs/class/match.php");
 	require_once("./libs/class/player.php");
 	require_once("./libs/class/team.php");
 	$activePage = basename($_SERVER['PHP_SELF'], ".php");
@@ -21,7 +20,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
-	<title>Welcome To Warmod+</title>
+	<title>Warmod+ | Teams</title>
 	
 	<!-- Icons -->
 	<link rel="apple-touch-icon" href="./assets/img/icon.ico">
@@ -39,11 +38,11 @@
 	<link href="./assets/css/warmod_plus.css" rel="stylesheet" />
 
 	<!-- Facebook Meta -->
-	<meta property="og:title" content="Warmod+">
+	<meta property="og:title" content="Warmod+ Teams">
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="Warmod+">
 	<meta property="og:image" content="./assets/img/logo.png">
-	<meta property="og:description" content="Warmod+">
+	<meta property="og:description" content="Warmod+ Teams">
 </head>
 
 <body class="">
@@ -54,61 +53,25 @@
 			<div class="content">
 				<div class="content">
 					<div class="container-fluid">
-						<h3>Latest Matches</h3>
+						<h3>All Teams</h3>
 						<br>
 						<div class="row">
 							<?php
-								$sql = $matchSQL." limit 4";
+								$page = 1;
+								if(!empty($_GET["page"]) && is_numeric($_GET["page"]))	$page = $_GET["page"];
+								
+								$sql = $teamSQL;
+								$sth = $pdo->prepare($sql);
+								$sth->execute();
+								$result = $sth->fetchAll();
+								$totlaPage = ceil(count($result)/12);
+
+								$start = $page*12-12;
+								$sql = $teamSQL." ORDER BY wlr DESC LIMIT ".$start.", 12";
 								$sth = $pdo->prepare($sql);
 								$sth->execute();
 								$result = $sth->fetchAll();
 								if(count($result) > 0){
-									foreach($result as $row){
-										$match = new Match($row, $timezone);
-										$match->Card(1);
-									}
-								}
-								else{
-									match::emptyCard();
-								}
-							?>
-						</div>
-						<h3>Top Players</h3>
-						<br>
-						<div class="row">
-							<?php
-								// get player data from sql
-								$sql = $playerSQL." ORDER BY rws DESC limit 4";
-								$sth = $pdo->prepare($sql);
-								$sth->execute();
-								$result = $sth->fetchAll();
-								if(count($result) > 0)
-								{
-									// get all player name and avatar from steam api by steamid in 1 api query
-									$sth = $pdo->prepare($sql);
-									$sth->execute();
-									$steamids = $sth->fetchAll(PDO::FETCH_COLUMN, 1);
-									$data = SteamData::GetData($SteamAPI_Key, $steamids);
-									foreach($result as $row){
-										$player = new Player($row);
-										$player->Card($data["name"][$row["steam_id_64"]], $data["avatar"][$row["steam_id_64"]], 1);
-									}
-								}
-								else	Player::emptyCard();
-							?>
-						</div>
-						<h3>Top Teams</h3>
-						<br>
-						<div class="row">
-							<?php
-								// get player data from sql
-								$sql = $teamSQL."ORDER BY wlr DESC LIMIT 4";
-								$sth = $pdo->prepare($sql);
-								$sth->execute();
-								$result = $sth->fetchAll();
-								if(count($result) > 0)
-								{
-									// get all leader name and avatar from steam api by steamid in 1 api query
 									$sth = $pdo->prepare($sql);
 									$sth->execute();
 									$steamids = $sth->fetchAll(PDO::FETCH_COLUMN, 1);
@@ -118,9 +81,46 @@
 										$team->Card($data["name"][$row["leader"]], 1);
 									}
 								}
-								else	Team::emptyCard();
+								else{
+									Team::emptyCard();
+								}
 							?>
 						</div>
+						<?php
+							if($totlaPage > 1){
+								?>
+									<div class="row justify-content-center mt-3">
+										<div class="col">
+											<ul class="pagination justify-content-center">
+												<li class="page-item">
+													<a class="page-link" href="?page=1" aria-label="Previous">
+													<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+												</a>
+												</li>
+												<?php
+													$firstPage = $page-3;
+													if($firstPage < 1)	$firstPage = 1;
+													$lastPage = $page+3;
+													if($lastPage > $totlaPage)	$lastPage = $totlaPage;
+													for($i=$firstPage;$i<=$lastPage; $i++){
+														?>
+															<li class="page-item <?=($i == $page)?"active":""?>">
+																<a class="page-link" href="?page=<?=$i?>"><?=$i?></a>
+															</li>
+														<?php
+													}
+												?>
+												<li class="page-item">
+													<a class="page-link" href="?page=<?=$totlaPage?>" aria-label="Next">
+														<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+													<div class="ripple-container"></div></a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								<?php
+								}
+							?>
 					</div>
 				</div>
 			</div>

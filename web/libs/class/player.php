@@ -78,10 +78,7 @@
 		rws
 	DESC
 		) a
-	) b
-	ORDER BY
-		rws
-	DESC";
+	) b";
 
 	$playerStatsSQL = "SELECT 
 	SUM(IF(".$player_table.".steam_id_64=".$stats_table.".steam_id_64, ".$stats_table.".kills, 0)) AS 'kills', 
@@ -244,14 +241,14 @@
 			}
 
 			$this->color = "success";
-			if(!empty($this->rank) && $this->rank < 4)	$this->color = $this->cardColor[$this->rank];
+			if(isset($this->rank) && $this->rank < 4)	$this->color = $this->cardColor[$this->rank];
 
-			if(!empty($this->deaths) && !empty($this->kills)){
+			if(isset($this->deaths) && isset($this->kills)){
 				if($this->deaths == 0)	$this->kdr = round($this->kills/1, 2);
 				else	$this->kdr = round($this->kills/$this->deaths, 2);
 			}
 
-			if(!empty($this->shots) && !empty($this->hits)){
+			if(isset($this->shots) && isset($this->hits)){
 				if($this->shots == 0) $this->ac = 0;
 				else	$this->ac = round($this->hits/$this->shots,2);
 			}

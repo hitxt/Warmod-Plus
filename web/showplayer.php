@@ -153,7 +153,7 @@
 								<div class="row">
 									<div class="col-6 text-right">
 										<?=(!empty($team->id))?"<a href='./showteam.php?id=".$team->id."'>":""?>
-										<img src="<?=(!empty($team->logo))?$team->logo:"./assets/img/teams/unknown.png"?>" class="rounded" height="124px">
+										<img src="<?=$team->logo?>" class="rounded" height="124px">
 										<?=(!empty($team->id))?"</a>":""?>
 									</div>
 									<div class="col-6 text-left align-self-center">
@@ -448,7 +448,7 @@
 															for($i=0; $i<43; $i++)
 															{
 																if($player->kills > 0){	
-																	$kp = floor_dec($player->{$weapon["sql"][$i]}/$player->kills*100,2);
+																	$kp = floor_dec(($player->{$weapon["sql"][$i]}/$player->kills)*100,2);
 																	$kp .= "%";
 																}
 																else $kp = "0%";

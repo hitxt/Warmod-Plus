@@ -1,7 +1,10 @@
 <?php
 	require_once("../configs/configs.php");
 	require_once("./sql.php");
+	require_once("./steamauth/steamauth.php");
+	require_once("./steamauth/userInfo.php");
 	require_once("./steam/SteamID.php");
+	require_once("./class/player.php");
 
 	if(!empty($_GET["action"]))
 	{
@@ -43,6 +46,50 @@
 				else{
 					header("Location: ../showmatch.php?id=".$_POST["id"].""); 
 				}
+				break;
+
+			/*******************************************************************************************************/
+			
+			case "profile-save":
+				$input = array(
+					":steamid" => $_SESSION['steamid']
+				);
+
+				$sql = "SELECT * FROM ".$player_table." WHERE steam_id_64 = :steamid";
+				$sth = $pdo->prepare($sql);
+				$stmt = $sth->execute($input);
+				$result = $sth->fetchAll();
+
+				$input = array(
+					":facebook" => $_POST["facebook"],
+					":twitter" => $_POST["twitter"],
+					":twitch" => $_POST["twitch"],
+					":youtube" => $_POST["youtube"],
+					":steamid" => $_SESSION['steamid']
+				);
+
+				if(count($result) > 0){
+					$sql = "UPDATE ".$player_table." SET fb = :facebook, twitter = :twitter, twitch = :twitch, youtube = :youtube WHERE steam_id_64 = :steamid";
+					$sth = $pdo->prepare($sql);
+					$stmt = $sth->execute($input);
+				}
+				else{
+					$sql = "INSERT INTO ".$player_table." VALUES (null, :steamid, '0.0.0.0', 0, 0, :facebook, :twitter, :twitch, :youtube)";
+					echo $sql;
+					$sth = $pdo->prepare($sql);
+					$stmt = $sth->execute($input);
+				}
+
+				$success = true;
+				if(!$stmt){
+					$success = false;
+				}
+
+				$json = array(
+					"responce" => $success,
+				);
+					
+				echo json_encode($json, true);
 				break;
 		}
 	}

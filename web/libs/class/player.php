@@ -183,8 +183,8 @@
 
 	$playerMatchSQL = "
 	select
-	   ".$result_table.".*,
-	   (
+		".$result_table.".*,
+		(
 		  CASE
 			 WHEN
 				(
@@ -237,7 +237,7 @@
 				elseif($key === "3k")	$key = "k3";
 				elseif($key === "4k")	$key = "k4";
 				elseif($key === "5k")	$key = "k5";
-			 	$this->{$key} = $value;
+				$this->{$key} = $value;
 			}
 
 			$this->color = "success";

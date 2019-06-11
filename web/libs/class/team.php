@@ -295,7 +295,7 @@
 							<div class="card-icon" data-header-animation='true'>
 								<img src='./assets/img/default-avatar.png' width="90px">
 							</div>
-							<p class="card-category text-danger">Wins / Matches : 0></p>
+							<p class="card-category text-danger">Wins / Matches : 0</p>
 							<h3 class="card-title font-bold">No Name</h3>
 						</div>
 						<div class="card-footer">

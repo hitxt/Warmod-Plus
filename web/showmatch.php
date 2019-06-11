@@ -118,10 +118,10 @@
 
 <body class="">
 	<div class="wrapper ">
-		<?php require_once("./libs/sidebar.php");?>
+		<?php require_once("./libs/pages/sidebar.php");?>
 		<div class="main-panel">
 			<div class='blurbg' style='background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(./assets/img/maps/<?=$match->map?>.jpg);'></div>
-			<?php require_once("./libs/navbar.php");?>
+			<?php require_once("./libs/pages/navbar.php");?>
 			<div class="content">
 				<div class="content">
 					<div class="container">
@@ -338,6 +338,8 @@
 	<script src="./assets/js/plugins/bootstrap-notify.js"></script>
 	<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 	<script src="./assets/js/core/material-dashboard.min.js" type="text/javascript"></script>
+	<!--  Warmod+ JS    -->
+	<script src="./assets/js/inc/warmod_plus.js" type="text/javascript"></script>
 </body>
 <?php
 	$pdo = null;

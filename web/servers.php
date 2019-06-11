@@ -21,7 +21,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
-	<title>Welcome To Warmod+</title>
+	<title>Warmod+ | Servers</title>
 	
 	<!-- Icons -->
 	<link rel="apple-touch-icon" href="./assets/img/icon.ico">
@@ -39,7 +39,7 @@
 	<link href="./assets/css/warmod_plus.css" rel="stylesheet" />
 
 	<!-- Facebook Meta -->
-	<meta property="og:title" content="Warmod+">
+	<meta property="og:title" content="Warmod+ Servers">
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="Warmod+">
 	<meta property="og:image" content="./assets/img/logo.png">
@@ -54,137 +54,64 @@
 			<div class="content">
 				<div class="content">
 					<div class="container-fluid">
-						<h3>Servers</h3>
-						<br>
-						<div class="row">
-							<div class="col-12">
-								<div class="card">
-									<div class="card-header card-header-primary card-header-icon">
-										<div class="card-icon">
-											<i class="material-icons">games</i>
-										</div>
-										<h4 class="card-title">Servers</h4>
-									</div>
-									<div class="card-body">
-										<div class="toolbar"></div>
-										<div class="material-datatables">
-											<table id="serverTable" class="table table-striped table-no-bordered table-hover table-rwd w-100">
-												<thead>
-													<tr class="tr-only-hide">
-														<th>Name</th>
-														<th>Map</th>
-														<th>Players</th>
-														<th>Connect</th>
-													</tr>
-												</thead>
-												<tbody>
-													<?php
-														$sth = $pdo->prepare("SELECT * FROM ".$server_table." Where enabled = 1");
-														$sth->execute();
-														$result = $sth->fetchAll();
-														foreach($result as $row){
-															try
-															{
-																$server = new SourceQuery($row['ip'],$row['port']);
-																$infos  = $server->getInfos();
-																if(is_null($infos["mod"]))	throw new InvalidArgumentException( "invalid" );
-																else	throw new InvalidArgumentException( "valid" );
-															}
-															catch( InvalidArgumentException $e )
-															{
-																if( $e->getMessage() == "invalid" )
-																{
-																	$infos['name'] = "Cannot Connect To Server.";
-																	$infos["map"] = "-";
-																	$infos["players"] = "-";
-																	$infos["places"] = "-";
-																}	
-															}
-															?>
-																<tr>
-																	<td><?=$infos['name']?></td>
-																	<td><?=$infos['map']?></td>
-																	<td><?=$infos["players"]."/".$infos["places"]?></td>
-																	<td>
-																		<a href ='steam://connect/<?=$row['ip']?>:<?=$row['port']?>'>CONNECT</a>
-																	</td>
-																</tr>
-															<?php
-														}
+						<div class="card">
+							<div class="card-header card-header-primary card-header-icon">
+								<div class="card-icon">
+									<i class="material-icons">games</i>
+								</div>
+								<h4 class="card-title">Servers</h4>
+							</div>
+							<div class="card-body">
+								<div class="toolbar"></div>
+								<div class="material-datatables">
+									<table id="serverTable" class="table table-striped table-no-bordered table-hover table-rwd w-100">
+										<thead>
+											<tr class="tr-only-hide">
+												<th>Name</th>
+												<th>Map</th>
+												<th>Players</th>
+												<th>Connect</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+												$sth = $pdo->prepare("SELECT * FROM ".$server_table." Where enabled = 1");
+												$sth->execute();
+												$result = $sth->fetchAll();
+												foreach($result as $row){
+													try
+													{
+														$server = new SourceQuery($row['ip'],$row['port']);
+														$infos  = $server->getInfos();
+														if(is_null($infos["mod"]))	throw new InvalidArgumentException( "invalid" );
+														else	throw new InvalidArgumentException( "valid" );
+													}
+													catch( InvalidArgumentException $e )
+													{
+														if( $e->getMessage() == "invalid" )
+														{
+															$infos['name'] = "Cannot Connect To Server.";
+															$infos["map"] = "-";
+															$infos["players"] = "-";
+															$infos["places"] = "-";
+														}	
+													}
 													?>
-												</tbody>
-											</table>
-										</div>
-									</div>
+														<tr>
+															<td><?=$infos['name']?></td>
+															<td><?=$infos['map']?></td>
+															<td><?=$infos["players"]."/".$infos["places"]?></td>
+															<td>
+																<a href ='steam://connect/<?=$row['ip']?>:<?=$row['port']?>'>CONNECT</a>
+															</td>
+														</tr>
+													<?php
+												}
+											?>
+										</tbody>
+									</table>
 								</div>
 							</div>
-						</div>
-						<h3>Latest Matches</h3>
-						<br>
-						<div class="row">
-							<?php
-								$sql = $matchSQL." limit 4";
-								$sth = $pdo->prepare($sql);
-								$sth->execute();
-								$result = $sth->fetchAll();
-								if(count($result) > 0){
-									foreach($result as $row){
-										$match = new Match($row, $timezone);
-										$match->Card(1);
-									}
-								}
-								else{
-									match::emptyCard();
-								}
-							?>
-						</div>
-						<h3>Top Players</h3>
-						<br>
-						<div class="row">
-							<?php
-								// get player data from sql
-								$sql = $playerSQL." ORDER BY rws DESC limit 4";
-								$sth = $pdo->prepare($sql);
-								$sth->execute();
-								$result = $sth->fetchAll();
-								if(count($result) > 0)
-								{
-									// get all player name and avatar from steam api by steamid in 1 api query
-									$sth = $pdo->prepare($sql);
-									$sth->execute();
-									$steamids = $sth->fetchAll(PDO::FETCH_COLUMN, 1);
-									$data = SteamData::GetData($SteamAPI_Key, $steamids);
-									foreach($result as $row){
-										$player = new Player($row);
-										$player->Card($data["name"][$row["steam_id_64"]], $data["avatar"][$row["steam_id_64"]], 1);
-									}
-								}
-								else	Player::emptyCard();
-							?>
-						</div>
-						<h3>Top Teams</h3>
-						<br>
-						<div class="row">
-							<?php
-								// get player data from sql
-								$sql = $teamSQL." ORDER BY wlr DESC LIMIT 4";
-								$sth = $pdo->prepare($sql);
-								$sth->execute();
-								$result = $sth->fetchAll();
-								if(count($result) > 0)
-								{
-									// get all leader name and avatar from steam api by steamid in 1 api query
-									$sth = $pdo->prepare($sql);
-									$sth->execute();
-									$steamids = $sth->fetchAll(PDO::FETCH_COLUMN, 1);
-									$data = SteamData::GetData($SteamAPI_Key, $steamids);
-									foreach($result as $row){
-										$team = new Team($row);
-										$team->Card($data["name"][$row["leader"]], 1);
-									}
-								}
-								else	Team::emptyCard();
-							?>
 						</div>
 					</div>
 				</div>

@@ -6,6 +6,10 @@ $db_host = "localhost";
 $db_name = "wm";
 $db_user = "root";
 $db_password = "";
+
+// ---------------------------------------------------
+//  Database Table Settings
+// ---------------------------------------------------
 $stats_table = "wm_match_stats";
 $result_table = "wm_results";
 $player_table = "wm_players";
@@ -17,15 +21,17 @@ $game_logo_table = "wm_logo";
 
 // ---------------------------------------------------
 //  Plugin Settings
+//  $plugin_version = Your plugin version, CSGO server side plugin will not load if version doesn't match.
+//  $admins = Steam64 ID, admins who can manage server tokens and other mod settings.
 // ---------------------------------------------------
 $plugin_version = "18.05.24.0924.WM+.1";
-$root_admin = "76561198012825619";
+$admins = ["76561198012825619"];
 
 // ---------------------------------------------------
 //  Upload Settings
-//  $upload_dir = The path to upload team web logo.
-//  $upload_dir2 = The path to upload team in-game logo.
-//  $upload_dir3 = Path to your dl folder (My host doesn't allow me to create symlink).
+//  $upload_dir = Path to upload team web logo.
+//  $upload_dir2 = Path to upload team in-game logo.
+//  $upload_dir3 = Path to your fastdl folder (My host doesn't allow me to create symlink).
 // ---------------------------------------------------
 $upload_dir = "/home/user/public_html/warmod/assets/img/teams/";
 $upload_dir2 = "/home/user/public_html/warmod/assets/img/teams_game/";
@@ -33,10 +39,10 @@ $upload_dir3 = "/path/to/ur/fastdl/folder/";
 
 
 // ---------------------------------------------------
-//  API Settings
+//  Steam API Settings
 //  $SteamAPI_Key = Your Steam API key.
 //  $domainname = Your domain name for steam login.
-//  $discord = Discord server invite link
+//  $discord = Your discord server invite link
 // ---------------------------------------------------
 $SteamAPI_Key = "573449F51C4C9508A96DB87D3C83E67A";
 $domainname = ""; 

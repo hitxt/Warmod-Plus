@@ -1,1068 +1,766 @@
-$(document).ready(function () {
-	wm = {
-		showSwal: function (type, data1, data2, data3) {
-			if (type == 'leave-team') {
-				swal({
-					title: 'Are you sure?',
-					text: 'Do you really want to leave the team?',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes',
-					cancelButtonText: 'No',
-					confirmButtonClass: "btn btn-success",
-					cancelButtonClass: "btn btn-danger",
-					buttonsStyling: false
-				}).then(function () {
-					$.ajax({
-						type: "post",
-						url: "./assets/inc/leaveteam.php",
-						data: {	data1: "member", data2: data1 },
-						success: swal({
-							title: 'Success!',
-							text: 'You have left the team.',
-							type: 'success',
-							confirmButtonClass: "btn btn-success",
-							buttonsStyling: false
-						}).then(function () {
-							window.setTimeout(function () {
-								window.location.reload()
-							}, 1000);
-						}),
-						error: function (xhr, ajaxOptions, thrownError) {
-							alert(xhr.status);
-							alert(thrownError);
-						}
-					});
-					return false;
-				}, function (dismiss) {
-					if (dismiss === 'cancel') {
-						swal({
-							title: 'Cancelled',
-							text: 'You are still in the team. :)',
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				})
-			} else if (type == 'leave-team-leader') {
-				swal({
-					title: 'Are you sure?',
-					text: 'Random player in your team will be the new leader.<br>If you are the last member, team will be disbanded.',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes',
-					cancelButtonText: 'No',
-					confirmButtonClass: "btn btn-success",
-					cancelButtonClass: "btn btn-danger",
-					buttonsStyling: false
-				}).then(function () {
-					$.ajax({
-						type: "post",
-						url: "./assets/inc/leaveteam.php",
-						data: {	data1: "leader", data2: data1 },
-						success: swal({
-							title: 'Success!',
-							text: 'You have left the team.',
-							type: 'success',
-							confirmButtonClass: "btn btn-success",
-							buttonsStyling: false
-						}).then(function () {
-							window.setTimeout(function () {
-								window.location.reload()
-							}, 1000);
-						}),
-						error: function (xhr, ajaxOptions, thrownError) {
-							alert(xhr.status);
-							alert(thrownError);
-						}
-					});
-					return false;
-				}, function (dismiss) {
-					if (dismiss === 'cancel') {
-						swal({
-							title: 'Cancelled',
-							text: 'You are still in the team. :)',
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				})
-			} else if (type == 'disband-team') {
-				swal({
-					title: 'Are you sure?',
-					text: 'All players will be removed from the team.<br> Stats will not be deleted.',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes',
-					cancelButtonText: 'No',
-					confirmButtonClass: "btn btn-success",
-					cancelButtonClass: "btn btn-danger",
-					buttonsStyling: false
-				}).then(function () {
-					$.ajax({
-						type: "post",
-						url: "./assets/inc/deleteteam.php",
-						data: { data1: data1 },
-						success: swal({
-							title: 'Success!',
-							text: 'You have disbanded the team.',
-							type: 'success',
-							confirmButtonClass: "btn btn-success",
-							buttonsStyling: false
-						}).then(function () {
-							window.setTimeout(function () {
-								window.location.reload()
-							}, 1000);
-						}),
-						error: function (xhr, ajaxOptions, thrownError) {
-							alert(xhr.status);
-							alert(thrownError);
-						}
-					});
-					return false;
-				}, function (dismiss) {
-					if (dismiss === 'cancel') {
-						swal({
-							title: 'Cancelled',
-							text: 'Your team is still there. :)',
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				})
-			} else if (type == 'player-save') {
-				$.ajax({
-					type: "post",
-					url: "./assets/inc/saveplayer.php",
-					data: data1,
-					success: swal({
-						title: 'Success!',
-						text: 'Your settings have been saved!',
-						type: 'success',
-						confirmButtonClass: "btn btn-success",
-						buttonsStyling: false
-					}).then(),
-					error: function (xhr, ajaxOptions, thrownError) {
-						alert(xhr.status);
-						alert(thrownError);
-					}
-				});
+function initMaterialWizard () {
+	// Code for the Validator
+	var $validator = $('.card-wizard form').validate({
+		rules: {
+			name: {
+				required: true
+			}
+		},
+		messages: {
+			name: {
+				required:"",
+				email:""
+			}
+		},
+		onkeyup: function(element) {
+			$(element).valid();
+		},
+		highlight: function(element) {
+			$(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+		},
+		success: function(element) {
+			$(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+		},
+		errorPlacement : function(error, element) {
+			error.insertAfter($(element));
+		}
+	});
+
+	// Wizard Initialization
+	$('.card-wizard').bootstrapWizard({
+		'tabClass': 'nav nav-pills',
+		'nextSelector': '.btn-next',
+		'previousSelector': '.btn-previous',
+
+		onNext: function(tab, navigation, index) {
+			var $valid = $('.card-wizard form').valid();
+			if (!$valid) {
+				$validator.focusInvalid();
 				return false;
-			} else if (type == 'team-save') {
-				$.ajax({
-					type: "post",
-					url: "./assets/inc/saveteam.php",
-					data: data1,
-					dataType: "json",
-					contentType: false,
-					processData: false,
-					cache: false,
-					success: function (json) {
-						if (json["responce"] == "success") {
-							swal({
-								title: 'Successed',
-								text: "Your settings has been saved!",
-								type: 'success',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						} else if (json["responce"] == "upload-logo-error") {
-							swal({
-								title: 'Error',
-								text: json["responce2"],
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						} else if (json["responce"] == "name-duplicate") {
-							swal({
-								title: 'Error',
-								text: "Team name duplicated",
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						} else if (json["responce"] == "large") {
-							swal({
-								title: 'Error',
-								text: "File must smaller than 1MB.",
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						} else if (json["responce"] == "empty") {
-							swal({
-								title: 'Error',
-								text: "Team name can not be empty.",
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						}
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-						alert(xhr.status);
-						alert(thrownError);
-					}
-				});
+			}
+		},
+
+		onInit: function(tab, navigation, index) {
+			//check number of tabs and fill the entire row
+			var $total = navigation.find('li').length;
+			var $wizard = navigation.closest('.card-wizard');
+
+			$first_li = navigation.find('li:first-child a').html();
+			$moving_div = $('<div class="moving-tab">' + $first_li + '</div>');
+			$('.card-wizard .wizard-navigation').append($moving_div);
+
+			refreshAnimation($wizard, index);
+
+			$('.moving-tab').css('transition', 'transform 0s');
+		},
+
+		onTabClick: function(tab, navigation, index) {
+			var $valid = $('.card-wizard form').valid();
+			if (!$valid) {
+				$validator.focusInvalid();
 				return false;
-			} else if (type == 'gamelogo-save') {
-				$.ajax({
-					type: "post",
-					url: "./assets/inc/savegamelogo.php",
-					data: data1,
-					dataType: "json",
-					contentType: false,
-					processData: false,
-					cache: false,
-					success: function (json) {
-						if (json["responce"] == "success") {
-							swal({
-								title: 'Successed',
-								text: "Your settings has been saved!",
-								type: 'success',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						} else if (json["responce"] == "upload-logo-error") {
-							swal({
-								title: 'Error',
-								text: json["responce2"],
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						} else if (json["responce"] == "file-large") {
-							swal({
-								title: 'Error',
-								text: "File must smaller than 1 MB.",
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						} else if (json["responce"] == "size-large") {
-							swal({
-								title: 'Error',
-								text: "Image size must equal 64x64.",
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						} else if (json["responce"] == "error") {
-							swal({
-								title: 'Error',
-								text: "Please contact developer for help.",
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						} else if (json["responce"] == "svg-only") {
-							swal({
-								title: 'Error',
-								text: "SVG file only.",
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						}
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-						alert(xhr.status);
-						alert(thrownError);
-					}
-				});
-				return false;
-			} else if (type == 'delete-member') {
-				swal({
-					title: 'Are you sure?',
-					text: 'Do you really want to remove your teammate?',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes',
-					cancelButtonText: 'No',
-					confirmButtonClass: "btn btn-success",
-					cancelButtonClass: "btn btn-danger",
-					buttonsStyling: false
-				}).then(function () {
-					$.ajax({
-						type: "post",
-						url: "./assets/inc/deletemember.php",
-						data: {
-							data2: data2,
-							data3: data3
-						},
-						success: swal({
-							title: 'Success!',
-							text: 'Your teammate will miss you :(',
-							type: 'success',
-							confirmButtonClass: "btn btn-success",
-							buttonsStyling: false
-						}).then(function () {
-							var table = $('#TeamMemberTable').DataTable();
-							table.row(data1).remove().draw();
-						}),
-						error: function (xhr, ajaxOptions, thrownError) {
-							alert(xhr.status);
-							alert(thrownError);
-						}
-					});
-					return false;
-				}, function (dismiss) {
-					if (dismiss === 'cancel') {
-						swal({
-							title: 'Cancelled',
-							text: 'Your teammate is still there. :)',
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				})
-			} else if (type == 'delete-invite') {
-				swal({
-					title: 'Are you sure?',
-					text: 'Do you really want to cancel your invitation?',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes',
-					cancelButtonText: 'No',
-					confirmButtonClass: "btn btn-success",
-					cancelButtonClass: "btn btn-danger",
-					buttonsStyling: false
-				}).then(function () {
-					$.ajax({
-						type: "post",
-						url: "./assets/inc/deleteinvite.php",
-						data: {
-							data2: data2
-						},
-						success: swal({
-							title: 'Success!',
-							text: 'You have cancelled your invitation',
-							type: 'success',
-							confirmButtonClass: "btn btn-success",
-							buttonsStyling: false
-						}).then(function () {
-							var table = $('#TeamMemberTable').DataTable();
-							table.row(data1).remove().draw();
-						}),
-						error: function (xhr, ajaxOptions, thrownError) {
-							alert(xhr.status);
-							alert(thrownError);
-						}
-					});
-					return false;
-				}, function (dismiss) {
-					if (dismiss === 'cancel') {
-						swal({
-							title: 'Cancelled',
-							text: 'Your invitation is still there. :)',
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				})
-			} else if (type == 'add-member') {
-				swal({
-					title: 'Input Steam64 ID',
-					html: '<div class="form-group">' + '<input id="input-field" type="text" class="form-control" />' + '</div>',
-					showCancelButton: true,
-					confirmButtonClass: 'btn btn-success',
-					cancelButtonClass: 'btn btn-danger',
-					buttonsStyling: false
-				}).then(function (result) {
-					var val = $('#input-field').val();
-					if (val) {
-						$.ajax({
-							type: "post",
-							url: "./assets/inc/addmember.php",
-							data: {
-								val: val,
-								data1: data1
-							},
-							dataType: "json",
-							success: function (json) {
-								if (json["responce"] == "invalid") {
-									swal({
-										title: 'Cancelled',
-										text: 'Invalid Steam64 ID',
-										type: 'error',
-										confirmButtonClass: "btn btn-info",
-										buttonsStyling: false
-									})
-								} else if (json["responce"] == "already-in") {
-									swal({
-										title: 'Cancelled',
-										text: 'This player is already in your team.',
-										type: 'error',
-										confirmButtonClass: "btn btn-info",
-										buttonsStyling: false
-									})
-								} else if (json["responce"] == "already-have") {
-									swal({
-										title: 'Cancelled',
-										text: 'This player is already in a team.',
-										type: 'error',
-										confirmButtonClass: "btn btn-info",
-										buttonsStyling: false
-									})
-								} else if (json["responce"] == "already-invite") {
-									swal({
-										title: 'Cancelled',
-										text: 'You have already invited this player.',
-										type: 'error',
-										confirmButtonClass: "btn btn-info",
-										buttonsStyling: false
-									})
-								} else if (json["responce"] == "self") {
-									swal({
-										title: 'Cancelled',
-										text: 'You can not invite yourself.',
-										type: 'error',
-										confirmButtonClass: "btn btn-info",
-										buttonsStyling: false
-									})
-								} else {
-									swal({
-										title: 'Success!',
-										text: 'You have invited ' + json["name"] + '!',
-										type: 'success',
-										confirmButtonClass: "btn btn-success",
-										buttonsStyling: false
-									}).then(function () {
-										var table = $('#TeamMemberTable').DataTable();
-										var rowNode = table.row.add(["Invinting", json["rank"], json["name"], json["rws"], json["k"], json["d"], json["kdr"], json["ac"], '<a href="./showplayer.php?id=' + json['profile'] + '">View</a>', '<button type="button" class="DeleteInvite btn btn-danger btn-simple" onclick="javascript:void(0);"><i class="material-icons">close</i></button>']).draw().node();
-										$(rowNode).find('td').eq(9).addClass('td-actions text-left');
-									});
-								}
-							},
-							error: function (xhr, ajaxOptions, thrownError) {
-								alert(xhr.status);
-								alert(thrownError);
-							}
-						});
-					} else {
-						swal({
-							title: 'Cancelled',
-							text: 'Steam64 ID can not be empty',
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				}).catch(swal.noop)
-			} else if (type == 'disbanded-team') {
-				swal({
-					title: 'This team is disbanded by leader!',
-					text: 'But you still can still check team stats.',
-					type: 'warning',
-					buttonsStyling: false,
-					confirmButtonClass: "btn btn-success"
-				});
-			} else if (type == 'accept-team') {
-				swal({
-					title: 'Are you sure?',
-					text: 'You will leave current team if you are in a team.',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes',
-					cancelButtonText: 'No',
-					confirmButtonClass: "btn btn-success",
-					cancelButtonClass: "btn btn-danger",
-					buttonsStyling: false
-				}).then(function () {
-					$.ajax({
-						type: "post",
-						url: "./assets/inc/acceptinvite.php",
-						data: {
-							data1: data1,
-							data2: data2
-						},
-						success: swal({
-							title: 'Success!',
-							text: 'You have joined the team!',
-							type: 'success',
-							confirmButtonClass: "btn btn-success",
-							buttonsStyling: false
-						}).then(function () {
-							window.setTimeout(function () {
-								window.location.reload()
-							}, 1000);
-						}),
-						error: function (xhr, ajaxOptions, thrownError) {
-							alert(xhr.status);
-							alert(thrownError);
-						}
-					});
-					return false;
-				}, function (dismiss) {
-					if (dismiss === 'cancel') {
-						swal({
-							title: 'Cancelled',
-							text: "",
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				})
-			} else if (type == 'team-create') {
-				swal({
-					title: 'Are you sure?',
-					text: 'Do you really want to create a team?',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes',
-					cancelButtonText: 'No',
-					confirmButtonClass: "btn btn-success",
-					cancelButtonClass: "btn btn-danger",
-					buttonsStyling: false
-				}).then(function () {
-					$.ajax({
-						type: "post",
-						url: "./assets/inc/createteam.php",
-						data: data1,
-						dataType: "json",
-						contentType: false,
-						processData: false,
-						cache: false,
-						success: function (json) {
-							if (json["responce"] == "success") {
-								swal({
-									title: 'Success!',
-									text: 'Your team has been created!',
-									type: 'success',
-									confirmButtonClass: "btn btn-success",
-									buttonsStyling: false
-								}).then(function () {
-									window.setTimeout(function () {
-										window.location.reload()
-									}, 1000);
-								})
-							} else if (json["responce"] == "upload-logo-error") {
-								swal({
-									title: 'Error',
-									text: json["responce2"],
-									type: 'error',
-									confirmButtonClass: "btn btn-info",
-									buttonsStyling: false
-								})
-							} else if (json["responce"] == "file-large") {
-								swal({
-									title: 'Error',
-									text: "File must smaller than 1 MB.",
-									type: 'error',
-									confirmButtonClass: "btn btn-info",
-									buttonsStyling: false
-								})
-							} else if (json["responce"] == "size-large") {
-								swal({
-									title: 'Error',
-									text: "Image size must equal 64x64.",
-									type: 'error',
-									confirmButtonClass: "btn btn-info",
-									buttonsStyling: false
-								})
-							} else if (json["responce"] == "error") {
-								swal({
-									title: 'Error',
-									text: "Please contact developer for help.",
-									type: 'error',
-									confirmButtonClass: "btn btn-info",
-									buttonsStyling: false
-								})
-							} else if (json["responce"] == "svg-only") {
-								swal({
-									title: 'Error',
-									text: "SVG file only.",
-									type: 'error',
-									confirmButtonClass: "btn btn-info",
-									buttonsStyling: false
-								})
-							} else if (json["responce"] == "name-duplicate") {
-								swal({
-									title: 'Error',
-									text: "Team name duplicated",
-									type: 'error',
-									confirmButtonClass: "btn btn-info",
-									buttonsStyling: false
-								})
-							} else if (json["responce"] == "large") {
-								swal({
-									title: 'Error',
-									text: "File must smaller than 1MB.",
-									type: 'error',
-									confirmButtonClass: "btn btn-info",
-									buttonsStyling: false
-								})
-							} else if (json["responce"] == "empty") {
-								swal({
-									title: 'Error',
-									text: "Team name can not be empty.",
-									type: 'error',
-									confirmButtonClass: "btn btn-info",
-									buttonsStyling: false
-								})
-							}
-						},
-						error: function (xhr, ajaxOptions, thrownError) {alert(xhr.status);alert(thrownError);}
-					});
-					return false;
-				}, function (dismiss) {
-					if (dismiss === 'cancel') {
-						swal({
-							title: 'Cancelled',
-							text: "",
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				})
-			}
-			else if (type == 'buy') 
-			{				
-				swal({
-					title: 'Notice',	
-					text: "Please contact developer in official Warmod+ discord server!",
-					type: 'warning',
-					confirmButtonClass: "btn btn-info",	
-					buttonsStyling: false
-				})
-			} 
-			else if (type == 'source') 
-			{				
-				swal({
-					title: 'Notice',	
-					text: "Please contact developer in official Warmod+ discord server!",
-					type: 'warning',
-					confirmButtonClass: "btn btn-info",	
-					buttonsStyling: false
-				})
-			} 
-			else if (type == 'add-license') 
-			{
-				$.ajax({
-					type: "post",
-					url: "./assets/inc/addlicense.php",
-					dataType: "json",
-					data: data1,
-					contentType: false,
-					processData: false,
-					cache: false,
-					success :function(json){
-						if (json["responce"] == "invalid") {
-							swal({
-								title: 'Cancelled',
-								text: 'Invalid Steam64 ID',
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						}
-						else if (json["responce"] == "success") {
-							swal({
-								title: 'Success!',
-								text: 'Successfully gave token '+ json["responce3"] + '\n to '+json["responce2"]+ ' !',
-								type: 'success',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							}).then(function () {
-								var table = $('#LicenseTable').DataTable();
-								var rowNode = table.row.add([json["responce2"], json["responce3"], json["responce4"], json["responce5"], json["responce6"], '<button type="button" class="DeleteLicense btn btn-danger btn-simple" onclick="javascript:void(0);"><i class="material-icons">close</i></button><button type="button" class="EditLicense btn btn-success btn-simple" onclick="javascript:void(0);"><i class="material-icons">edit</i></button>', json["responce7"]]).draw().node();
-								$(rowNode).find('td').eq(5).addClass('td-actions text-left');
-								$(rowNode).find('td').eq(6).hide();
-							})
-						}
-						else if (json["responce"] == "already") {
-							swal({
-								title: 'Cancelled',
-								text: json["responce2"] + ' is already have token!',
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						}
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-						alert(xhr.status);
-						alert(thrownError);
-					}
-				});
-			}
-			else if (type == 'delete-license') {
-				swal({
-					title: 'Are you sure?',
-					text: 'Do you really want to remove token?',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes',
-					cancelButtonText: 'No',
-					confirmButtonClass: "btn btn-success",
-					cancelButtonClass: "btn btn-danger",
-					buttonsStyling: false
-				}).then(function () {
-					$.ajax({
-						type: "post",
-						url: "./assets/inc/deletelicense.php",
-						data: {
-							data2: data2
-						},
-						success: swal({
-							title: 'Success!',
-							text: 'Your have removed token.',
-							type: 'success',
-							confirmButtonClass: "btn btn-success",
-							buttonsStyling: false
-						}).then(function () {
-							var table = $('#LicenseTable').DataTable();
-							table.row(data1).remove().draw();
-						}),
-						error: function (xhr, ajaxOptions, thrownError) {
-							alert(xhr.status);
-							alert(thrownError);
-						}
-					});
-					return false;
-				}, function (dismiss) {
-					if (dismiss === 'cancel') {
-						swal({
-							title: 'Cancelled',
-							text: 'Your token is still there. :)',
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				})
-			}
-			else if (type == 'update-license') 
-			{				
-				$.ajax({
-					type: "post",
-					url: "./assets/inc/updatelicense.php",
-					dataType: "text",
-					data: data1,
-					contentType: false,
-					processData: false,
-					cache: false,
-					success :function(json){
-						swal({
-							title: 'Success!',
-							text: 'Successfully update license!',
-							type: 'success',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						}).then(function () {
-							var table = $('#LicenseTable').dataTable();
-							table.fnUpdate($('#editdate2').val(), data2, 2);
-							table.fnUpdate($('#editftpa').val(), data2, 3);
-							table.fnUpdate($('#editftpp').val(), data2, 4);
-							table.fnUpdate('<button type="button" class="DeleteLicense btn btn-danger btn-simple" onclick="javascript:void(0);"><i class="material-icons">close</i></button>', data2, 5);
-							$('#modal_form').modal('hide');
-							$('#SaveLicense').text('Save');
-							$('#SaveLicense').attr('disabled',false);
-							$('#SaveLicenseCancel').attr('disabled',false);
-						})
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-						alert(xhr.status);
-						alert(thrownError);
-					}
-				});
-			}
-			else if (type == 'add-server') 
-			{
-				$.ajax({
-					type: "post",
-					url: "./assets/inc/addserver.php",
-					dataType: "json",
-					data: data1,
-					contentType: false,
-					processData: false,
-					cache: false,
-					success :function(json){
-						if (json["responce"] == "success") {
-							swal({
-								title: 'Success!',
-								text: 'Successfully add server to database!',
-								type: 'success',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							}).then(function () {
-								var table = $('#ServerTable').DataTable();
-								var rowNode = table.row.add([json["responce2"], json["responce3"], json["responce4"], json["responce5"], json["responce6"], json["responce7"], json["responce8"], json["responce9"], '<button type="button" class="DeleteServer btn btn-danger btn-simple" onclick="javascript:void(0);"><i class="material-icons">close</i></button>']).draw().node();
-								$(rowNode).find('td').eq(8).addClass('td-actions text-left');
-							})
-						}
-						else if (json["responce"] == "already") {
-							swal({
-								title: 'Cancelled',
-								text: 'This server is already in server list!',
-								type: 'error',
-								confirmButtonClass: "btn btn-info",
-								buttonsStyling: false
-							})
-						}
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-						alert(xhr.status);
-						alert(thrownError);
-					}
-				});
-			}
-			else if (type == 'delete-server') {
-				swal({
-					title: 'Are you sure?',
-					text: 'Do you really want to remove server?',
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes',
-					cancelButtonText: 'No',
-					confirmButtonClass: "btn btn-success",
-					cancelButtonClass: "btn btn-danger",
-					buttonsStyling: false
-				}).then(function () {
-					$.ajax({
-						type: "post",
-						url: "./assets/inc/deleteserver.php",
-						data: {
-							data2: data2, data3:data3
-						},
-						success: swal({
-							title: 'Success!',
-							text: 'Your have removed server.',
-							type: 'success',
-							confirmButtonClass: "btn btn-success",
-							buttonsStyling: false
-						}).then(function () {
-							var table = $('#ServerTable').DataTable();
-							table.row(data1).remove().draw();
-						}),
-						error: function (xhr, ajaxOptions, thrownError) {
-							alert(xhr.status);
-							alert(thrownError);
-						}
-					});
-					return false;
-				}, function (dismiss) {
-					if (dismiss === 'cancel') {
-						swal({
-							title: 'Cancelled',
-							text: 'Your server is still there. :)',
-							type: 'error',
-							confirmButtonClass: "btn btn-info",
-							buttonsStyling: false
-						})
-					}
-				})
+			} else {
+				return true;
 			}
 		},
-		ignoreinvite: function (data1) {
-			$.ajax({
-				type: "post",
-				url: "./assets/inc/ignoreinvite.php",
-				data: {
-					data1: data1
-				},
-				error: function (xhr, ajaxOptions, thrownError) {
-					alert(xhr.status);
-					alert(thrownError);
-				}
-			});
-			return false;
-		},
-		readNotify: function (value1) {
-			$.ajax({
-				type: "post",
-				url: "./assets/inc/readnotify.php",
-				data: {
-					value1: value1
-				},
-				error: function (xhr, ajaxOptions, thrownError) {
-					alert(xhr.status);
-					alert(thrownError);
-				}
-			});
-			return false;
-		},
-		showNotification: function (from, align, style, text) {
-			$.notify({
-				icon: "notifications",
-				message: text,
-			}, {
-				type: style,
-				timer: 3000,
-				placement: {
-					from: from,
-					align: align
-				}
-			});
-		},
-		initMaterialWizard: function () {
-			var $validator = $('.wizard-card form').validate({
-					rules: {
-						createname: {
-							required: true,
-							remote: {
-								url: "./assets/inc/validate-team.php",
-								type: "post",
-							}
-						},
-					},
-					errorPlacement: function (error, element) {
-						$(element).parent('div').addClass('has-error');
-					},
-					success: function (error, element) {
-						$(element).parent('div').removeClass('has-error');
-					}
-				});
-			$('.wizard-card').bootstrapWizard({
-				'tabClass': 'nav nav-pills',
-				'nextSelector': '.btn-next',
-				'previousSelector': '.btn-previous',
-				onNext: function (tab, navigation, index) {
-					var $valid = $('.wizard-card form').valid();
-					if (!$valid) {
-						$validator.focusInvalid();
-						return false;
-					}
-				},
-				onInit: function (tab, navigation, index) {
-					var $total = navigation.find('li').length;
-					var $wizard = navigation.closest('.wizard-card');
-					$first_li = navigation.find('li:first-child a').html();
-					$moving_div = $('<div class="moving-tab">' + $first_li + '</div>');
-					$('.wizard-card .wizard-navigation').append($moving_div);
-					refreshAnimation($wizard, index);
-					$('.moving-tab').css('transition', 'transform 0s');
-				},
-				onTabClick: function (tab, navigation, index) {
-					var $valid = $('.wizard-card form').valid();
-					if (!$valid) {
-						return false;
-					} else {
-						return true;
-					}
-				},
-				onTabShow: function (tab, navigation, index) {
-					var $total = navigation.find('li').length;
-					var $current = index + 1;
-					var $wizard = navigation.closest('.wizard-card');
-					if ($current >= $total) {
-						$($wizard).find('.btn-next').hide();
-						$($wizard).find('.btn-finish').show();
-					} else {
-						$($wizard).find('.btn-next').show();
-						$($wizard).find('.btn-finish').hide();
-					}
-					button_text = navigation.find('li:nth-child(' + $current + ') a').html();
-					setTimeout(function () {
-						$('.moving-tab').text(button_text);
-					}, 150);
-					var checkbox = $('.footer-checkbox');
-					if (!index == 0) {
-						$(checkbox).css({
-							'opacity': '0',
-							'visibility': 'hidden',
-							'position': 'absolute'
-						});
-					} else {
-						$(checkbox).css({
-							'opacity': '1',
-							'visibility': 'visible'
-						});
-					}
-					refreshAnimation($wizard, index);
-				}
-			});
-			$("#wizard-picture").change(function () {
-				readURL(this);
-			});
-			$("#wizard-picture2").change(function () {
-				readURL2(this);
-			});
-			$('[data-toggle="wizard-radio"]').click(function () {
-				wizard = $(this).closest('.wizard-card');
-				wizard.find('[data-toggle="wizard-radio"]').removeClass('active');
-				$(this).addClass('active');
-				$(wizard).find('[type="radio"]').removeAttr('checked');
-				$(this).find('[type="radio"]').attr('checked', 'true');
-			});
-			$('[data-toggle="wizard-checkbox"]').click(function () {
-				if ($(this).hasClass('active')) {
-					$(this).removeClass('active');
-					$(this).find('[type="checkbox"]').removeAttr('checked');
-				} else {
-					$(this).addClass('active');
-					$(this).find('[type="checkbox"]').attr('checked', 'true');
-				}
-			});
-			$('.set-full-height').css('height', 'auto');
-			function readURL(input) {
-				if (input.files && input.files[0]) {
-					var reader = new FileReader();
-					reader.onload = function (e) {
-						$('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
-					}
-					reader.readAsDataURL(input.files[0]);
-				}
+
+		onTabShow: function(tab, navigation, index) {
+			var $total = navigation.find('li').length;
+			var $current = index + 1;
+
+			var $wizard = navigation.closest('.card-wizard');
+
+			// If it's the last tab then hide the last button and show the finish instead
+			if ($current >= $total) {
+				$($wizard).find('.btn-next').hide();
+				$($wizard).find('.btn-finish').show();
+			} else {
+				$($wizard).find('.btn-next').show();
+				$($wizard).find('.btn-finish').hide();
 			}
-			function readURL2(input) {
-				if (input.files && input.files[0]) {
-					var reader = new FileReader();
-					reader.onload = function (e) {
-						$('#wizardPicturePreview2').attr('src', e.target.result).fadeIn('slow');
-					}
-					reader.readAsDataURL(input.files[0]);
-				}
-			}
-			$(window).resize(function () {
-				$('.wizard-card').each(function () {
-					$wizard = $(this);
-					index = $wizard.bootstrapWizard('currentIndex');
-					refreshAnimation($wizard, index);
-					$('.moving-tab').css({
-						'transition': 'transform 0s'
-					});
+
+			button_text = navigation.find('li:nth-child(' + $current + ') a').html();
+
+			setTimeout(function() {
+				$('.moving-tab').text(button_text);
+			}, 150);
+
+			var checkbox = $('.footer-checkbox');
+
+			if (!index == 0) {
+				$(checkbox).css({
+					'opacity': '0',
+					'visibility': 'hidden',
+					'position': 'absolute'
 				});
-			});
-			function refreshAnimation($wizard, index) {
-				$total = $wizard.find('.nav li').length;
-				$li_width = 100 / $total;
-				total_steps = $wizard.find('.nav li').length;
-				move_distance = $wizard.width() / total_steps;
-				index_temp = index;
-				vertical_level = 0;
-				mobile_device = $(document).width() < 600 && $total > 3;
-				if (mobile_device) {
-					move_distance = $wizard.width() / 2;
-					index_temp = index % 2;
-					$li_width = 50;
-				}
-				$wizard.find('.nav li').css('width', $li_width + '%');
-				step_width = move_distance;
-				move_distance = move_distance * index_temp;
-				$current = index + 1;
-				if ($current == 1 || (mobile_device == true && (index % 2 == 0))) {
-					move_distance -= 8;
-				} else if ($current == total_steps || (mobile_device == true && (index % 2 == 1))) {
-					move_distance += 8;
-				}
-				if (mobile_device) {
-					vertical_level = parseInt(index / 2);
-					vertical_level = vertical_level * 38;
-				}
-				$wizard.find('.moving-tab').css('width', step_width);
-				$('.moving-tab').css({
-					'transform': 'translate3d(' + move_distance + 'px, ' + vertical_level + 'px, 0)',
-					'transition': 'all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)'
+			} else {
+				$(checkbox).css({
+					'opacity': '1',
+					'visibility': 'visible'
 				});
 			}
-		},
+
+			refreshAnimation($wizard, index);
+		}
+	});
+
+
+	// Prepare the preview for profile picture
+	$("#wizard-picture").change(function() {
+		readURL(this);
+	});
+
+	$('[data-toggle="wizard-radio"]').click(function() {
+		wizard = $(this).closest('.card-wizard');
+		wizard.find('[data-toggle="wizard-radio"]').removeClass('active');
+		$(this).addClass('active');
+		$(wizard).find('[type="radio"]').removeAttr('checked');
+		$(this).find('[type="radio"]').attr('checked', 'true');
+	});
+
+	$('[data-toggle="wizard-checkbox"]').click(function() {
+		if ($(this).hasClass('active')) {
+			$(this).removeClass('active');
+			$(this).find('[type="checkbox"]').removeAttr('checked');
+		} else {
+			$(this).addClass('active');
+			$(this).find('[type="checkbox"]').attr('checked', 'true');
+		}
+	});
+
+	$('.set-full-height').css('height', 'auto');
+
+	//Function to show image before upload
+
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				$('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
 	}
+
+	$(window).resize(function() {
+		$('.card-wizard').each(function() {
+			$wizard = $(this);
+
+			index = $wizard.bootstrapWizard('currentIndex');
+			refreshAnimation($wizard, index);
+
+			$('.moving-tab').css({
+				'transition': 'transform 0s'
+			});
+		});
+	});
+
+	function refreshAnimation($wizard, index) {
+		$total = $wizard.find('.nav li').length;
+		$li_width = 100 / $total;
+
+		total_steps = $wizard.find('.nav li').length;
+		move_distance = $wizard.width() / total_steps;
+		index_temp = index;
+		vertical_level = 0;
+
+		mobile_device = $(document).width() < 600 && $total > 3;
+
+		if (mobile_device) {
+			move_distance = $wizard.width() / 2;
+			index_temp = index % 2;
+			$li_width = 50;
+		}
+
+		$wizard.find('.nav li').css('width', $li_width + '%');
+
+		step_width = move_distance;
+		move_distance = move_distance * index_temp;
+
+		$current = index + 1;
+
+		if ($current == 1 || (mobile_device == true && (index % 2 == 0))) {
+			move_distance -= 8;
+		} else if ($current == total_steps || (mobile_device == true && (index % 2 == 1))) {
+			move_distance += 8;
+		}
+
+		if (mobile_device) {
+			vertical_level = parseInt(index / 2);
+			vertical_level = vertical_level * 38;
+		}
+
+		$wizard.find('.moving-tab').css('width', step_width);
+		$('.moving-tab').css({
+			'transform': 'translate3d(' + move_distance + 'px, ' + vertical_level + 'px, 0)',
+			'transition': 'all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)'
+
+		});
+	}
+}
+
+// remove click event
+$('#modal').on('hide.bs.modal', function (e) {
+	$("#modal").off("click", ".btn-modal-save");
+})
+
+/* Token */
+var tokenTable = $("#token-table").DataTable({
+	"columnDefs": [ 
+		{
+			"targets": 5,
+			"searchable": false,
+			"orderable": false
+		}, 
+	]
+});
+
+$("#token-table").on("click", ".btn-token-edit", function(e){
+	e.preventDefault();
+	tokenModal(true, $(this));
+	return false;
+});
+
+$("#btn-token-add").on("click", function(e){
+	e.preventDefault();
+	tokenModal(false, "");
+	return false;
+});
+
+$("#token-table").on("click", ".btn-token-del", function(){
+	swal({
+		type: "warning",
+		title: "Are you sure?",
+		text: "Do you really want to delete this token?",
+		buttonsStyling: false,
+		confirmButtonClass: "btn btn-success mx-1",
+		cancelButtonClass: "btn btn-danger mx-1",
+		showCancelButton: true,
+	}).then((result) => {
+		if (result.value) {
+			let _this = $(this);
+			let id = _this.attr("data-id");
+			$.ajax({
+				method: "POST",
+				url: "./libs/api.php?action=token-del",
+				data: {id},
+				dataType: "json",
+				success: function(r){
+					if(r.success){
+						swal({
+							type: "success",
+							title: "Success!",
+							text: "The token has been deleted.",
+							buttonsStyling: false,
+							confirmButtonClass: "btn btn-success mx-1"
+						})
+						tokenTable.row(_this.parents('tr')).remove().draw();
+					}
+					else{
+						swal({
+							type: "error",
+							title: "Error!",
+							text: "Error occurred when deleting the token.",
+							buttonsStyling: false,
+							confirmButtonClass: "btn btn-success mx-1",
+						})
+					}
+				}
+			})
+		}
+	})
+});
+
+function tokenModal(edit, el){
+	let url;
+	if(edit){
+		$("#modal .modal-title").text("Edit Token");
+		url = "./libs/api.php?action=token-edit";
+	}
+	else{
+		$("#modal .modal-title").text("New Token");
+		url = "./libs/api.php?action=token-new";
+	}
+	
+	let steam = "", token = "", exp = "", ftpu = "", ftpp = "", id = "";
+	if(edit){
+		steam = el.parents("tr").find(".token-steam").attr("data-steam");
+		token = el.parents("tr").find(".token-token").text();
+		exp = el.parents("tr").find(".token-exp").text();
+		ftpu = el.parents("tr").find(".token-ftpu").text();
+		ftpp = el.parents("tr").find(".token-ftpp").text();
+		id = el.attr("data-id");
+	}
+
+	const html = /*html*/`
+	<form action="" id="form-modal">
+		<input type="hidden" name="id" value="${id}">	
+		<div class="row">
+			<label class="col-2 col-form-label" style="font-size: .875rem;">
+				Steam64 ID
+			</label>
+			<div class="col-9">
+				<div class="form-group">
+					<input class="form-control" type="number" name="steam" value="${steam}" required>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-2 col-form-label" style="font-size: .875rem;">
+				Token
+			</label>
+			<div class="col-7">
+				<div class="form-group">
+					<input class="form-control" type="text" name="token" value="${token}" required>
+				</div>
+			</div>
+			<div class="col-2">
+				<button class="btn btn-primary btn-fab btn-fab-mini btn-round token-refresh" type="button">
+					<i class="material-icons">cached</i>
+				</button>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-2 col-form-label" style="font-size: .875rem;">
+				FTP User
+			</label>
+			<div class="col-9">
+				<div class="form-group">
+					<input class="form-control" type="text" name="ftpu" value="${ftpu}" required>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-2 col-form-label" style="font-size: .875rem;">
+				FTP Password
+			</label>
+			<div class="col-9">
+				<div class="form-group">
+					<input class="form-control" type="text" name="ftpp" value="${ftpp}" required>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-2 col-form-label" style="font-size: .875rem;">
+				Expire Date
+			</label>
+			<div class="col-9">
+				<div class="form-group">
+					<input class="form-control datetimepicker" type="text" name="exp" value="${exp}" required>
+				</div>
+			</div>
+		</div>
+	</form>`;
+
+	$("#modal .modal-body").html(html);
+
+	$("#modal").on("click", ".token-refresh", function(e){
+		e.preventDefault();
+		$("#modal input[name=token]").val( Math.random().toString(36).substr(2) );
+		return false;
+	})
+
+	let $validator = $('.modal form').validate({
+		rules: {
+			steam: {
+				required: true,
+				remote: function(element){
+					return{
+						url : "./libs/api.php?action=valid-steam",
+						type:'post',
+						data: {
+							steam: $(element).val()
+						}
+					}
+				}
+			}
+		},
+		messages: {
+			steam: {
+				remote:"Invalid Steam64 ID"
+			}
+		},
+		onkeyup: function(element) {
+			$(element).valid();
+		},
+		highlight: function(element) {
+			$(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+		},
+		success: function(element) {
+			$(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+			$(element).remove();
+		},
+		errorPlacement : function(error, element) {
+			error.insertAfter($(element));
+		}
+	});
+
+	$(".datetimepicker").datetimepicker({
+		format: 'YYYY-MM-DD',
+		icons: {
+			time: "fa fa-clock-o",
+			date: "fa fa-calendar",
+			up: "fa fa-chevron-up",
+			down: "fa fa-chevron-down",
+			previous: 'fa fa-chevron-left',
+			next: 'fa fa-chevron-right',
+			today: 'fa fa-screenshot',
+			clear: 'fa fa-trash',
+			close: 'fa fa-remove'
+		}
+	});
+	$("#modal .modal-footer").html(/*html*/`
+		<button type="button" class="btn btn-success mx-1 btn-modal-save">Save changes</button>
+		<button type="button" class="btn btn-danger mx-1" data-dismiss="modal">Close</button>
+	`);
+
+	$("#modal").on("click", ".btn-modal-save", function(e){
+		e.preventDefault();
+		var $valid = $('.modal form').valid();
+		if (!$valid) {
+			$validator.focusInvalid();
+			return false;
+		}
+		$(this).attr("disabled", true);
+		$(this).text("Saving...");
+		let fd =  new FormData( $("#form-modal")[0] );
+		$.ajax({
+			method: "POST",
+			url: url,
+			data: fd,
+			processData: false,
+			contentType: false,
+			cache: false,
+			dataType: "json",
+			success: function(r){
+				if(r.success){
+					swal({
+						type: "success",
+						title: "Success!",
+						text: "Token has been saved.",
+						buttonsStyling: false,
+						confirmButtonClass: "btn btn-success mx-1",
+						cancelButtonClass: "btn btn-danger mx-1",
+						showCancelButton: true,
+					}).then(function(){
+						let rowData = [`
+							<a href="https://steamcommunity.com/profiles/${fd.get("steam")}">${r.name}</a>`,
+							fd.get("token"), fd.get("ftpu"), fd.get("ftpp"), fd.get("exp"),
+							`<button type="button" class="btn btn-link btn-success px-2 btn-token-edit" data-id="${fd.get("id")}">
+								<i class="fas fa-pen"></i>
+							</button>
+							<button type="button" class="btn btn-link btn-danger px-2 btn-token-del" data-id="${fd.get("id")}">
+								<i class="fas fa-times"></i>
+							</button>`
+						]
+
+						if(edit){
+							tokenTable.row(el.parents("tr")).data(rowData);
+						}
+						else{
+							tokenTable.row.add(rowData).draw().node();
+						}
+						$("#modal").modal('hide');
+					})
+					
+				}
+				else{
+					swal({
+						type: "error",
+						title: "Error!",
+						text: "Error occurred when saving your token.",
+						buttonsStyling: false,
+						confirmButtonClass: "btn btn-success mx-1",
+					})
+				}
+			}
+		})
+		return false;
+	})
+	$("#modal").modal('show');
+}
+
+function serverModal(edit, el){
+	let url;
+	if(edit){
+		$("#modal .modal-title").text("Edit Server");
+		url = "./libs/api.php?action=server-edit";
+	}
+	else{
+		$("#modal .modal-title").text("New Server");
+		url = "./libs/api.php?action=server-new";
+	}
+	
+	let ip = "", port = "", enable = "", id="";
+	if(edit){
+		ip = el.parents("tr").find("td").eq(1).text();
+		port = el.parents("tr").find("td").eq(2).text();
+		id = el.attr("data-id");
+		enable = el.siblings("button.btn-server-enable").attr("data-enable");
+	}
+
+	const html = /*html*/`
+	<form action="" id="form-modal">
+		<input type="hidden" name="id" value="${id}">	
+		<div class="row">
+			<label class="col-2 col-form-label" style="font-size: .875rem;">
+				IP
+			</label>
+			<div class="col-9">
+				<div class="form-group">
+					<input class="form-control" type="text" name="ip" value="${ip}" required>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-2 col-form-label" style="font-size: .875rem;">
+				Port
+			</label>
+			<div class="col-9">
+				<div class="form-group">
+					<input class="form-control" type="text" name="port" value="${port}" required>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-2 col-form-label" style="font-size: .875rem;">
+				Enable
+			</label>
+			<div class="col-9">
+				<div class="togglebutton">
+					<label>
+						<input type="checkbox" ${enable == 1 ? "checked" : ""} value="1" name="enable">
+							<span class="toggle"></span>
+					</label>
+				</div>
+			</div>
+		</div>
+	</form>`;
+
+	$("#modal .modal-body").html(html);
+
+	let $validator = $('.modal form').validate({
+		onkeyup: function(element) {
+			$(element).valid();
+		},
+		highlight: function(element) {
+			$(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+		},
+		success: function(element) {
+			$(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+			$(element).remove();
+		},
+		errorPlacement : function(error, element) {
+			error.insertAfter($(element));
+		}
+	});
+
+	$("#modal .modal-footer").html(/*html*/`
+		<button type="button" class="btn btn-success mx-1 btn-modal-save">Save changes</button>
+		<button type="button" class="btn btn-danger mx-1" data-dismiss="modal">Close</button>
+	`);
+
+	$("#modal").on("click", ".btn-modal-save", function(e){
+		e.preventDefault();
+		var $valid = $('.modal form').valid();
+		if (!$valid) {
+			$validator.focusInvalid();
+			return false;
+		}
+		$(this).attr("disabled", true);
+		$(this).text("Saving...");
+		let fd =  new FormData( $("#form-modal")[0] );
+		$.ajax({
+			method: "POST",
+			url: url,
+			data: fd,
+			processData: false,
+			contentType: false,
+			cache: false,
+			dataType: "json",
+			success: function(r){
+				if(r.success){
+					swal({
+						type: "success",
+						title: "Success!",
+						text: "Token has been saved.",
+						buttonsStyling: false,
+						confirmButtonClass: "btn btn-success mx-1",
+						cancelButtonClass: "btn btn-danger mx-1",
+						showCancelButton: true,
+					}).then(function(){
+						let ip =  fd.get("ip");
+						let port = fd.get("port");
+
+						if(edit)	id = fd.get("id");
+						else id = r.id;
+
+						let rowData = [r.name, ip, port, r.map, `${r.players}/${r.places}`,
+						`<a href ='steam://connect/`+ip+`:`+port+`'>CONNECT</a>`,
+						`<button type="button" class="btn btn-link btn-info px-2 btn-server-enable" data-id="${id}" data-enable="${fd.get("enable") == undefined ? 0 : 1}">
+							<i class="far ${fd.get("enable") == undefined ? "fa-eye" : "fa-eye-slash"}"></i>
+						</button>
+						<button type="button" class="btn btn-link btn-success px-2 btn-server-edit" data-id="${id}">
+							<i class="fas fa-pen"></i>
+						</button>
+						<button type="button" class="btn btn-link btn-danger px-2 btn-server-del" data-id="${id}">
+							<i class="fas fa-times"></i>
+						</button>`];
+
+						if(edit)	serverTable.row(el.parents("tr")).data(rowData);
+						else	serverTable.row.add(rowData).draw().node();
+
+						$("#modal").modal('hide');
+					})
+					
+				}
+				else{
+					swal({
+						type: "error",
+						title: "Error!",
+						text: "Error occurred when saving your server.",
+						buttonsStyling: false,
+						confirmButtonClass: "btn btn-success mx-1",
+					})
+				}
+			}
+		})
+		return false;
+	})
+	$("#modal").modal('show');
+}
+
+var serverTable = $("#server-table").DataTable({
+	"columnDefs": [ 
+		{
+			"targets": 5,
+			"searchable": false,
+			"orderable": false
+		},
+		{
+			"targets": 6,
+			"searchable": false,
+			"orderable": false
+		}, 
+	]
+});
+
+$("#server-table").on("click", ".btn-server-edit", function(e){
+	e.preventDefault();
+	serverModal(true, $(this));
+	return false;
+});
+
+$("#btn-server-add").on("click", function(e){
+	e.preventDefault();
+	serverModal(false, "");
+	return false;
+});
+
+$("#server-table").on("click", ".btn-server-del", function(){
+	swal({
+		type: "warning",
+		title: "Are you sure?",
+		text: "Do you really want to delete this server?",
+		buttonsStyling: false,
+		confirmButtonClass: "btn btn-success mx-1",
+		cancelButtonClass: "btn btn-danger mx-1",
+		showCancelButton: true,
+	}).then((result) => {
+		if (result.value) {
+			let _this = $(this);
+			let id = _this.attr("data-id");
+			$.ajax({
+				method: "POST",
+				url: "./libs/api.php?action=server-del",
+				data: {id},
+				dataType: "json",
+				success: function(r){
+					if(r.success){
+						swal({
+							type: "success",
+							title: "Success!",
+							text: "The server has been deleted.",
+							buttonsStyling: false,
+							confirmButtonClass: "btn btn-success mx-1"
+						})
+						serverTable.row(_this.parents('tr')).remove().draw();
+					}
+					else{
+						swal({
+							type: "error",
+							title: "Error!",
+							text: "Error occurred when deleting the server.",
+							buttonsStyling: false,
+							confirmButtonClass: "btn btn-success mx-1",
+						})
+					}
+				}
+			})
+		}
+	})
+});
+
+$("#server-table").on("click", ".btn-server-enable", function(){
+	let enable = $(this).attr("data-enable");
+	let id =  $(this).attr("data-id");
+	let _this = $(this);
+	$.ajax({
+		method: "POST",
+		url: "./libs/api.php?action=server-enable",
+		data: {id, enable},
+		dataType: "json",
+		cache: false,
+		success: function(r){
+			if(r.success){
+				if(enable == 1){
+					_this.html(`<i class="far fa-eye-slash"></i>`);
+					_this.attr("data-enable", "0");
+				}
+				else{
+					_this.html(`<i class="far fa-eye"></i>`);
+					_this.attr("data-enable", "1");
+				}
+			}
+			else{
+				swal({
+					type: "error",
+					title: "Error!",
+					text: "Error occurred when saving the setting.",
+					buttonsStyling: false,
+					confirmButtonClass: "btn btn-success mx-1",
+				})
+			}
+		}
+	})
+});
+
+$("#form-profile").submit((e) => {
+	e.preventDefault();
+	$.ajax({
+		url: "./libs/api.php?action=profile-save",
+		method: "POST",
+		data: new FormData($('#form-profile')[0]),
+		cache: false,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: (r)=>{
+			if(r.responce == true){
+				swal({
+					type: "success",
+					title: "Success!",
+					text: "Your settings has been saved!"
+				})
+			}
+			else{
+				swal({
+					type: "error",
+					title: "Error!",
+					text: "Please contact server admin for help."
+				})
+			}
+		},
+	})
 })

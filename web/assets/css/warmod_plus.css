@@ -91,7 +91,7 @@ table.table-stats th {
   line-height: 16px
 }
 
-table.table-stats td.text-match-name{
+table.table-stats td.text-match-name {
   word-break: break-all;
 }
 
@@ -264,25 +264,26 @@ table.table-stats td.elo {
 }
 
 @media (min-width: 1200px) {
-	.d-xl-last-none:last-child{
-		display:none;
-	}
+  .d-xl-last-none:last-child {
+    display: none;
+  }
 }
 
-.sidebar .sidebar-wrapper .user .user-info [data-toggle=collapse]~div>ul>li>a .sidebar-normal, .sidebar .sidebar-wrapper>.nav [data-toggle=collapse]~div>ul>li>a .sidebar-normal {
+.sidebar .sidebar-wrapper .user .user-info [data-toggle=collapse]~div>ul>li>a .sidebar-normal,
+.sidebar .sidebar-wrapper>.nav [data-toggle=collapse]~div>ul>li>a .sidebar-normal {
   display: inline-block !important;
   vertical-align: middle;
 }
 
-.text-match-title{
-  font-size:35px;
+.text-match-title {
+  font-size: 35px;
 }
 
-.text-match-t{
+.text-match-t {
   color: #FFE599 !important;
 }
 
-.text-match-ct{
+.text-match-ct {
   color: #99E5FF !important;
 }
 
@@ -294,58 +295,68 @@ table.table-stats td.elo {
   color: #cc181e !important;
 }
 
-.text-positive{
+.text-positive {
   color: #00ff00 !important;
 }
 
-.text-negative{
+.text-negative {
   color: #ff0000 !important;
 }
 
 @media (max-width: 1200px) {
-  .table-rwd-match{
+  .table-rwd-match {
     min-width: 100%;
   }
+
   tr.tr-only-hide {
     display: none !important;
   }
-  .table-rwd-match tr{
+
+  .table-rwd-match tr {
     display: block;
     border: 1px solid #ddd;
     margin-top: 15px;
   }
+
   .table-rwd-match td {
     text-align: left !important;
     font-size: 15px;
     overflow: hidden;
     width: 49% !important;
     display: inline-block;
-	}
-	.table-rwd-match td:before {
+  }
+
+  .table-rwd-match td:before {
     content: attr(data-th) " : ";
     display: inline-block;
     font-weight: bold;
-	  margin-right: 10px;
+    margin-right: 10px;
     color: #fff;
     text-align: left !important;
   }
-  .table-rwd-match.table-bordered td,.table-rwd-match.table-bordered th,.table-rwd-match.table-bordered{
-    border:0;
+
+  .table-rwd-match.table-bordered td,
+  .table-rwd-match.table-bordered th,
+  .table-rwd-match.table-bordered {
+    border: 0;
   }
 }
 
 @media (max-width: 1200px) {
-  .table-rwd{
+  .table-rwd {
     min-width: 100%;
   }
+
   tr.tr-only-hide {
     display: none !important;
   }
-  .table-rwd tr{
+
+  .table-rwd tr {
     display: block;
     border: 1px solid #ddd;
     margin-top: 10px;
   }
+
   .table-rwd td {
     text-align: left;
     font-size: 15px;
@@ -353,26 +364,37 @@ table.table-stats td.elo {
     width: 100%;
     display: inline-block;
   }
+
   .table-rwd#matchTable td {
     width: 48%;
   }
+
   table.dataTable.table-rwd>tbody>tr>td:first-child {
     padding-left: 5px !important;
-	}
-	.table-rwd td:before {
-    content: attr(data-th) " : ";
+  }
+
+  .table-rwd td:not(.dataTables_empty):before {
+    content: attr(data-th) ": ";
     display: inline-block;
     text-transform: uppercase;
     font-weight: bold;
-	  margin-right: 10px;
+    margin-right: 10px;
     color: #D20B2A;
   }
-  /*當RWD縮小的時候.table-bordered 會有兩條線，所以針對.table-bordered去做修正*/
-  .table-rwd.table-bordered td,.table-rwd.table-bordered th,.table-rwd.table-bordered{border:0;}
+
+  .table-rwd.table-bordered td,
+  .table-rwd.table-bordered th,
+  .table-rwd.table-bordered {
+    border: 0;
+  }
 }
 
 @media (min-width: 1200px) {
-  .table-rwd tbody tr{
-    height:54px;
+  .table-rwd tbody tr {
+    height: 54px;
   }
+}
+
+.modal-backdrop {
+  background-color: #444;
 }

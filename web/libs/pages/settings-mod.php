@@ -116,15 +116,15 @@
 												}
 												?>
 													<tr>
-														<td><?=$infos['name']?></td>
-														<td><?=$row['ip']?></td>
-														<td><?=$row['port']?></td>
-														<td><?=$infos['map']?></td>
-														<td><?=$infos["players"]."/".$infos["places"]?></td>
-														<td>
+														<td data-th="Name"><?=$infos['name']?></td>
+														<td data-th="IP"><?=$row['ip']?></td>
+														<td data-th="Port"><?=$row['port']?></td>
+														<td data-th="Map"><?=$infos['map']?></td>
+														<td data-th="Players"><?=$infos["players"]."/".$infos["places"]?></td>
+														<td data-th="Connect">
 															<a href ='steam://connect/<?=$row['ip']?>:<?=$row['port']?>'>CONNECT</a>
 														</td>
-														<td>
+														<td data-th="Actions">
 															<button type="button" class="btn btn-link btn-info px-2 btn-server-enable" data-id="<?=$row["id"]?>" data-enable="<?=$row["enabled"]?>">
 																<i class="far <?=($row["enabled"] == "1")?"fa-eye":"fa-eye-slash"?>"></i>
 															</button>

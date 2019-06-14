@@ -102,10 +102,10 @@
 															}
 															?>
 																<tr>
-																	<td><?=$infos['name']?></td>
-																	<td><?=$infos['map']?></td>
-																	<td><?=$infos["players"]."/".$infos["places"]?></td>
-																	<td>
+																	<td data-th="Name"><?=$infos['name']?></td>
+																	<td data-th="Map"><?=$infos['map']?></td>
+																	<td data-th="Players"><?=$infos["players"]."/".$infos["places"]?></td>
+																	<td data-th="Connect">
 																		<a href ='steam://connect/<?=$row['ip']?>:<?=$row['port']?>'>CONNECT</a>
 																	</td>
 																</tr>

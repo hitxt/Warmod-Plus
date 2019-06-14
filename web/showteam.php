@@ -112,7 +112,7 @@
 								</div>
 							</div>
 							<div class="col-12 col-lg-12 col-xl-4 mt-4 mt-xl-0 text-center align-self-center">
-								<a class="btn btn-just-icon btn-github text-white" href="http://steamcommunity.com/profiles/<?=$id?>" target="_blank">
+								<a class="btn btn-just-icon text-white <?=(!empty($team->steam))?"btn-github":"btn-twitch"?>" href="<?=(!empty($team->steam))?$team->steam:"#"?>">
 									<i class="fab fa-steam-symbol"></i>
 								</a>
 								&emsp;

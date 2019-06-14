@@ -1,6 +1,6 @@
 <?php
 	$teamSQL = "
-	SELECT name, leader, steam_url,
+	SELECT name, leader, steam,
 	   b.rank AS rank,
 	   wlr,
 	   win,
@@ -14,7 +14,7 @@
 			 a.wlr,
 			 a.name,
 			 a.leader,
-			 a.steam_url,
+			 a.steam,
 			 a.win,
 			 a.lose,
 			 a.draw,
@@ -24,7 +24,7 @@
 			 (
 				SELECT
 				   stats.name,
-				   stats.steam_url,
+				   stats.steam,
 				   stats.leader,
 				   stats.win,
 				   stats.lose,
@@ -47,7 +47,7 @@
 					  SELECT
 						 ".$team_table.".name,
 						 ".$team_table.".id,
-						 ".$team_table.".steam_url,
+						 ".$team_table.".steam,
 						 ".$team_table.".leader,
 						 ".$team_table.".logo,
 						 Count( 
@@ -250,7 +250,7 @@
 		public function __construct(Array $data = array())
 		{
 			foreach($data as $key => $value){
-			  $this->{$key} = $value;
+				$this->{$key} = $value;
 			}
 
 			if(!empty($this->rank)){

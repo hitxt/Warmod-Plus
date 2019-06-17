@@ -4,14 +4,25 @@ function initMaterialWizard () {
 		rules: {
 			name: {
 				required: true
+			},
+			"steam[]": {
+				remote: function(element){
+					return{
+						url: "./libs/api.php?action=valid-steam",
+						type:'post',
+						data: {
+							steam: $(element).val()
+						}               
+					}
+				}
 			}
 		},
 		messages: {
-			name: {
-				required:"",
-				email:""
+			"steam[]": {
+				remote:"Invalid Steam64 ID",
 			}
 		},
+		ignore: [],
 		onkeyup: function(element) {
 			$(element).valid();
 		},
@@ -20,9 +31,48 @@ function initMaterialWizard () {
 		},
 		success: function(element) {
 			$(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+			$(element).closest('.form-group').find(".error").remove();
 		},
-		errorPlacement : function(error, element) {
-			error.insertAfter($(element));
+		errorPlacement: function(error, element) {
+			$(element).closest('.form-group').append(error);
+		},
+		submitHandler:function(form){        
+			let fd =  new FormData(form);
+			
+			$.ajax({
+				url : "./libs/api.php?action=team-create",
+				data: fd, 
+				processData: false,
+				contentType: false,
+				cache: false,
+				type: "POST",
+				dataType:"json",
+				success: function(r){
+					if(r.error.length == 0){
+						swal({
+							type: "success",
+							title: "Success!",
+							text: "Your team is created successfully.",
+							buttonsStyling: false,
+							confirmButtonClass: "btn btn-success mx-1"
+						}).then(function () {
+							window.setTimeout(function () {
+								window.location.reload()
+							}, 750);
+						})
+					}
+					else{
+						swal({
+							type: "error",
+							title: "Error",
+							text: r.error,
+							buttonsStyling: false,
+							confirmButtonClass: "btn btn-success mx-1"
+						})
+					}
+				}
+			})
+			return false;
 		}
 	});
 
@@ -131,7 +181,6 @@ function initMaterialWizard () {
 	$('.set-full-height').css('height', 'auto');
 
 	//Function to show image before upload
-
 	function readURL(input) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
@@ -751,6 +800,77 @@ $("#form-profile").submit((e) => {
 				swal({
 					type: "success",
 					title: "Success!",
+					buttonsStyling: false,
+					confirmButtonClass: "btn btn-success mx-1",
+					text: "Your settings has been saved!"
+				})
+			}
+			else{
+				swal({
+					type: "error",
+					title: "Error!",
+					buttonsStyling: false,
+					confirmButtonClass: "btn btn-success mx-1",
+					text: "Please contact server admin for help."
+				})
+			}
+		},
+	})
+})
+
+/* Create Team */
+initMaterialWizard();
+
+// trigger resize event for tab
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	if(e.target.id == "teamtab"){
+		window.dispatchEvent(new Event('resize'));
+		$(".card-wizard .btn-next").removeClass("disabled");
+	}
+})
+
+$(".card-wizard").on("click", "#append-member", function(){
+	$("#team-member .members").append(`
+	<div class="form-group">
+		<div class="input-group mt-1">
+			<div class="input-group-prepend">
+				<span class="input-group-text">
+					<i class="material-icons">email</i>
+				</span>
+			</div>
+			<input type="number" class="form-control createmember" name="steam[]" id="" placeholder="Steam64 ID">
+			<button class="btn btn-link btn-del">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+	</div>
+	`);
+	addSteamValidRule();
+})
+
+$(".card-wizard").on("click", ".btn-del", function(e){
+	e.preventDefault();
+	$(this).parents(".form-group").remove();
+	return false;
+})
+
+
+/* 
+$("#form-profile").submit((e) => {
+	e.preventDefault();
+	$.ajax({
+		url: "./libs/api.php?action=profile-save",
+		method: "POST",
+		data: new FormData($('#form-profile')[0]),
+		cache: false,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: (r)=>{
+			if(r.responce == true){
+				swal({
+					type: "success",
+					title: "Success!",
 					text: "Your settings has been saved!"
 				})
 			}
@@ -764,3 +884,32 @@ $("#form-profile").submit((e) => {
 		},
 	})
 })
+$("#form-team").submit((e) => {
+	e.preventDefault();
+	$.ajax({
+		url: "./libs/api.php?action=team-save",
+		method: "POST",
+		data: new FormData($('#form-team')[0]),
+		cache: false,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: (r)=>{
+			if(r == ""){
+				swal({
+					type: "success",
+					title: "Success!",
+					text: "Your settings has been saved!"
+				})
+			}
+			else{
+				swal({
+					type: "error",
+					title: "Error!",
+					text: r
+				})
+			}
+		},
+	})
+})
+*/

@@ -15,7 +15,7 @@ $result_table = "wm_results";
 $player_table = "wm_players";
 $team_table = "wm_teams";
 $server_table = "wm_servers";
-$invite_table = "wm_notify";
+$notify_table = "wm_notify";
 $license_table = "wm_license";
 $game_logo_table = "wm_logo";
 
@@ -29,13 +29,9 @@ $admins = ["76561198012825619"];
 
 // ---------------------------------------------------
 //  Upload Settings
-//  $upload_dir = Path to upload team web logo.
-//  $upload_dir2 = Path to upload team in-game logo.
-//  $upload_dir3 = Path to your fastdl folder (My host doesn't allow me to create symlink).
+//  $fastdl_path = Path to your fastdl root folder (My host doesn't allow me to create symlink).
 // ---------------------------------------------------
-$upload_dir = "/home/user/public_html/warmod/assets/img/teams/";
-$upload_dir2 = "/home/user/public_html/warmod/assets/img/teams_game/";
-$upload_dir3 = "/path/to/ur/fastdl/folder/";
+$fastdl_path = "D:/csgoserver/csgo/";
 
 
 // ---------------------------------------------------
@@ -53,6 +49,6 @@ $discord = "https://discord.gg/twVDJKC";
 //  $server_list = Show server list on web? (my host doesn't allow me to use socket write permission.)
 //  $timezone = Your server timezone.
 // ---------------------------------------------------
-$server_list = false;
+$server_list = true;
 $timezone = "Asia/Taipei";
 ?>

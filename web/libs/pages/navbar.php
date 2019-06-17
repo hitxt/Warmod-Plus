@@ -36,6 +36,14 @@
 			$navBrand = '<a class="navbar-brand" href="#">Servers</a>';
 			break;
 	}
+
+	$input = array(
+		":id" => $_SESSION['steamid'],
+	);
+	$sql = "SELECT * FROM ".$notify_table." WHERE receive = :id AND status = ''";
+	$sth = $pdo->prepare($sql);
+	$sth->execute($input);
+	$notify = $sth->fetchAll();
 ?>
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
 	<div class="container-fluid">
@@ -64,17 +72,26 @@
 					<a class="nav-link" href="http://example.com/" id="navbarDropdownMenuLink" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="false">
 						<i class="material-icons <?=($activePage == "showmatch")?"text-white":""?>">notifications</i>
-						<span class="notification">5</span>
+						<?php
+							if(count($notify) > 0){
+								?>
+									<span class="notification"><?=count($notify)?></span>
+								<?php
+							}
+						?>
 						<p class="d-lg-none d-md-block">
-							Some Actions
+							Notifications
 						</p>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-						<a class="dropdown-item" href="#">Mike John responded to your email</a>
-						<a class="dropdown-item" href="#">You have 5 new tasks</a>
-						<a class="dropdown-item" href="#">You're now friend with Andrew</a>
-						<a class="dropdown-item" href="#">Another Notification</a>
-						<a class="dropdown-item" href="#">Another One</a>
+						<?php
+							if(count($notify) == 0){
+								echo '<a class="dropdown-item" href="#">You dont have any unread notification.</a>';
+							}
+							else{
+								echo '<a class="dropdown-item" href="./settings.php#notify">You have '.count($notify).' unread notification.</a>';
+							}
+						?>
 					</div>
 				</li>
 			</ul>

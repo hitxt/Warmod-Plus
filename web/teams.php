@@ -71,14 +71,14 @@
 								$sth = $pdo->prepare($sql);
 								$sth->execute();
 								$result = $sth->fetchAll();
-								if(count($result) > 0){
+								if(!empty($result)){
 									$sth = $pdo->prepare($sql);
 									$sth->execute();
 									$steamids = $sth->fetchAll(PDO::FETCH_COLUMN, 1);
 									$data = SteamData::GetData($SteamAPI_Key, $steamids);
 									foreach($result as $row){
 										$team = new Team($row);
-										$team->Card($data["name"][$row["leader"]], 1);
+										$team->Card($data["name"][$row["leader"]], 0);
 									}
 								}
 								else{

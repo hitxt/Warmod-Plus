@@ -147,7 +147,7 @@
 								$sth = $pdo->prepare($sql);
 								$sth->execute();
 								$result = $sth->fetchAll();
-								if(count($result) > 0)
+								if(!empty($result))
 								{
 									// get all player name and avatar from steam api by steamid in 1 api query
 									$sth = $pdo->prepare($sql);
@@ -171,7 +171,7 @@
 								$sth = $pdo->prepare($sql);
 								$sth->execute();
 								$result = $sth->fetchAll();
-								if(count($result) > 0)
+								if(!empty($result))
 								{
 									// get all leader name and avatar from steam api by steamid in 1 api query
 									$sth = $pdo->prepare($sql);
@@ -180,7 +180,7 @@
 									$data = SteamData::GetData($SteamAPI_Key, $steamids);
 									foreach($result as $row){
 										$team = new Team($row);
-										$team->Card($data["name"][$row["leader"]], 1);
+										$team->Card($data["name"][$row["leader"]], count($result) > 3 ? 1:0);
 									}
 								}
 								else	Team::emptyCard();

@@ -37,13 +37,15 @@
 			break;
 	}
 
-	$input = array(
-		":id" => $_SESSION['steamid'],
-	);
-	$sql = "SELECT * FROM ".$notify_table." WHERE receive = :id AND status = ''";
-	$sth = $pdo->prepare($sql);
-	$sth->execute($input);
-	$notify = $sth->fetchAll();
+	if(!empty($_SESSION['steamid'])){
+		$input = array(
+			":id" => $_SESSION['steamid'],
+		);
+		$sql = "SELECT * FROM ".$notify_table." WHERE receive = :id AND status = ''";
+		$sth = $pdo->prepare($sql);
+		$sth->execute($input);
+		$notify = $sth->fetchAll();
+	}
 ?>
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
 	<div class="container-fluid">
@@ -73,7 +75,7 @@
 						aria-haspopup="true" aria-expanded="false">
 						<i class="material-icons <?=($activePage == "showmatch")?"text-white":""?>">notifications</i>
 						<?php
-							if(count($notify) > 0){
+							if(!empty($_SESSION['steamid']) && count($notify) > 0){
 								?>
 									<span class="notification"><?=count($notify)?></span>
 								<?php
@@ -85,11 +87,11 @@
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
 						<?php
-							if(count($notify) == 0){
-								echo '<a class="dropdown-item" href="#">You dont have any unread notification.</a>';
+							if(!empty($_SESSION['steamid']) && count($notify) > 0){
+								echo '<a class="dropdown-item" href="./settings.php#notify">You have '.count($notify).' unread notification.</a>';
 							}
 							else{
-								echo '<a class="dropdown-item" href="./settings.php#notify">You have '.count($notify).' unread notification.</a>';
+								echo '<a class="dropdown-item" href="#">You dont have any unread notification.</a>';
 							}
 						?>
 					</div>

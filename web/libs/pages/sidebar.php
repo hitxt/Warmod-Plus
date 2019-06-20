@@ -27,6 +27,17 @@
 			$sideImage = './assets/img/sidebar-overpass.jpg';
 			break;
 	}
+
+	if(!empty($_SESSION['steamid'])){
+		$input = array(
+			":id" => $_SESSION['steamid'],
+		);
+		$sql = "SELECT * FROM ".$player_table." WHERE steam_id_64 = :id";
+		$sth = $pdo->prepare($sql);
+		$sth->execute($input);
+		$result = $sth->fetchAll();
+		$user = new Player($result[0]);
+	}
 ?>
 <div class="sidebar" data-color="rose" data-background-color="black" data-image="<?=$sideImage?>">
 	<div class="logo">
@@ -71,10 +82,10 @@
 										</a>
 									</li>
 									<?php
-										if(!empty($player->team)){
+										if(!empty($user->team)){
 											?>
 												<li class="nav-item">
-													<a class="nav-link" href="./showteam.php?id=<?=$player->team?>">
+													<a class="nav-link" href="./showteam.php?id=<?=$user->team?>">
 														<span class="sidebar-normal"><i class="material-icons">people</i></span>
 														<span class="sidebar-normal">My Team</span>
 													</a>

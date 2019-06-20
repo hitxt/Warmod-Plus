@@ -9,6 +9,7 @@
 	$gi = geoip_open("./libs/geoip/GeoIP.dat",GEOIP_STANDARD);	
 	require_once("./libs/functions.php");
 	require_once("./libs/class/match.php");
+	require_once("./libs/class/player.php");
 	$activePage = basename($_SERVER['PHP_SELF'], ".php");
 ?>
 <html lang="en">

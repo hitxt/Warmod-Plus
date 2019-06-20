@@ -91,7 +91,7 @@
 										<img src="<?=$team->logo?>" class="rounded" height="124px">
 									</div>
 									<div class="col-6 text-left align-self-center">
-										<h2>Team Name</h2>
+										<h2>Team</h2>
 										<h3 class="mt-1"><?=(!empty($team->name))?$team->name:"Unknown"?></h3>
 									</div>
 								</div>
@@ -232,7 +232,7 @@
 										</div>
 									</div>
 								</div>
-			 				</div>
+							</div>
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header card-header-rose card-header-icon">

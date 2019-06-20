@@ -487,13 +487,14 @@
 				$result = $sth->fetchAll();
 				if(count($result) > 0){
 					$input = array(
+						":name" => $_POST["name"],
 						":facebook" => $_POST["facebook"],
 						":twitter" => $_POST["twitter"],
 						":twitch" => $_POST["twitch"],
 						":youtube" => $_POST["youtube"],
 						":id" => $result[0]["id"]
 					);
-					$sql = "UPDATE ".$team_table." SET fb = :facebook, twitter = :twitter, twitch = :twitch, youtube = :youtube WHERE id = :id";
+					$sql = "UPDATE ".$team_table." SET name = :name, fb = :facebook, twitter = :twitter, twitch = :twitch, youtube = :youtube WHERE id = :id";
 					$sth = $pdo->prepare($sql);
 					$stmt = $sth->execute($input);
 					if(!$stmt)	$success = false;

@@ -13,6 +13,16 @@
                         <div class="card-body">
                             <div class="row">
                                 <label class="col-sm-2 col-form-label">
+                                    <i class="fas fa-id-card text-dark"></i>&emsp;Name
+                                </label>
+                                <div class="col-sm-9">
+                                    <div class="form-group bmd-form-group">
+                                        <input class="form-control" type="text" name="name" value="<?=$team->name?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">
                                     <i class="fab fa-facebook-f text-dark"></i>&emsp;Facebook
                                 </label>
                                 <div class="col-sm-9">

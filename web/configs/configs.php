@@ -29,10 +29,11 @@ $admins = ["76561198012825619"];
 
 // ---------------------------------------------------
 //  Upload Settings
-//  $fastdl_path = Path to your fastdl root folder (My host doesn't allow me to create symlink).
+//  $symlink = Is your host allow symlink? If not, set your fastdl path below.
+//  $fastdl_path = Path to your fastdl root folder.
 // ---------------------------------------------------
+$symlink = false;
 $fastdl_path = "D:/csgoserver/csgo/";
-
 
 // ---------------------------------------------------
 //  Steam API Settings

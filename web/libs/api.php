@@ -414,7 +414,8 @@
 							$sth = $pdo->prepare($sql);
 							$stmt = $sth->execute($input);
 							$id = $pdo->lastInsertId(); 
-							$save = $doc->save($fastdl_path."materials/panorama/images/tournaments/teams/wm".$id.".svg");
+							$save = $doc->save("../assets/img/teams_game/wm".$id.".svg");
+							if(!$symlink)	$save = $doc->save($fastdl_path."materials/panorama/images/tournaments/teams/wm".$id.".svg");
 						}
 
 						$input = array(
@@ -600,7 +601,8 @@
 							$sth = $pdo->prepare($sql);
 							$stmt = $sth->execute($input);
 							$id = $pdo->lastInsertId(); 
-							$save = $doc->save($fastdl_path."materials/panorama/images/tournaments/teams/wm".$id.".svg");
+							$save = $doc->save("../assets/img/teams_game/wm".$id.".svg");
+							if(!$symlink)	$save = $doc->save($fastdl_path."materials/panorama/images/tournaments/teams/wm".$id.".svg");
 						}
 					}
 				}

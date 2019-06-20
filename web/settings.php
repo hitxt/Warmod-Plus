@@ -41,7 +41,7 @@
 		$sth->execute($input);
 		$result = $sth->fetchAll();
 		if(!empty($result)){
-			$team->gamelogo = $result[0]["id"];
+			$team->gamelogo = "./assets/img/teams_game/wm".$result[0]["id"].".svg";
 		}
 		else{
 			$team->gamelogo = "./assets/img/teams/unknown.png";

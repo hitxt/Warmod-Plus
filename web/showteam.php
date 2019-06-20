@@ -37,10 +37,24 @@
 		$team = new Team($result[0]);
 	}
 
-	// team members
+	// member who has record
+	$sth = $pdo->prepare($teamMemberSQL);
+	$sth->execute($input);
+	$members = $sth->fetchAll();
+	
 	$sth = $pdo->prepare($teamMemberSQL);
 	$sth->execute($input);
 	$steamids = $sth->fetchAll(PDO::FETCH_COLUMN, 1);
+
+	// member who doesn't have any record
+	$sth = $pdo->prepare($teamMemberSQL2);
+	$sth->execute($input);
+	$members2 = $sth->fetchAll();
+
+	$sth = $pdo->prepare($teamMemberSQL2);
+	$sth->execute($input);
+	$steamids = array_merge($steamids, $sth->fetchAll(PDO::FETCH_COLUMN, 0));
+	
 	$data = SteamData::GetData($SteamAPI_Key, $steamids);
 ?>
 <html lang="en">
@@ -207,10 +221,7 @@
 												</thead>
 												<tbody>
 													<?php
-														$sth = $pdo->prepare($teamMemberSQL);
-														$sth->execute($input);
-														$result = $sth->fetchAll();
-														foreach($result as $row){
+														foreach($members as $row){
 															$player = new Player($row);
 															?>
 															<tr>
@@ -220,6 +231,22 @@
 																<td><?=$player->rws?></td>
 																<td><?=$player->kdr?></td>
 																<td><?=$player->ac?></td>
+																<td>
+																	<a href="./showplayer.php?id=<?=$player->steam_id_64?>">View</a>
+																</td>
+															</tr>
+															<?php
+														}
+														foreach($members2 as $row){
+															$player = new Player($row);
+															?>
+															<tr>
+																<td><?=($player->steam_id_64 == $team->leader)?"Leader":"Member"?></td>
+																<td><?=$data["name"][$player->steam_id_64]?></td>
+																<td>Unranked</td>
+																<td>0.00</td>
+																<td>0%</td>
+																<td>0%</td>
 																<td>
 																	<a href="./showplayer.php?id=<?=$player->steam_id_64?>">View</a>
 																</td>
@@ -379,7 +406,7 @@
 		let matchTable = $('#matchTable').DataTable( {
 			"lengthMenu": [
 				[15, 25, 50, -1],
-				 [15, 25, 50, "All"]
+				[15, 25, 50, "All"]
 			],
 		});
 		// Members

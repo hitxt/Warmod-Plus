@@ -30,7 +30,23 @@
 	$sth = $pdo->prepare($sql);
 	$sth->execute($input);
 	$result = $sth->fetchAll();
-	if(!empty($result))	$team = new Team($result[0]);
+	if(!empty($result)){
+		$team = new Team($result[0]);
+
+		$input = array(
+			":id" => $team->id,
+		);
+		$sql = "SELECT * FROM ".$game_logo_table." WHERE team_id = :id ORDER BY id DESC LIMIT 1";
+		$sth = $pdo->prepare($sql);
+		$sth->execute($input);
+		$result = $sth->fetchAll();
+		if(!empty($result)){
+			$team->gamelogo = $result[0]["id"];
+		}
+		else{
+			$team->gamelogo = "./assets/img/teams/unknown.png";
+		}
+	}
 ?>
 <html lang="en">
 
@@ -116,7 +132,12 @@
 										require_once("./libs/pages/settings-profile.php");
 
 										// team setttings
-										if(isset($team))	require_once("./libs/pages/settings-team.php");
+										if(isset($team)){
+											require_once("./libs/pages/settings-team.php");
+										}
+										elseif(!empty($player->team)){
+											require_once("./libs/pages/settings-team2.php");
+										}
 										else	require_once("./libs/pages/settings-cteam.php");
 
 										// notify

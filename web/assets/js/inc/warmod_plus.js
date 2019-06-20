@@ -854,14 +854,17 @@ $(".card-wizard").on("click", ".btn-del", function(e){
 	return false;
 })
 
+let url = document.location.toString();
+if (url.match('#')) {
+	$('.nav-pills a[href="#' + url.split('#')[1] + '"]').tab('show');
+} 
 
-/* 
-$("#form-profile").submit((e) => {
+$("#form-team").submit((e) => {
 	e.preventDefault();
 	$.ajax({
-		url: "./libs/api.php?action=profile-save",
+		url: "./libs/api.php?action=team-save",
 		method: "POST",
-		data: new FormData($('#form-profile')[0]),
+		data: new FormData($('#form-team')[0]),
 		cache: false,
 		processData: false,
 		contentType: false,
@@ -878,38 +881,10 @@ $("#form-profile").submit((e) => {
 				swal({
 					type: "error",
 					title: "Error!",
-					text: "Please contact server admin for help."
+					text: "Error occurred when saving your data"
 				})
 			}
 		},
 	})
 })
-$("#form-team").submit((e) => {
-	e.preventDefault();
-	$.ajax({
-		url: "./libs/api.php?action=team-save",
-		method: "POST",
-		data: new FormData($('#form-team')[0]),
-		cache: false,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		success: (r)=>{
-			if(r == ""){
-				swal({
-					type: "success",
-					title: "Success!",
-					text: "Your settings has been saved!"
-				})
-			}
-			else{
-				swal({
-					type: "error",
-					title: "Error!",
-					text: r
-				})
-			}
-		},
-	})
-})
-*/
+

@@ -470,6 +470,46 @@
 				);
 				echo json_encode($json, true);
 				break;
+			
+			/*******************************************************************************************************/
+
+			case "team-save":
+				$success = true;
+
+				$input = array(
+					":steamid" => $_SESSION['steamid']
+				);
+
+				$sql = "SELECT * FROM ".$team_table." WHERE leader = :steamid";
+				$sth = $pdo->prepare($sql);
+				$stmt = $sth->execute($input);
+				$result = $sth->fetchAll();
+				if(count($result) > 0){
+					$input = array(
+						":facebook" => $_POST["facebook"],
+						":twitter" => $_POST["twitter"],
+						":twitch" => $_POST["twitch"],
+						":youtube" => $_POST["youtube"],
+						":id" => $result[0]["id"]
+					);
+					$sql = "UPDATE ".$team_table." SET fb = :facebook, twitter = :twitter, twitch = :twitch, youtube = :youtube WHERE id = :id";
+					$sth = $pdo->prepare($sql);
+					$stmt = $sth->execute($input);
+					if(!$stmt)	$success = false;
+				}
+				else	$success = false;
+
+				$json = array(
+					"responce" => $success,
+				);
+					
+				echo json_encode($json, true);
+				break;
+
+			/*******************************************************************************************************/
+
+			case "team-logo":
+				break;
 		}
 	}
 

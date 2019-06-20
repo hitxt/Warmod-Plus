@@ -874,14 +874,18 @@ $("#form-team").submit((e) => {
 				swal({
 					type: "success",
 					title: "Success!",
-					text: "Your settings has been saved!"
+					text: "Your settings has been saved!",
+					buttonsStyling: false,
+					confirmButtonClass: "btn btn-success mx-1"
 				})
 			}
 			else{
 				swal({
 					type: "error",
 					title: "Error!",
-					text: "Error occurred when saving your data"
+					text: "Error occurred when saving your data",
+					buttonsStyling: false,
+					confirmButtonClass: "btn btn-success mx-1"
 				})
 			}
 		},

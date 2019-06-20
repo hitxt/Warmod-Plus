@@ -509,6 +509,108 @@
 			/*******************************************************************************************************/
 
 			case "team-logo":
+				$error = "";
+				$webfile = "";
+				try{
+					if(!empty($_SESSION['steamid']))
+					{
+						$input = array(
+							":id" => $_SESSION['steamid'],
+						);
+						$sql = "SELECT * FROM ".$player_table." WHERE steam_id_64 = :id";
+						$sth = $pdo->prepare($sql);
+						$sth->execute($input);
+						$result = $sth->fetchAll();
+						$teamid = $result[0]["team"];
+						if(empty($teamid))	throw new Exception("You are not in any team.");
+
+						$input = array(
+							":id" => $teamid,
+						);
+						$sql = "SELECT * FROM ".$team_table." WHERE id = :id";
+						$sth = $pdo->prepare($sql);
+						$sth->execute($input);
+						$result = $sth->fetchAll();
+						if($result[0]["leader"] != $_SESSION['steamid'])	throw new Exception("You are not the leader.");
+
+						if($_FILES['weblogo']['error'] !== UPLOAD_ERR_NO_FILE)
+						{
+							if($_FILES['weblogo']['error'] === UPLOAD_ERR_OK)
+							{
+								if($_FILES["weblogo"]["size"] < "1048576")
+								{
+									$webfile = md5_file($_FILES['weblogo']['tmp_name']).".".pathinfo($_FILES['weblogo']['name'], PATHINFO_EXTENSION);
+									$move = move_uploaded_file($_FILES['weblogo']['tmp_name'], "../assets/img/teams/".$webfile);
+									if($move === false) throw new Exception('Error occurred when uploading the file.');
+								}
+								else throw new Exception('Your web logo is over 1MB.');
+							}
+							else throw new Exception('Error occurred when uploading the web logo.');
+						}
+						
+						if($_FILES['teamlogo']['error'] !== UPLOAD_ERR_NO_FILE)
+						{
+							if($_FILES['teamlogo']['error'] === UPLOAD_ERR_OK)
+							{
+								if($_FILES["teamlogo"]["size"] < "10240")
+								{
+									// load svg
+									$doc = new DOMDocument();
+									$load = $doc->load($_FILES["teamlogo"]["tmp_name"]);
+									if(!$load)	 throw new Exception('Error occurred when reading uploaded in-game logo.');
+
+									// check it is svg format or not
+									$svg = $doc->getElementsByTagName('svg');
+									if($svg->length == 1)
+									{
+										// make sure it doesn't have image or style element
+										$image = $doc->getElementsByTagName('image');
+										$style = $doc->getElementsByTagName('style');
+										$text = $doc->getElementsByTagName('text');
+										if($style->length == 0 && $image->length == 0 && $text->length == 0){
+											// resize and save it
+											$svg[0]->setAttribute("width", "64px");
+											$svg[0]->setAttribute("height", "64px");
+										}
+										else  throw new Exception('Your SVG file is not supported in CSGO.');
+									}
+									else	 throw new Exception('Your SVG file is not supported in CSGO.');
+								}
+								else throw new Exception('Your web logo is over 10KB.');
+							}
+							else throw new Exception('Error occurred when uploading in-game logo.');
+						}
+
+						if(!empty($webfile)){
+							$input = array(
+								":logo" => $webfile,
+								":id" => $teamid
+							);
+	
+							$sql = "UPDATE ".$team_table." SET logo = :logo WHERE id = :id";
+							$sth = $pdo->prepare($sql);
+							$stmt = $sth->execute($input);
+						}
+						
+						if(!empty($doc)){
+							$input = array(
+								":id" => $teamid
+							);
+							$sql = "INSERT INTO ".$game_logo_table." VALUES(null, :id)";
+							$sth = $pdo->prepare($sql);
+							$stmt = $sth->execute($input);
+							$id = $pdo->lastInsertId(); 
+							$save = $doc->save($fastdl_path."materials/panorama/images/tournaments/teams/wm".$id.".svg");
+						}
+					}
+				}
+				catch (Exception $e){
+					$error = $e->getMessage();
+				}
+				$json = array(
+					"error" => $error,
+				);
+				echo json_encode($json, true);
 				break;
 		}
 	}

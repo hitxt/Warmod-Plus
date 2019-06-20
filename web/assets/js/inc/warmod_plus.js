@@ -888,3 +888,41 @@ $("#form-team").submit((e) => {
 	})
 })
 
+$("#form-team-logo").submit((e) => {
+	e.preventDefault();
+	$.ajax({
+		url: "./libs/api.php?action=team-logo",
+		method: "POST",
+		data: new FormData($('#form-team-logo')[0]),
+		processData: false,
+		contentType: false,
+		cache: false,
+		type: "POST",
+		dataType:"json",
+		success: function(r){
+			if(r.error.length == 0){
+				swal({
+					type: "success",
+					title: "Success!",
+					text: "Your team is created successfully.",
+					buttonsStyling: false,
+					confirmButtonClass: "btn btn-success mx-1"
+				}).then(function () {
+					window.setTimeout(function () {
+						window.location.reload()
+					}, 750);
+				})
+			}
+			else{
+				swal({
+					type: "error",
+					title: "Error",
+					text: r.error,
+					buttonsStyling: false,
+					confirmButtonClass: "btn btn-success mx-1"
+				})
+			}
+		}
+	})
+})
+

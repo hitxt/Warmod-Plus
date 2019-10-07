@@ -1,4 +1,7 @@
 # Warmod Plus
+<p align="center">
+  <img height="300" src="./logo/logo.png">
+</p>
 An improved CSGO match system based on [Warmod by versatile_bfg](https://forums.alliedmods.net/showthread.php?t=225474).
 
 ## Changes

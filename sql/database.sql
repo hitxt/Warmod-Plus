@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
--- 主機: localhost:3306
--- 產生時間： 2018 年 06 月 13 日 14:48
--- 伺服器版本: 5.6.39-cll-lve
--- PHP 版本： 5.6.30
+-- 主機: 127.0.0.1
+-- 產生時間： 
+-- 伺服器版本: 10.1.33-MariaDB
+-- PHP 版本： 7.1.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,16 +19,28 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `kentotw_csgo_server`
+-- 資料庫： `wm`
 --
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `wm_license_test`
+-- 資料表結構 `wm_apilogs`
 --
 
-CREATE TABLE `wm_license_test` (
+CREATE TABLE `wm_apilogs` (
+  `id` int(11) NOT NULL,
+  `token` varchar(20) NOT NULL,
+  `query` longtext NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `wm_license`
+--
+
+CREATE TABLE `wm_license` (
   `id` int(11) NOT NULL,
   `steam_id_64` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -37,40 +49,25 @@ CREATE TABLE `wm_license_test` (
   `ftp_p` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- 資料表的匯出資料 `wm_license_test`
---
-
-INSERT INTO `wm_license_test` (`id`, `steam_id_64`, `token`, `time_exp`, `ftp_a`, `ftp_p`) VALUES
-(1, '76561198012825619', 'ejjqopmmlzlk', '2018-12-01', 'wmuser1', 'r71rzr4lgi76'),
-(4, '76561197975262643', 'HZpUvKlcNu', '2018-06-01', 'wmuser2', 'j78ovt9cmmfn');
-
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `wm_logo_test`
+-- 資料表結構 `wm_logo`
 --
 
-CREATE TABLE `wm_logo_test` (
+CREATE TABLE `wm_logo` (
   `id` int(11) NOT NULL,
-  `team` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `team_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- 資料表的匯出資料 `wm_logo_test`
---
-
-INSERT INTO `wm_logo_test` (`id`, `team`) VALUES
-(1, '1');
-
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `wm_match_stats_test`
+-- 資料表結構 `wm_match_stats`
 --
 
-CREATE TABLE `wm_match_stats_test` (
-  `key_id` int(11) UNSIGNED NOT NULL,
+CREATE TABLE `wm_match_stats` (
+  `id` int(11) UNSIGNED NOT NULL,
   `match_id` int(11) UNSIGNED NOT NULL,
   `rounds_played` tinyint(3) UNSIGNED NOT NULL,
   `steam_id_64` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -112,6 +109,7 @@ CREATE TABLE `wm_match_stats_test` (
   `mac10` int(10) NOT NULL,
   `mp9` int(10) NOT NULL,
   `mp7` int(10) NOT NULL,
+  `mp5sd` int(10) DEFAULT NULL,
   `ump45` int(10) NOT NULL,
   `p90` int(10) NOT NULL,
   `galilar` int(10) NOT NULL,
@@ -149,12 +147,14 @@ CREATE TABLE `wm_match_stats_test` (
   `hostages_rescued` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- 資料表結構 `wm_notify_test`
+-- 資料表結構 `wm_notify`
 --
 
-CREATE TABLE `wm_notify_test` (
-  `key_id` int(11) NOT NULL,
+CREATE TABLE `wm_notify` (
+  `id` int(11) NOT NULL,
   `send` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `receive` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `team` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -165,15 +165,15 @@ CREATE TABLE `wm_notify_test` (
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `wm_players_test`
+-- 資料表結構 `wm_players`
 --
 
-CREATE TABLE `wm_players_test` (
-  `key_id` int(11) UNSIGNED NOT NULL,
+CREATE TABLE `wm_players` (
+  `id` int(11) UNSIGNED NOT NULL,
   `steam_id_64` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_ip` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `rws` float NOT NULL,
-  `team` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `team` int(11) NOT NULL,
   `fb` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `twitter` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `twitch` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -183,11 +183,11 @@ CREATE TABLE `wm_players_test` (
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `wm_results_test`
+-- 資料表結構 `wm_results`
 --
 
-CREATE TABLE `wm_results_test` (
-  `match_id` int(11) UNSIGNED NOT NULL,
+CREATE TABLE `wm_results` (
+  `id` int(11) UNSIGNED NOT NULL,
   `match_start` datetime NOT NULL,
   `match_end` datetime NOT NULL,
   `map` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -214,29 +214,28 @@ CREATE TABLE `wm_results_test` (
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `wm_servers_test`
+-- 資料表結構 `wm_servers`
 --
 
-CREATE TABLE `wm_servers_test` (
+CREATE TABLE `wm_servers` (
   `id` int(11) NOT NULL,
   `ip` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `port` int(5) NOT NULL,
-  `enabled` tinyint(4) NOT NULL,
-  `official` tinyint(4) NOT NULL
+  `enabled` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `wm_teams_test`
+-- 資料表結構 `wm_teams`
 --
 
-CREATE TABLE `wm_teams_test` (
+CREATE TABLE `wm_teams` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `logo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `steam_url` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `leader` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `steam` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fb` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `twitter` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `youtube` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -249,51 +248,57 @@ CREATE TABLE `wm_teams_test` (
 --
 
 --
--- 資料表索引 `wm_license_test`
+-- 資料表索引 `wm_apilogs`
 --
-ALTER TABLE `wm_license_test`
+ALTER TABLE `wm_apilogs`
   ADD PRIMARY KEY (`id`);
 
 --
--- 資料表索引 `wm_logo_test`
+-- 資料表索引 `wm_license`
 --
-ALTER TABLE `wm_logo_test`
+ALTER TABLE `wm_license`
   ADD PRIMARY KEY (`id`);
 
 --
--- 資料表索引 `wm_match_stats_test`
+-- 資料表索引 `wm_logo`
 --
-ALTER TABLE `wm_match_stats_test`
-  ADD PRIMARY KEY (`key_id`);
-
---
--- 資料表索引 `wm_notify_test`
---
-ALTER TABLE `wm_notify_test`
-  ADD PRIMARY KEY (`key_id`);
-
---
--- 資料表索引 `wm_players_test`
---
-ALTER TABLE `wm_players_test`
-  ADD PRIMARY KEY (`key_id`);
-
---
--- 資料表索引 `wm_results_test`
---
-ALTER TABLE `wm_results_test`
-  ADD PRIMARY KEY (`match_id`);
-
---
--- 資料表索引 `wm_servers_test`
---
-ALTER TABLE `wm_servers_test`
+ALTER TABLE `wm_logo`
   ADD PRIMARY KEY (`id`);
 
 --
--- 資料表索引 `wm_teams_test`
+-- 資料表索引 `wm_match_stats`
 --
-ALTER TABLE `wm_teams_test`
+ALTER TABLE `wm_match_stats`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 資料表索引 `wm_notify`
+--
+ALTER TABLE `wm_notify`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 資料表索引 `wm_players`
+--
+ALTER TABLE `wm_players`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 資料表索引 `wm_results`
+--
+ALTER TABLE `wm_results`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 資料表索引 `wm_servers`
+--
+ALTER TABLE `wm_servers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 資料表索引 `wm_teams`
+--
+ALTER TABLE `wm_teams`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -301,52 +306,58 @@ ALTER TABLE `wm_teams_test`
 --
 
 --
--- 使用資料表 AUTO_INCREMENT `wm_license_test`
+-- 使用資料表 AUTO_INCREMENT `wm_apilogs`
 --
-ALTER TABLE `wm_license_test`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `wm_apilogs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- 使用資料表 AUTO_INCREMENT `wm_logo_test`
+-- 使用資料表 AUTO_INCREMENT `wm_license`
 --
-ALTER TABLE `wm_logo_test`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `wm_license`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- 使用資料表 AUTO_INCREMENT `wm_match_stats_test`
+-- 使用資料表 AUTO_INCREMENT `wm_logo`
 --
-ALTER TABLE `wm_match_stats_test`
-  MODIFY `key_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `wm_logo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- 使用資料表 AUTO_INCREMENT `wm_notify_test`
+-- 使用資料表 AUTO_INCREMENT `wm_match_stats`
 --
-ALTER TABLE `wm_notify_test`
-  MODIFY `key_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `wm_match_stats`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- 使用資料表 AUTO_INCREMENT `wm_players_test`
+-- 使用資料表 AUTO_INCREMENT `wm_notify`
 --
-ALTER TABLE `wm_players_test`
-  MODIFY `key_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+ALTER TABLE `wm_notify`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- 使用資料表 AUTO_INCREMENT `wm_results_test`
+-- 使用資料表 AUTO_INCREMENT `wm_players`
 --
-ALTER TABLE `wm_results_test`
-  MODIFY `match_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+ALTER TABLE `wm_players`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- 使用資料表 AUTO_INCREMENT `wm_servers_test`
+-- 使用資料表 AUTO_INCREMENT `wm_results`
 --
-ALTER TABLE `wm_servers_test`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `wm_results`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- 使用資料表 AUTO_INCREMENT `wm_teams_test`
+-- 使用資料表 AUTO_INCREMENT `wm_servers`
 --
-ALTER TABLE `wm_teams_test`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `wm_servers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用資料表 AUTO_INCREMENT `wm_teams`
+--
+ALTER TABLE `wm_teams`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

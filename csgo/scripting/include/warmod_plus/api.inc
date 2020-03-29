@@ -162,8 +162,10 @@ void OnPlayerLoad(HTTPResponse response, int client) {
 
 void GetTeamLogo(int client, const char[] file)
 {
-	char url[128];
-	Format(url, sizeof(url), "%s/%s.svg", logo_web, file);
+	char dlurl[256], url[256];
+	ConVar sv_downloadurl = FindConVar("sv_downloadurl");
+	sv_downloadurl.GetString(dlurl, sizeof(dlurl));
+	Format(url, sizeof(url), "%s/%s.svg", dlurl, file);
 	
 	Handle LogoPack = CreateDataPack();
 	ResetPack(LogoPack);

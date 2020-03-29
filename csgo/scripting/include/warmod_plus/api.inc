@@ -63,7 +63,7 @@ public void OnLicenseReceived(HTTPResponse response, any value, const char[] err
 	delete license;
 }
 
-// Check player team and logo
+// load player stats
 void LoadPlayerInfo(int client)
 {
 	if(!IsValidClient(client) || IsFakeClient(client))	return;
@@ -74,77 +74,67 @@ void LoadPlayerInfo(int client)
 	
 	char ip_address[32];
 	GetClientIP(client, ip_address, sizeof(ip_address));
-	
-	Handle h_PRequest = SteamWorks_CreateHTTPRequest(k_EHTTPMethodPOST, player_api);
-	SteamWorks_SetHTTPRequestHeaderValue(h_PRequest, "Pragma", "no-cache");
-	SteamWorks_SetHTTPRequestHeaderValue(h_PRequest, "Cache-Control", "no-cache");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_PRequest, "t", user_token);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_PRequest, "i", authid);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_PRequest, "ip", ip_address);
-	SteamWorks_SetHTTPCallbacks(h_PRequest, OnPlayerHTTPComplete);
-	SteamWorks_SetHTTPRequestContextValue(h_PRequest, GetClientUserId(client));
-	
-	if(h_PRequest == INVALID_HANDLE || !SteamWorks_SendHTTPRequest(h_PRequest)) 
-	{
-		SetFailState("ERROR Request(%i): Load Player Info", h_PRequest);
-		return;
-	}
+
+	HTTPClient httpClient;
+	httpClient = new HTTPClient(APIURL);
+	JSONObject player = new JSONObject();
+	player.SetString("token", user_token);
+	player.SetString("id", authid);
+	player.SetString("ip", ip_address);
+	httpClient.Post("player.php", player, OnPlayerLoad, client);
+	delete player;
 }
 
-public int OnPlayerHTTPComplete(Handle h_PRequest, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, any data) 
-{
-	int client = GetClientOfUserId(data);
-	if(!IsValidClient(client) || IsFakeClient(client))	return;
+void OnPlayerLoad(HTTPResponse response, int client) {
+	if (response.Status != HTTPStatus_OK) {
+		CPrintToChat(client, "%T", "Profile Error", client, CHAT_PREFIX);
+		LogError("Get player info failed. Error: %s", response.Status);
+		KickClient(client, "%T", "Kick Load", client);
+		f_PlayerRWS[client] = 0.00;
+		player_team_name[client] = "";
+		player_team_logo[client] = "";
+		i_PlayerRounds[client] = 0;
+		return;
+	}
+	if (response.Data == null) {
+		CPrintToChat(client, "%T", "Profile Error", client, CHAT_PREFIX);
+		LogError("Get player info failed. Error: Can not get response from web api.");
+		KickClient(client, "%T", "Kick Load", client);
+		f_PlayerRWS[client] = 0.00;
+		player_team_name[client] = "";
+		player_team_logo[client] = "";
+		i_PlayerRounds[client] = 0;
+		return;
+	}
+
+	float temp_rws;
+
+	JSONObject player = view_as<JSONObject>(response.Data);
+
+	if(!player.HasKey("rws")) {
+		CPrintToChat(client, "%T", "Profile Error", client, CHAT_PREFIX);
+		LogError("Get player info failed. Error: Can not get response from web api.");
+		KickClient(client, "%T", "Kick Load", client);
+		f_PlayerRWS[client] = 0.00;
+		player_team_name[client] = "";
+		player_team_logo[client] = "";
+		i_PlayerRounds[client] = 0;
+		return;
+	}
+
+	player.GetString("team_logo", player_team_logo[client], sizeof(player_team_logo[][]));
+	player.GetString("team_name", player_team_name[client], sizeof(player_team_name[][]));
+	player_team_id[client] = player.GetInt("team_id");
+	player_team_leader[client] = player.GetBool("team_leader");
+	temp_rws = player.GetFloat("rws");
+	i_PlayerRounds[client] = player.GetInt("round");
+
+	f_PlayerRWS[client] = temp_rws;
+	f_PlayerRWS_join[client] = temp_rws;
 	
-	if (bRequestSuccessful && eStatusCode == k_EHTTPStatusCode200OK) 
-	{
-		int length = 512;
-		if(SteamWorks_GetHTTPResponseBodySize(h_PRequest, length) && length > 1024) {
-			length = 1024;
-		}
-		char[] response = new char[length];
-		SteamWorks_GetHTTPResponseBodyData(h_PRequest, response, length);
-		if(StrContains(response, "<br />") != -1) 
-		{
-			CPrintToChat(client, "%T", "Profile Error", client, CHAT_PREFIX);
-			LogError("Get player info failed. Error: %s", response);
-			KickClient(client, "%T", "Kick Load", client);
-			return;
-		}
-		//Convert to KeyValue
-		KeyValues tempKV = CreateKeyValues("player");
-		if(StringToKeyValues(tempKV, response, "player")) 
-		{
-			if (tempKV.JumpToKey("player", false)) 
-			{
-				char temp_logo[512], temp_team[512], temp_teamid[512], temp_rws[512], temp_rounds[512], temp_leader[512];
-				tempKV.GetString("team_logo", temp_logo, sizeof(temp_logo), "");
-				tempKV.GetString("team_name", temp_team, sizeof(temp_team), "");
-				tempKV.GetString("rws", temp_rws, sizeof(temp_rws), "");
-				tempKV.GetString("round", temp_rounds, sizeof(temp_rounds), "");
-				tempKV.GetString("team_leader", temp_leader, sizeof(temp_leader), "");
-				tempKV.GetString("team_id", temp_teamid, sizeof(temp_teamid), "");
-				
-				if (StrEqual(temp_logo, "") && StrEqual(temp_team, "") && StrEqual(temp_teamid, "") && StrEqual(temp_rws, "") && StrEqual(temp_rounds, "") && StrEqual(temp_leader, "")) 
-				{
-					CPrintToChat(client, "%T", "Profile Error", client, CHAT_PREFIX);
-					LogError("Get player info failed. Error: Unable to get player info.");
-					KickClient(client, "%T", "Kick Load", client);
-					return;
-				}
-				else
-				{
-					f_PlayerRWS[client] = StringToFloat(temp_rws);
-					f_PlayerRWS_join[client] = StringToFloat(temp_rws);
-					strcopy(player_team_name[client], 512, temp_team);
-					strcopy(player_team_logo[client], 512, temp_logo);
-					i_PlayerRounds[client] = StringToInt(temp_rounds);
-					strcopy(player_team_id[client], 512, temp_teamid);
-					if(StrEqual(temp_leader, "1"))	player_team_leader[client] = true;
-					
-					player_loaded[client] = true;
-					
-					CPrintToChat(client, "%T", "Profile Loaded", client, CHAT_PREFIX, f_PlayerRWS[client]);
+	player_loaded[client] = true;
+	
+	CPrintToChat(client, "%T", "Profile Loaded", client, CHAT_PREFIX, f_PlayerRWS[client]);
 					
 					if(!StrEqual(player_team_name[client], "") && player_team_leader[client])
 					{
@@ -163,40 +153,11 @@ public int OnPlayerHTTPComplete(Handle h_PRequest, bool bFailure, bool bRequestS
 						else
 						{
 							CPrintToChat(client, "%T", "Team Loaded Leader", client, CHAT_PREFIX, player_team_name[client]);
-							player_team_use[client] = true;
-						}
-					}
-				}
-			}
-			else
-			{ 
-				LogError("Get player info failed. Error: Unable to get player info."); 
-				CPrintToChat(client, "%T", "Profile Error", client, CHAT_PREFIX);
-				KickClient(client, "%T", "Kick Load", client);
-				f_PlayerRWS[client] = 0.00;
-				player_team_name[client] = "";
-				player_team_logo[client] = "";
-				i_PlayerRounds[client] = 0;
-				return;
-			}				
+			player_team_use[client] = true;
 		}
-		else
-		{  
-			LogError("Get player info failed. Error: Unable to process reponse from server."); 
-			CPrintToChat(client, "%T", "Profile Error", client, CHAT_PREFIX);
-			KickClient(client, "%T", "Kick Load", client);
-			f_PlayerRWS[client] = 0.00;
-			player_team_name[client] = "";
-			player_team_logo[client] = "";
-			i_PlayerRounds[client] = 0;
-			return;
-		}
-		
-		delete tempKV;
-	} 
-	else	SetFailState("SteamWorks error (status code %i)", view_as<int>(eStatusCode));
-	
-	delete h_PRequest;
+	}
+
+	delete player;
 }
 
 void GetTeamLogo(int client, const char[] file)

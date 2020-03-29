@@ -43,9 +43,9 @@ public void OnLicenseReceived(HTTPResponse response, any value, const char[] err
 	// check license expired or not.
 	char expdatas[3][32], nowdatas[3][32];
 	ExplodeString(time_exp, "-", expdatas, 3, 32);
-				ExplodeString(time_now, "-", nowdatas, 3, 32);
-				
-				int nowtime = StringToInt(nowdatas[2]) + StringToInt(nowdatas[1]) * 32 + StringToInt(nowdatas[0]) * 367; 
+	ExplodeString(time_now, "-", nowdatas, 3, 32);
+	
+	int nowtime = StringToInt(nowdatas[2]) + StringToInt(nowdatas[1]) * 32 + StringToInt(nowdatas[0]) * 367; 
 	int exptime = StringToInt(expdatas[2]) + StringToInt(expdatas[1]) * 32 + StringToInt(expdatas[0]) * 367; 
 	
 	if( exptime - nowtime < 0 )  SetFailState("Your license is expired, please contact plugin author");
@@ -135,24 +135,24 @@ void OnPlayerLoad(HTTPResponse response, int client) {
 	player_loaded[client] = true;
 	
 	CPrintToChat(client, "%T", "Profile Loaded", client, CHAT_PREFIX, f_PlayerRWS[client]);
-					
-					if(!StrEqual(player_team_name[client], "") && player_team_leader[client])
-					{
-						if(!StrEqual(player_team_logo[client], ""))
-						{
-							char path[1024];
-							Format(path, sizeof(path), "materials/panorama/images/tournaments/teams/%s.svg", player_team_logo[client]);
-							
-							if(!FileExists(path)) GetTeamLogo(client, player_team_logo[client]);
-							else
-							{
-								CPrintToChat(client, "%T", "Team Loaded Leader", client, CHAT_PREFIX, player_team_name[client]);
-								player_team_use[client] = true;
-							}
-						}
-						else
-						{
-							CPrintToChat(client, "%T", "Team Loaded Leader", client, CHAT_PREFIX, player_team_name[client]);
+	
+	if(!StrEqual(player_team_name[client], "") && player_team_leader[client])
+	{
+		if(!StrEqual(player_team_logo[client], ""))
+		{
+			char path[1024];
+			Format(path, sizeof(path), "materials/panorama/images/tournaments/teams/%s.svg", player_team_logo[client]);
+			
+			if(!FileExists(path)) GetTeamLogo(client, player_team_logo[client]);
+			else
+			{
+				CPrintToChat(client, "%T", "Team Loaded Leader", client, CHAT_PREFIX, player_team_name[client]);
+				player_team_use[client] = true;
+			}
+		}
+		else
+		{
+			CPrintToChat(client, "%T", "Team Loaded Leader", client, CHAT_PREFIX, player_team_name[client]);
 			player_team_use[client] = true;
 		}
 	}
@@ -254,7 +254,7 @@ public Action Timer_DownloadLogo(Handle timer, Handle DecalPack)
         KillTimer(LogoTimer[client]);
         LogoTimer[client] = INVALID_HANDLE;
     }
- 
+
 	if (!IsValidClient(client)) return Plugin_Stop;
 	
 	if(player_team_leader[client] && !StrEqual(player_team_logo[client], ""))	
@@ -379,24 +379,24 @@ void SaveStats(int client)
 			char player_name[64];
 			char authid[20];
 			int team = GetClientTeam(client);
-	GetClientName(client, player_name, sizeof(player_name));
-	StripFilename(player_name, sizeof(player_name));
-	
-	if(!IsFakeClient(client))
-	{
-		char sAuth[64];
-		GetClientAuthId(client, AuthId_Steam2, sAuth, sizeof(sAuth));
-		SteamIDToCommunityID(sAuth, authid, sizeof(authid));
-	}
-	else
-	{
+			GetClientName(client, player_name, sizeof(player_name));
+			StripFilename(player_name, sizeof(player_name));
+			
+			if(!IsFakeClient(client))
+			{
+				char sAuth[64];
+				GetClientAuthId(client, AuthId_Steam2, sAuth, sizeof(sAuth));
+				SteamIDToCommunityID(sAuth, authid, sizeof(authid));
+			}
+			else
+			{
 				Format(authid, sizeof(authid), "BOT_%s", player_name);
 			}	
 
 			if (team_switch) 
 			{
 				if (team == 2)	team = 1;
-		else if (team == 3)	team = 2;
+				else if (team == 3)	team = 2;
 			} 
 			else 
 			{
@@ -497,314 +497,158 @@ void UploadResultsRound() {
 		g_overtime_rounds = (GetConVarInt(mp_overtime_maxrounds)/2);
 	}
 	
-	char mr[32], otr[32], otc[32], po[32], cts[32], ctots[32], ctfh[32], ctsh[32], ts[32], tots[32], tfh[32], tsh[32];
-	IntToString((GetConVarInt(mp_maxrounds) / 2), mr, sizeof(mr));
-	IntToString(g_overtime_rounds, otr, sizeof(otr));
-	IntToString(g_overtime_count, otc, sizeof(otc));
-	IntToString(g_played_out, po, sizeof(po));
-	IntToString((GetCTTotalScore()), cts, sizeof(cts));
-	IntToString(g_scores[SCORE_CT][SCORE_FIRST_HALF], ctfh, sizeof(ctfh));
-	IntToString(g_scores[SCORE_CT][SCORE_SECOND_HALF], ctsh, sizeof(ctsh));
-	IntToString((GetCTOTTotalScore()), ctots, sizeof(ctots));
-	IntToString((GetTTotalScore()), ts, sizeof(ts));
-	IntToString(g_scores[SCORE_T][SCORE_FIRST_HALF], tfh, sizeof(tfh));
-	IntToString(g_scores[SCORE_T][SCORE_SECOND_HALF], tsh, sizeof(tsh));
-	IntToString((GetTOTTotalScore()), tots, sizeof(tots));
+	HTTPClient httpClient;
+	httpClient = new HTTPClient(APIURL);
+	JSONObject score = new JSONObject();
+	score.SetString("token", user_token);
+	score.SetString("demo", g_log_filename);
+	score.SetString("comp", g_competition);
+	score.SetString("ev", g_event);
+	score.SetString("map", g_map);
+	score.SetInt("mr", (GetConVarInt(mp_maxrounds) / 2));
+	score.SetInt("otr", g_overtime_rounds);
+	score.SetInt("otc", g_overtime_count);
+	score.SetInt("po", g_played_out);
 	
-	Handle h_SRequest = SteamWorks_CreateHTTPRequest(k_EHTTPMethodPOST, score_api);
-	SteamWorks_SetHTTPRequestHeaderValue(h_SRequest, "Pragma", "no-cache");
-	SteamWorks_SetHTTPRequestHeaderValue(h_SRequest, "Cache-Control", "no-cache");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "t", user_token);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "demo", g_log_filename);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "comp", g_competition);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ev", g_event);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "map", g_map);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "mr", mr);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "otr", otr);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "otc", otc);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "po", po);
-		
-	if (match_id != 0) 
+	if (team_switch) 
 	{
-		char id[32];
-		IntToString(match_id, id, sizeof(id));
-		SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "type", "updater");
-		SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "id", id);
-		
-		if (team_switch) 
-		{
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctid", g_t_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "cts", ts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctfh", tfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctsh", tsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctots",  tots);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tid", g_ct_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ts", cts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tfh", ctfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tsh", ctsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tots", ctots);
-		} 
-		else 
-		{
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctid", g_ct_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "cts", cts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctfh", ctfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctsh", ctsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctots",  ctots);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tid", g_t_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ts", ts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tfh", tfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tsh", tsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tots", tots);
-			
-		}
+		score.SetInt("ctid", g_t_id);
+		score.SetInt("cts", GetTTotalScore());
+		score.SetInt("ctfh", g_scores[SCORE_T][SCORE_FIRST_HALF]);
+		score.SetInt("ctsh", g_scores[SCORE_T][SCORE_SECOND_HALF]);
+		score.SetInt("ctots",  GetTOTTotalScore());
+		score.SetInt("tid", g_ct_id);
+		score.SetInt("ts", GetCTTotalScore());
+		score.SetInt("tfh", g_scores[SCORE_CT][SCORE_FIRST_HALF]);
+		score.SetInt("tsh", g_scores[SCORE_CT][SCORE_SECOND_HALF]);
+		score.SetInt("tots", GetCTOTTotalScore());
 	} 
 	else 
 	{
-		SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "type", "insertr");
-		
-		if (team_switch) 
-		{
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctid", g_t_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "cts", ts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctfh", tfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctsh", tsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctots",  tots);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tid", g_ct_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ts", cts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tfh", ctfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tsh", ctsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tots", ctots);
-		} 
-		else 
-		{
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctid", g_ct_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "cts", cts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctfh", ctfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctsh", ctsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctots",  ctots);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tid", g_t_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ts", ts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tfh", tfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tsh", tsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tots", tots);
-		}
+		score.SetInt("ctid", g_ct_id);
+		score.SetInt("cts", GetCTTotalScore());
+		score.SetInt("ctfh", g_scores[SCORE_CT][SCORE_FIRST_HALF]);
+		score.SetInt("ctsh", g_scores[SCORE_CT][SCORE_SECOND_HALF]);
+		score.SetInt("ctots",  GetCTOTTotalScore());
+		score.SetInt("tid", g_t_id);
+		score.SetInt("ts", GetTTotalScore());
+		score.SetInt("tfh", g_scores[SCORE_T][SCORE_FIRST_HALF]);
+		score.SetInt("tsh", g_scores[SCORE_T][SCORE_SECOND_HALF]);
+		score.SetInt("tots", GetTOTTotalScore());
+	}
+
+	if (match_id != 0) 
+	{
+		score.SetString("type", "update_round");
+		score.SetInt("id", match_id);
+	} 
+	else 
+	{
+		score.SetString("type", "insert_round");
 	}
 	
-	SteamWorks_SetHTTPCallbacks(h_SRequest, OnScoreHTTPComplete);
-		
-	if(h_SRequest == INVALID_HANDLE || !SteamWorks_SendHTTPRequest(h_SRequest)) 
-	{
-		LogError("ERROR Request(%i): Update round score", h_SRequest);
-		return;
-	}
+	httpClient.Post("score.php", score, OnRoundSave);
+	delete score;
 }
 
-public int OnScoreHTTPComplete(Handle h_SRequest, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, any data) 
-{
-	if (bRequestSuccessful && eStatusCode == k_EHTTPStatusCode200OK) 
-	{
-		int length = 512;
-		if(SteamWorks_GetHTTPResponseBodySize(h_SRequest, length) && length > 1024) {
-			length = 1024;
-		}
-		char[] response = new char[length];
-		SteamWorks_GetHTTPResponseBodyData(h_SRequest, response, length);
-		if(StrContains(response, "<br />") != -1) 
-		{
-			LogError("Failed to update score to server. Error: %s", response);
-			return;
-		}
-		
-		//Convert to KeyValue
-		KeyValues tempKV = CreateKeyValues("response");
-		if(StringToKeyValues(tempKV, response, "response")) 
-		{
-			if (tempKV.JumpToKey("response", false)) 
-			{
-				char temp_response[32], temp_id[32];
-				tempKV.GetString("response", temp_response, sizeof(temp_response), "Unknown");
-				tempKV.GetString("id", temp_id, sizeof(temp_id), "Unknown");
-				
-				if (StrEqual(temp_response, "Unknown") || StrEqual(temp_id, "Unknown")) 
-					LogError("Failed to update score to server. Error: Unable to get response from server.");
-				else
-				{
-					match_id = StringToInt(temp_id);
-					//char g_def_backup[128];
-					//GetConVarString(FindConVar("mp_backup_round_file_pattern"), g_def_backup, sizeof(g_def_backup));
-					//Format(g_def_backup, sizeof(g_def_backup), "%i_%s", match_id, g_def_backup);
-					//ServerCommand("mp_backup_round_file_pattern %s", g_def_backup);
-				}
-			}
-			else	LogError("Failed to update score to server. Error: Unable to get response from server.");
-		}
-		else LogError("Failed to update score to server. Error: Unable to process reponse from server.");
-		
-		delete tempKV;
-	} 
-	else	LogError("SteamWorks error (status code %i)", view_as<int>(eStatusCode));
+void OnRoundSave(HTTPResponse response, any value) {
+	if (response.Status != HTTPStatus_OK) {
+		LogError("Failed to update score to server. Error: %s", response.Status);
+		return;
+	}
+	if (response.Data == null) {
+		LogError("Failed to update score to server. Error: Can not get response from web api.");
+		return;
+	}
 	
-	delete h_SRequest;
+	JSONObject res = view_as<JSONObject>(response.Data);
+
+	if(!res.HasKey("success") || !res.HasKey("id") || !res.GetBool("success") || res.GetInt("id") == -1) {
+		LogError("Failed to update score to server. Error: web api error.");
+	}
+	else	match_id = res.GetInt("id");
+
+	delete res;
 }
 
 void UploadResults() 
 {
 	if(!save_db)	return;
 	
-	char mr[32], otr[32], otc[32], po[32], cts[32], ctots[32], ctfh[32], ctsh[32], ts[32], tots[32], tfh[32], tsh[32], ml[32];
-	IntToString(lt_overtime_max_rounds, mr, sizeof(mr));
-	IntToString(lt_overtime_max_rounds, otr, sizeof(otr));
-	IntToString(lt_overtime_count, otc, sizeof(otc));
-	IntToString(lt_played_out, po, sizeof(po));
-	IntToString(lt_ct_overall_score, cts, sizeof(cts));
-	IntToString(lt_ct_first_half_score, ctfh, sizeof(ctfh));
-	IntToString(lt_ct_second_half_score, ctsh, sizeof(ctsh));
-	IntToString(lt_ct_overtime_score, ctots, sizeof(ctots));
-	IntToString(lt_t_overall_score, ts, sizeof(ts));
-	IntToString(lt_t_first_half_score, tfh, sizeof(tfh));
-	IntToString(lt_t_second_half_score, tsh, sizeof(tsh));
-	IntToString(lt_t_overtime_score, tots, sizeof(tots));
-	IntToString(lt_match_length, ml, sizeof(ml));
-	
-	Handle h_SRequest = SteamWorks_CreateHTTPRequest(k_EHTTPMethodPOST, score_api);
-	SteamWorks_SetHTTPRequestHeaderValue(h_SRequest, "Pragma", "no-cache");
-	SteamWorks_SetHTTPRequestHeaderValue(h_SRequest, "Cache-Control", "no-cache");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "t", user_token);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "demo", g_log_filename);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "comp", g_competition);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ev", g_event);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "map", g_map);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "mr", mr);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "otr", otr);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "otc", otc);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "po", po);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ml", ml);
-		
-	if (match_id != 0) 
+	HTTPClient httpClient;
+	httpClient = new HTTPClient(APIURL);
+	JSONObject score = new JSONObject();
+	score.SetString("token", user_token);
+	score.SetString("demo", g_log_filename);
+	score.SetString("comp", g_competition);
+	score.SetString("ev", g_event);
+	score.SetString("map", g_map);
+	score.SetInt("mr", lt_overtime_max_rounds);
+	score.SetInt("otr", lt_overtime_max_rounds);
+	score.SetInt("otc", lt_overtime_count);
+	score.SetInt("po", lt_played_out);
+	score.SetInt("ml", lt_match_length);
+
+	if (team_switch) 
 	{
-		char id[32];
-		IntToString(match_id, id, sizeof(id));
-		SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "type", "update");
-		SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "id", id);
-		
-		if (team_switch) 
-		{
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctid", g_t_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "cts", ts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctfh", tfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctsh", tsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctots",  tots);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tid", g_ct_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ts", cts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tfh", ctfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tsh", ctsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tots", ctots);
-		} 
-		else 
-		{
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctid", g_ct_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "cts", cts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctfh", ctfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctsh", ctsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctots",  ctots);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tid", g_t_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ts", ts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tfh", tfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tsh", tsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tots", tots);
-			
-		}
+		score.SetInt("ctid", g_t_id);
+		score.SetInt("cts", lt_t_overall_score);
+		score.SetInt("ctfh", lt_t_first_half_score);
+		score.SetInt("ctsh", lt_t_second_half_score);
+		score.SetInt("ctots", lt_t_overtime_score);
+		score.SetInt("tid", g_ct_id);
+		score.SetInt("ts", lt_ct_overall_score);
+		score.SetInt("tfh", lt_ct_first_half_score);
+		score.SetInt("tsh", lt_ct_second_half_score);
+		score.SetInt("tots", lt_ct_overtime_score);
 	} 
 	else 
 	{
-		SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "type", "insert");
-		
-		if (team_switch) 
-		{
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctid", g_t_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "cts", ts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctfh", tfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctsh", tsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctots",  tots);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tid", g_ct_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ts", cts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tfh", ctfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tsh", ctsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tots", ctots);
-		} 
-		else 
-		{
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctid", g_ct_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "cts", cts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctfh", ctfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctsh", ctsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctots",  ctots);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tid", g_t_id);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ts", ts);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tfh", tfh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tsh", tsh);
-			SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tots", tots);
-		}
+		score.SetInt("ctid", g_ct_id);
+		score.SetInt("cts", lt_ct_overall_score);
+		score.SetInt("ctfh", lt_ct_first_half_score);
+		score.SetInt("ctsh", lt_ct_second_half_score);
+		score.SetInt("ctots", lt_ct_overtime_score);
+		score.SetInt("tid", g_t_id);
+		score.SetInt("ts", lt_t_overall_score);
+		score.SetInt("tfh", lt_t_first_half_score);
+		score.SetInt("tsh", lt_t_second_half_score);
+		score.SetInt("tots", lt_t_overtime_score);
 	}
-	
-	SteamWorks_SetHTTPCallbacks(h_SRequest, OnResultHTTPComplete);
 		
-	if(h_SRequest == INVALID_HANDLE || !SteamWorks_SendHTTPRequest(h_SRequest)) 
+	if (match_id != 0) 
 	{
-		LogError("ERROR Request(%i): Update match result", h_SRequest);
-		return;
-	}
+		score.SetString("type", "update");
+		score.SetInt("id", match_id);
+	} 
+	else	score.SetString("type", "insert");
+	
+	httpClient.Post("score.php", score, OnResultSave);
+	delete score;
 }
 
-public int OnResultHTTPComplete(Handle h_SRequest, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, any data) 
-{
-	if (bRequestSuccessful && eStatusCode == k_EHTTPStatusCode200OK) 
-	{
-		int length = 512;
-		if(SteamWorks_GetHTTPResponseBodySize(h_SRequest, length) && length > 1024) {
-			length = 1024;
-		}
-		char[] response = new char[length];
-		SteamWorks_GetHTTPResponseBodyData(h_SRequest, response, length);
-		if(StrContains(response, "<br />") != -1) 
-		{
-			LogError("Failed to update result to server. Error: %s", response);
-			return;
-		}
-		
-		//Convert to KeyValue
-		KeyValues tempKV = CreateKeyValues("response");
-		if(StringToKeyValues(tempKV, response, "response")) 
-		{
-			if (tempKV.JumpToKey("response", false)) 
-			{
-				char temp_response[32], temp_id[32];
-				tempKV.GetString("response", temp_response, sizeof(temp_response), "Unknown");
-				tempKV.GetString("id", temp_id, sizeof(temp_id), "Unknown");
-				
-				if (StrEqual(temp_response, "Unknown") || StrEqual(temp_id, "Unknown")) 
-					LogError("Failed to update result to server. Error: Unable to get response from server.");
-				else
-				{
-					CPrintToChatAll("%t", "MySQL data uploaded", CHAT_PREFIX);
-					SendToDiscord(2);
-					match_id = StringToInt(temp_id);
-					//char g_def_backup[128];
-					//GetConVarString(FindConVar("mp_backup_round_file_pattern"), g_def_backup, sizeof(g_def_backup));
-					//Format(g_def_backup, sizeof(g_def_backup), "%i_%s", match_id, g_def_backup);
-					//ServerCommand("mp_backup_round_file_pattern %s", g_def_backup);
-				}
-			}
-			else	LogError("Failed to update result to server. Error: Unable to get response from server.");
-		}
-		else LogError("Failed to update result to server. Error: Unable to process reponse from server.");
-		
-		delete tempKV;
-	} 
-	else	LogError("SteamWorks error (status code %i)", view_as<int>(eStatusCode));
-	
-	delete h_SRequest;
+void OnResultSave(HTTPResponse response, any value) {
+	if (response.Status != HTTPStatus_OK) {
+		LogError("Failed to update result to server. Error: %s", response.Status);
+		return;
+	}
+	if (response.Data == null) {
+		LogError("Failed to update result to server. Error: Can not get response from web api.");
+		return;
+	}
+
+	JSONObject res = view_as<JSONObject>(response.Data);
+
+	if(!res.HasKey("success") || !res.HasKey("id") || !res.GetBool("success") || res.GetInt("id") == -1) {
+		LogError("Failed to update score to server. Error: web api error.");
+	}
+	else {
+		CPrintToChatAll("%t", "MySQL data uploaded", CHAT_PREFIX);
+		SendToDiscord(2);
+		match_id = res.GetInt("id");
+	}
+
+	delete res;
 }
 
 void CreateResultKey() 
@@ -820,94 +664,64 @@ void CreateResultKey()
 		g_overtime_rounds = (GetConVarInt(mp_overtime_maxrounds)/2);
 	}
 	
-	char mr[32], otr[32], po[32];
-	IntToString((GetConVarInt(mp_maxrounds) / 2), mr, sizeof(mr));
-	IntToString(g_overtime_rounds, otr, sizeof(otr));
-	IntToString(g_played_out, po, sizeof(po));
+	HTTPClient httpClient;
+	httpClient = new HTTPClient(APIURL);
+	JSONObject score = new JSONObject();
+
+	score.SetString("token", user_token);
+	score.SetString("demo", g_log_filename);
+	score.SetString("comp", g_competition);
+	score.SetString("ev", g_event);
+	score.SetString("map", g_map);
+	score.SetString("type", "create");
+	score.SetInt("mr", (GetConVarInt(mp_maxrounds) / 2));
+	score.SetInt("otr", g_overtime_rounds);
+	score.SetInt("otc", 0);
+	score.SetInt("po", g_played_out);
+	score.SetInt("ctid", g_t_id);
+	score.SetInt("cts", 0);
+	score.SetInt("ctfh", 0);
+	score.SetInt("ctsh", 0);
+	score.SetInt("ctots",  0);
+	score.SetInt("tid", g_ct_id);
+	score.SetInt("ts", 0);
+	score.SetInt("tfh", 0);
+	score.SetInt("tsh", 0);
+	score.SetInt("tots", 0);
 	
-	Handle h_SRequest = SteamWorks_CreateHTTPRequest(k_EHTTPMethodPOST, score_api);
-	SteamWorks_SetHTTPRequestHeaderValue(h_SRequest, "Pragma", "no-cache");
-	SteamWorks_SetHTTPRequestHeaderValue(h_SRequest, "Cache-Control", "no-cache");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "t", user_token);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "demo", g_log_filename);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "comp", g_competition);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ev", g_event);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "map", g_map);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "mr", mr);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "otr", otr);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "otc", "0");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "po", po);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "type", "create");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctid", g_t_id);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "cts", "0");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctfh", "0");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctsh", "0");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ctots",  "0");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tid", g_ct_id);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "ts", "0");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tfh", "0");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tsh", "0");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_SRequest, "tots", "0");
-	SteamWorks_SetHTTPCallbacks(h_SRequest, OnCreateHTTPComplete);		
-	
-	if(h_SRequest == INVALID_HANDLE || !SteamWorks_SendHTTPRequest(h_SRequest)) 
-	{
-		SetFailState("ERROR Request(%i): Create Match", h_SRequest);
-		return;
-	}
+	httpClient.Post("score.php", score, OnMatchCreate);
+
+	delete score;
 }
 
-public int OnCreateHTTPComplete(Handle h_SRequest, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, any data) 
-{
-	if (bRequestSuccessful && eStatusCode == k_EHTTPStatusCode200OK) 
-	{
-		int length = 512;
-		if(SteamWorks_GetHTTPResponseBodySize(h_SRequest, length) && length > 1024) {
-			length = 1024;
-		}
-		//char[] response = new char[length];
-		char response[4096];
-		SteamWorks_GetHTTPResponseBodyData(h_SRequest, response, length);
-		if(StrContains(response, "<br />") != -1) 
-		{
-			LogError("Failed to create match data in server. Error: %s", response);
-			return;
-		}
-		
-		//Convert to KeyValue
-		KeyValues tempKV = CreateKeyValues("response");
-		if(StringToKeyValues(tempKV, response, "response")) 
-		{
-			if (tempKV.JumpToKey("response", false)) 
-			{
-				char temp_response[32], temp_id[32];
-				tempKV.GetString("response", temp_response, sizeof(temp_response), "Unknown");
-				tempKV.GetString("id", temp_id, sizeof(temp_id), "Unknown");
-				
-				if (StrEqual(temp_response, "Unknown") || StrEqual(temp_id, "Unknown")) 
-					LogError("Failed to create match data in server. Error: Unable to get response from server.");
-				else
-				{
-					match_id = StringToInt(temp_id);
-					char g_def_backup[128];
-					GetConVarString(FindConVar("mp_backup_round_file_pattern"), g_def_backup, sizeof(g_def_backup));
-					Format(g_def_backup, sizeof(g_def_backup), "%i_%s", match_id, g_def_backup);
-					ServerCommand("mp_backup_round_file_pattern %s", g_def_backup);
-					CPrintToChatAll("%t", "MySQL Match_ID", CHAT_PREFIX, match_id);
-					ServerCommand("hostname %s (ID = %d)", g_server, match_id);
-					
-					SendToDiscord(4);
-				}
-			}
-			else	LogError("Failed to create match data in server. Error: Unable to get response from server.");
-		}
-		else LogError("Failed to create match data in server. Error: Unable to process reponse from server.");
-		
-		delete tempKV;
-	} 
-	else	LogError("SteamWorks error (status code %i)", view_as<int>(eStatusCode));
+void OnMatchCreate(HTTPResponse response, any value) {
+	if (response.Status != HTTPStatus_OK) {
+		LogError("Failed to create match data in server. Error: %s", response.Status);
+		return;
+	}
+	if (response.Data == null) {
+		LogError("Failed to create match data in server. Error: Can not get response from web api.");
+		return;
+	}
 	
-	delete h_SRequest;
+	JSONObject res = view_as<JSONObject>(response.Data);
+
+	if(!res.HasKey("success") || !res.HasKey("id") || !res.GetBool("success") || res.GetInt("id") == -1) {
+		LogError("Failed to create match data in server. Error: web api error.");
+	}
+	else {
+		match_id = res.GetInt("id");
+		char g_def_backup[128];
+		GetConVarString(FindConVar("mp_backup_round_file_pattern"), g_def_backup, sizeof(g_def_backup));
+		Format(g_def_backup, sizeof(g_def_backup), "%i_%s", match_id, g_def_backup);
+		ServerCommand("mp_backup_round_file_pattern %s", g_def_backup);
+		CPrintToChatAll("%t", "MySQL Match_ID", CHAT_PREFIX, match_id);
+		ServerCommand("hostname %s (ID = %d)", g_server, match_id);
+		
+		SendToDiscord(4);
+	}
+
+	delete res;
 }
 
 stock bool SteamIDToCommunityID(const char[] sSteamID, char[] sCommunityID, int size)

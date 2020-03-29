@@ -84,7 +84,8 @@
 														$server = new SourceQuery($row['ip'],$row['port']);
 														$infos  = $server->getInfos();
 														if(is_null($infos["mod"]))	throw new InvalidArgumentException( "invalid" );
-														else	throw new InvalidArgumentException( "valid" );
+														$infos["connect"] = "steam://connect/".$row['ip'].":".$row['port'];
+														$infos["connect_text"] = "CONNECT";
 													}
 													catch( InvalidArgumentException $e )
 													{
@@ -94,6 +95,8 @@
 															$infos["map"] = "-";
 															$infos["players"] = "-";
 															$infos["places"] = "-";
+															$infos["connect"] = "#";
+															$infos["connect_text"] = "-";
 														}	
 													}
 													?>
@@ -102,7 +105,7 @@
 															<td data-th="Map"><?=$infos['map']?></td>
 															<td data-th="Players"><?=$infos["players"]."/".$infos["places"]?></td>
 															<td data-th="Connect">
-																<a href ='steam://connect/<?=$row['ip']?>:<?=$row['port']?>'>CONNECT</a>
+																<a href ='<?=$infos["connect"]?>'><?=$infos["connect_text"]?></a>
 															</td>
 														</tr>
 													<?php

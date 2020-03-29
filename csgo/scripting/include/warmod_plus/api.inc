@@ -1,87 +1,66 @@
 /* License */
 void CheckLicense()
 {
-	// https://github.com/MitchDizzle/GameMeConnect/blob/master/scripting/gameme_connect.sp#L175-L192
-	Handle h_LRequest = SteamWorks_CreateHTTPRequest(k_EHTTPMethodPOST, license_api);
-	SteamWorks_SetHTTPRequestHeaderValue(h_LRequest, "Pragma", "no-cache");
-	SteamWorks_SetHTTPRequestHeaderValue(h_LRequest, "Cache-Control", "no-cache");
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_LRequest, "t", user_token);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_LRequest, "v", WM_VERSION);
-	SteamWorks_SetHTTPCallbacks(h_LRequest, OnLicenseHTTPComplete);
-	
-	if(h_LRequest == INVALID_HANDLE || !SteamWorks_SendHTTPRequest(h_LRequest)) 
-	{
-		SetFailState("ERROR Request(%i): GetLicense", h_LRequest);
-		return;
-	}
+	char url[512];
+	Format(url, sizeof(url), "license.php?token=%s", user_token);
+	PrintToServer("OnLicenseUrl: %s", url);
+	HTTPClient httpClient;
+	httpClient = new HTTPClient(APIURL);
+	httpClient.Get(url, OnLicenseReceived);
 }
 
-public int OnLicenseHTTPComplete(Handle h_LRequest, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, any data) 
-{
-	if (bRequestSuccessful && eStatusCode == k_EHTTPStatusCode200OK) 
-	{
-		int length = 512;
-		if(SteamWorks_GetHTTPResponseBodySize(h_LRequest, length) && length > 1024) {
-			length = 1024;
-		}
-		char[] response = new char[length];
-		SteamWorks_GetHTTPResponseBodyData(h_LRequest, response, length);
-		if(StrContains(response, "<br />") != -1) 
-		{
-			SetFailState("Failed to verify Warmod+ License. Error: %s", response);
-			return;
-		}
-		
-		//Convert to KeyValue
-		KeyValues tempKV = CreateKeyValues("license");
-		if(StringToKeyValues(tempKV, response, "license")) 
-		{
-			if (tempKV.JumpToKey("license", false)) 
-			{
-				char version[32];
-				tempKV.GetString("time_exp", time_exp, sizeof(time_exp), "Unknown");
-				tempKV.GetString("time_now", time_now, sizeof(time_now), "Unknown");
-				tempKV.GetString("ftp_a", ftp_a, sizeof(ftp_a), "Unknown");
-				tempKV.GetString("ftp_p", ftp_p, sizeof(ftp_p), "Unknown");
-				tempKV.GetString("version", version, sizeof(version), "Unknown");
-				
-				if (StrEqual(time_exp, "Unknown") || StrEqual(ftp_a, "Unknown") || StrEqual(ftp_p, "Unknown") || StrEqual(time_now, "Unknown") || StrEqual(version, "Unknown")) 
-					SetFailState("Failed to verify Warmod+ license. Error: Unable to get license info.");
-	
-				LogMessage("******   WARMOD+ LICENSE ******");
-				LogMessage("Date Expired: %s", time_exp);
-				LogMessage("Date Now: %s", time_now);
-				LogMessage("Latest Plugin Version: %s", version);
-				LogMessage("******   WARMOD+ LICENSE ******");
-				
-				if(!StrEqual(version, WM_VERSION))	SetFailState("Your plugin version is not the latest, please contact plugin author.");
-				
-				// check license expired or not.
-				char expdatas[3][32], nowdatas[3][32];
-				ExplodeString(time_exp, "-", expdatas, 3, 32);
+public void OnLicenseReceived(HTTPResponse response, any value, const char[] error){
+	PrintToServer("OnLicenseReceived: %s", error);
+	if (response.Status != HTTPStatus_OK) {
+		SetFailState("Failed to verify Warmod+ License. Error: %s", response.Status);
+		return;
+	}
+	if (response.Data == null) {
+		SetFailState("Failed to verify Warmod+ License. Error: Wrong token", response);
+		return;
+	}
+
+	char version[32];
+
+	JSONObject license = view_as<JSONObject>(response.Data);
+
+	if(!license.HasKey("time_exp")) {
+		SetFailState("Failed to verify Warmod+ License. Error: Wrong token", response);
+	}
+
+	license.GetString("time_exp", time_exp, sizeof(time_exp));
+	license.GetString("time_now", time_now, sizeof(time_now));
+	license.GetString("ftp_a", ftp_a, sizeof(ftp_a));
+	license.GetString("ftp_p", ftp_p, sizeof(ftp_p));
+	license.GetString("version", version, sizeof(version));
+
+	LogMessage("******   WARMOD+ LICENSE ******");
+	LogMessage("Date Expired: %s", time_exp);
+	LogMessage("Date Now: %s", time_now);
+	LogMessage("Latest Plugin Version: %s", version);
+	LogMessage("******   WARMOD+ LICENSE ******");
+
+	// check license expired or not.
+	char expdatas[3][32], nowdatas[3][32];
+	ExplodeString(time_exp, "-", expdatas, 3, 32);
 				ExplodeString(time_now, "-", nowdatas, 3, 32);
 				
 				int nowtime = StringToInt(nowdatas[2]) + StringToInt(nowdatas[1]) * 32 + StringToInt(nowdatas[0]) * 367; 
-				int exptime = StringToInt(expdatas[2]) + StringToInt(expdatas[1]) * 32 + StringToInt(expdatas[0]) * 367; 
-				
-				if( exptime - nowtime < 0 )  SetFailState("Your license is expired, please contact plugin author");
-			}
-			else	SetFailState("Failed to verify Warmod+ License. Error: Unable to get license info.");
-		}
-		else SetFailState("Failed to verify Warmod+ License. Error: Unable to process reponse from server.");
-		
-		delete tempKV;
-	} 
-	else	SetFailState("SteamWorks error (status code %i)", view_as<int>(eStatusCode));
+	int exptime = StringToInt(expdatas[2]) + StringToInt(expdatas[1]) * 32 + StringToInt(expdatas[0]) * 367; 
 	
-	delete h_LRequest;
-	
+	if( exptime - nowtime < 0 )  SetFailState("Your license is expired, please contact plugin author");
+
+	// check version
+	if(!StrEqual(version, WM_VERSION))	SetFailState("Your plugin version is not the latest, please contact plugin author.");
+
 	authed = true;
 	
 	for (int i = 1; i <= MaxClients; i++) 
 	{
 		if(IsValidClient(i) && !IsFakeClient(i) && !player_loaded[i])	LoadPlayerInfo(i);
 	}
+
+	delete license;
 }
 
 // Check player team and logo

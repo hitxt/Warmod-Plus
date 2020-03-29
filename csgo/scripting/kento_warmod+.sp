@@ -34,6 +34,9 @@
 /* discord */
 #include <discord>
 
+/* API */
+#include <ripext>
+
 #pragma newdecls required
 
 // license

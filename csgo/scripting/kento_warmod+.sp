@@ -60,7 +60,7 @@ char player_team_name[MAXPLAYERS + 1][512];
 char player_team_logo[MAXPLAYERS + 1][512];
 bool player_team_use[MAXPLAYERS + 1];
 bool player_team_leader[MAXPLAYERS + 1];
-char player_team_id[MAXPLAYERS + 1][32];
+int player_team_id[MAXPLAYERS + 1];
 Handle LogoTimer[MAXPLAYERS + 1] = INVALID_HANDLE;
 bool player_loaded[MAXPLAYERS + 1];
 
@@ -255,8 +255,8 @@ char g_t_name[64];
 char g_t_name_escaped[64]; // pre-escaped for warmod logs
 char g_ct_name[64];
 char g_ct_name_escaped[64]; // pre-escaped for warmod logs
-char g_t_id[32];
-char g_ct_id[32];
+int g_t_id = 0;
+int g_ct_id = 0;
 
 #define SPEC 1
 #define TR 2
@@ -928,6 +928,7 @@ public void OnClientPostAdminCheck(int client)
 	player_team_use[client] = false;
 	player_team_leader[client] = false;
 	player_loaded[client] = false;
+	player_team_id[client] = 0;
 	
 	if(authed && !IsFakeClient(client))	LoadPlayerInfo(client);
 }
@@ -1014,7 +1015,7 @@ public void OnClientDisconnect(int client)
 			Format(g_t_name_escaped, sizeof(g_t_name_escaped), g_t_name);
 			EscapeString(g_t_name_escaped, sizeof(g_t_name_escaped));
 			g_capt1 = -1;
-			g_t_id = "0";
+			g_t_id = 0;
 			ServerCommand("mp_teamname_2 %s", DEFAULT_T_NAME);
 			ServerCommand("mp_teamlogo_2 \"\"");
 			ServerCommand("mp_teamflag_2 \"\"");
@@ -1026,7 +1027,7 @@ public void OnClientDisconnect(int client)
 			Format(g_ct_name_escaped, sizeof(g_ct_name_escaped), g_ct_name);
 			EscapeString(g_ct_name_escaped, sizeof(g_ct_name_escaped));
 			g_capt2 = -1;
-			g_ct_id = "0";
+			g_ct_id = 0;
 			ServerCommand("mp_teamname_1 %s", DEFAULT_CT_NAME);
 			ServerCommand("mp_teamlogo_1 \"\"");
 			ServerCommand("mp_teamflag_1 \"\"");
@@ -1299,8 +1300,8 @@ void ResetTeams()
 	ServerCommand("mp_teamlogo_1 \"\"");
 	ServerCommand("mp_teamflag_1 \"\"");
 	
-	g_ct_id = "0";
-	g_t_id = "0";
+	g_ct_id = 0;
+	g_t_id = 0;
 	g_capt1 = -1;
 	g_capt2 = -1;
 }
@@ -5255,7 +5256,7 @@ public Action Command_JoinTeam(int client, const char[]command, int args)
 			Format(g_t_name_escaped, sizeof(g_t_name_escaped), g_t_name);
 			EscapeString(g_t_name_escaped, sizeof(g_t_name_escaped));
 			g_capt1 = -1;
-			g_t_id = "0";
+			g_t_id = 0;
 			ServerCommand("mp_teamname_2 %s", DEFAULT_T_NAME);
 			ServerCommand("mp_teamlogo_2 \"\"");
 			ServerCommand("mp_teamflag_2 \"\"");
@@ -5267,7 +5268,7 @@ public Action Command_JoinTeam(int client, const char[]command, int args)
 			Format(g_ct_name_escaped, sizeof(g_ct_name_escaped), g_ct_name);
 			EscapeString(g_ct_name_escaped, sizeof(g_ct_name_escaped));
 			g_capt2 = -1;
-			g_ct_id = "0";
+			g_ct_id = 0;
 			ServerCommand("mp_teamname_1 %s", DEFAULT_CT_NAME);
 			ServerCommand("mp_teamlogo_1 \"\"");
 			ServerCommand("mp_teamflag_1 \"\"");
@@ -9229,7 +9230,7 @@ public Action SetTeam(int client, int args)
 		return Plugin_Handled;
 	}
 	
-	if(!StrEqual(player_team_id[client], ""))
+	if(player_team_id[client] > -1)
 	{
 		if(!player_team_use[client])	CPrintToChat(client, "%T", "Team not ready", client, CHAT_PREFIX);
 		else
@@ -9249,7 +9250,7 @@ public Action SetTeam(int client, int args)
 						
 						Format(g_t_name, sizeof(g_t_name), "%s", player_team_name[client]);
 						Format(g_t_name_escaped, sizeof(g_t_name_escaped), g_t_name);
-						Format(g_t_id, sizeof(g_t_id), "%s", player_team_id[client]);
+						g_t_id = player_team_id[client];
 						EscapeString(g_t_name_escaped, sizeof(g_t_name_escaped));
 						ServerCommand("mp_teamname_2 %s", player_team_name[client]);
 						ServerCommand("mp_teamlogo_2 %s", player_team_logo[client]);
@@ -9267,7 +9268,7 @@ public Action SetTeam(int client, int args)
 						Format(g_t_name_escaped, sizeof(g_t_name_escaped), g_t_name);
 						EscapeString(g_t_name_escaped, sizeof(g_t_name_escaped));
 						g_capt1 = -1;
-						g_t_id = "0";
+						g_t_id = 0;
 						ServerCommand("mp_teamname_2 %s", DEFAULT_T_NAME);
 						ServerCommand("mp_teamlogo_2 \"\"");
 						ServerCommand("mp_teamflag_2 \"\"");
@@ -9286,7 +9287,7 @@ public Action SetTeam(int client, int args)
 						
 						Format(g_ct_name, sizeof(g_ct_name), "%s", player_team_name[client]);
 						Format(g_ct_name_escaped, sizeof(g_ct_name_escaped), g_ct_name);
-						Format(g_ct_id, sizeof(g_ct_id), "%s", player_team_id[client]);
+						g_ct_id = player_team_id[client];
 						EscapeString(g_ct_name_escaped, sizeof(g_ct_name_escaped));
 						ServerCommand("mp_teamname_1 %s", player_team_name[client]);
 						ServerCommand("mp_teamlogo_1 %s", player_team_logo[client]);
@@ -9304,7 +9305,7 @@ public Action SetTeam(int client, int args)
 						Format(g_ct_name_escaped, sizeof(g_ct_name_escaped), g_ct_name);
 						EscapeString(g_ct_name_escaped, sizeof(g_ct_name_escaped));
 						g_capt2 = -1;
-						g_ct_id = "0";
+						g_ct_id = 0;
 						ServerCommand("mp_teamname_1 %s", DEFAULT_CT_NAME);
 						ServerCommand("mp_teamlogo_1 \"\"");
 						ServerCommand("mp_teamflag_1 \"\"");
@@ -9329,7 +9330,7 @@ bool CheckTeamMember(int client)
 	// check each player team
 	for (int i = 1; i <= MaxClients; i++)
 	{
-		if(IsValidClient(i) && GetClientTeam(i) == GetClientTeam(client) && StrEqual(player_team_id[client], player_team_id[i]))
+		if(IsValidClient(i) && GetClientTeam(i) == GetClientTeam(client) && player_team_id[client] == player_team_id[i])
 		{
 			count++;
 		}

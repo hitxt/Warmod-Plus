@@ -93,4 +93,21 @@
 			return $icon;
 		}
 	}
+
+	function checkLicense($token) {
+		global $pdo;
+		global $license_table;
+
+		$input = array(
+      ":token" => $token,
+    );
+    $sql = "SELECT * FROM ".$license_table." WHERE token = :token";
+    $sth = $pdo->prepare($sql);
+    $sth->execute($input);
+		$result = $sth->fetchAll();
+
+		$re['valid'] = ($sth->rowCount() > 0) ? true : false;
+		$re['result'] = $result;
+		return $re;
+	}
 ?>

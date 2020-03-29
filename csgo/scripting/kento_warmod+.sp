@@ -3474,7 +3474,14 @@ public Action Event_Player_Hurt(Handle event, const char[]name, bool dontBroadca
 	char weapon[64];
 	GetEventString(event, "weapon", weapon, sizeof(weapon));
 
-	if (StrContains(weapon, "knife") != -1) weapon = "knife";
+	if (StrContains(weapon, "knife") != -1 ||
+			StrContains(weapon, "bayonet") != -1 ||
+			StrEqual(weapon, "melee") || 
+			StrEqual(weapon, "axe") || 
+			StrEqual(weapon, "hammer") || 
+			StrEqual(weapon, "spanner") || 
+			StrEqual(weapon, "fists")
+			) weapon = "knife";
 	
 	if (attacker > 0 && victim > 0 && attacker != victim)
 	{
@@ -3519,7 +3526,13 @@ public Action Event_Player_Hurt(Handle event, const char[]name, bool dontBroadca
 			{
 				weapon_stats[attacker][weapon_index][LOG_HIT_HITS]++;
 				
-				if (!StrContains(weapon, "knife") != -1 && 
+				if (StrContains(weapon, "knife") == -1 && 
+				StrContains(weapon, "bayonet") == -1 && 
+				!StrEqual(weapon, "weapon_melee") && 
+				!StrEqual(weapon, "weapon_axe") && 
+				!StrEqual(weapon, "weapon_hammer") && 
+				!StrEqual(weapon, "weapon_spanner") && 
+				!StrEqual(weapon, "weapon_fists") && 
 				!StrEqual(weapon, "weapon_hegrenade") && 
 				!StrEqual(weapon, "weapon_flashbang") && 
 				!StrEqual(weapon, "weapon_smokegrenade") && 
@@ -3571,10 +3584,15 @@ public Action Event_Player_Death(Handle event, const char[]name, bool dontBroadc
 	char weapontemp[64], weapon[64];
 	GetEventString(event, "weapon", weapontemp, sizeof(weapontemp));
 
-	if (StrContains(weapon, "knife") != -1)	weapontemp = "knife";
+	if (StrContains(weapontemp, "knife") != -1 ||  
+			StrEqual(weapontemp, "bayonet") ||
+			StrEqual(weapontemp, "melee") || 
+			StrEqual(weapontemp, "axe") || 
+			StrEqual(weapontemp, "hammer") || 
+			StrEqual(weapontemp, "spanner") ||
+			StrEqual(weapontemp, "fists"))		weapontemp = "knife";
 		
 	Format(weapon, sizeof(weapon), "weapon_%s", weapontemp);
-	
 		
 	int victim_team = GetClientTeam(victim);
 	
@@ -4104,18 +4122,15 @@ public Action Event_Weapon_Fire(Handle event, const char[]name, bool dontBroadca
 			{
 				weapon = "weapon_revolver";
 			}
-		} else if (StrEqual(weapon, "weapon_knife_t") || StrEqual(weapon, "weapon_knife_default_ct") || StrEqual(weapon, "weapon_knife_flip") || StrEqual(weapon, "weapon_knife_gut") || StrEqual(weapon, "weapon_knife_karambit") || StrEqual(weapon, "weapon_knife_m9_bayonet") || StrEqual(weapon, "weapon_knife_tactical") || StrEqual(weapon, "weapon_knife_falchion") || StrEqual(weapon, "weapon_knife_butterfly") || StrEqual(weapon, "weapon_knife_push") || StrEqual(weapon, "weapon_bayonet") || StrEqual(weapon, "weapon_knifegg")) {
-			int iWeapon = GetPlayerWeaponSlot(client, CS_SLOT_KNIFE);
-			int pWeapon = GetEntProp(iWeapon, Prop_Send, "m_iItemDefinitionIndex");
-			if (pWeapon == 500 || pWeapon == 505 || pWeapon == 506 || pWeapon == 507 || pWeapon == 508 || pWeapon == 509 || pWeapon == 512 || pWeapon == 515 || pWeapon == 516 || pWeapon == 59 || pWeapon == 42)
-			{
+		} 
+		else if (StrContains(weapon, "knife") != -1 ||  
+			StrEqual(weapon, "bayonet") ||
+			StrEqual(weapon, "melee") || 
+			StrEqual(weapon, "axe") || 
+			StrEqual(weapon, "hammer") || 
+			StrEqual(weapon, "spanner") ||
+			StrEqual(weapon, "fists"))
 				weapon = "weapon_knife";
-			}
-		}
-		
-		if (StrEqual(weapon, "weapon_knife_t") || StrEqual(weapon, "weapon_knife_default_ct") || StrEqual(weapon, "weapon_knife_flip") || StrEqual(weapon, "weapon_knife_gut") || StrEqual(weapon, "weapon_knife_karambit") || StrEqual(weapon, "weapon_knife_m9_bayonet") || StrEqual(weapon, "weapon_knife_tactical") || StrEqual(weapon, "weapon_knife_falchion") || StrEqual(weapon, "weapon_knife_butterfly") || StrEqual(weapon, "weapon_knife_push") || StrEqual(weapon, "weapon_bayonet") || StrEqual(weapon, "weapon_knifegg")) {
-			weapon = "weapon_knife";
-		}
 		
 		int weapon_index = GetWeaponIndex(weapon);
 		if (weapon_index > -1)

@@ -1,8 +1,8 @@
-#define license_api ""
-#define player_api ""
-#define stats_api ""
-#define score_api ""
-#define logo_web ""
-#define siteLocation ""
+// Your Web URL
+#define siteLocation "http://your.warmod.website/"
+// Your Discord webhook URL
 #define dsicord_webhook ""
-#define demoftp ""
+// Your ftp url
+#define demoftp "yourftp:21"
+// Your Web API url, should be something like http://your.warmod.website/api/
+#define APIURL "http://your.warmod.website/api/"

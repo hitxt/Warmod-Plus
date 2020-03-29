@@ -273,27 +273,101 @@ public Action Timer_DownloadLogo(Handle timer, Handle DecalPack)
 void SaveStats(int client)
 {
 	if(!save_db)	return;
-	
-	char mid[32];
-	IntToString(match_id, mid, sizeof(mid));
-	
-	Handle h_StRequest = SteamWorks_CreateHTTPRequest(k_EHTTPMethodPOST, stats_api);
-	SteamWorks_SetHTTPRequestHeaderValue(h_StRequest, "Pragma", "no-cache");
-	SteamWorks_SetHTTPRequestHeaderValue(h_StRequest, "Cache-Control", "no-cache");
-	
-	addedtorequest = 0;
-	
+
+	HTTPClient httpClient;
+	httpClient = new HTTPClient(APIURL);
+	JSONObject stats = new JSONObject();
+	JSONArray array = new JSONArray();
+	stats.SetString("token", user_token);
+	stats.SetInt("mid", match_id);
+
 	// All
 	if(client == -1)
 	{
-		for (int i = 1; i <= MaxClients; i++) 
+		for (int i = 0; i < MaxClients; i++) 
 		{
 			if(IsValidClient(i) && !IsFakeClient(i))	
 			{
 				if(GetClientTeam(i) > 1 && WasClientInGame[i] && WasClientTeam[i] > 1)
 				{
-					AddDataToStatsRequest(h_StRequest, i);
-					addedtorequest++;
+					char player_name[64];
+					char authid[20];
+					int team = GetClientTeam(i);
+					GetClientName(i, player_name, sizeof(player_name));
+					StripFilename(player_name, sizeof(player_name));
+					
+					if(!IsFakeClient(i))
+					{
+						char sAuth[64];
+						GetClientAuthId(i, AuthId_Steam2, sAuth, sizeof(sAuth));
+						SteamIDToCommunityID(sAuth, authid, sizeof(authid));
+					}
+					else
+					{
+						Format(authid, sizeof(authid), "BOT_%s", player_name);
+					}	
+
+					if (team_switch) 
+					{
+						if (team == 2)	team = 1;
+						else if (team == 3)	team = 2;
+					} 
+					else 
+					{
+						if (team == 3) team = 1;
+					}
+
+					float rws_diff = f_PlayerRWS[i];
+					rws_diff -= f_PlayerRWS_join[i];
+
+					JSONObject player = new JSONObject();
+					player.SetString("id", authid);
+					player.SetFloat("rws", f_PlayerRWS[i]);
+					player.SetFloat("rws2", rws_diff);
+					player.SetInt("team", team);
+					player.SetInt("rounds_played", match_stats[i][MATCH_ROUND]);
+					player.SetInt("kills", match_stats[i][MATCH_KILLS]);
+					player.SetInt("deaths", match_stats[i][MATCH_DEATHS]);
+					player.SetInt("assists", match_stats[i][MATCH_ASSIST]);
+					player.SetInt("head_shots", match_stats[i][MATCH_HEADSHOTS]);
+					player.SetInt("team_kills", match_stats[i][MATCH_TEAMKILLS]);
+					player.SetInt("assists_team_attack", match_stats[i][MATCH_ATA]);
+					player.SetInt("damage", match_stats[i][MATCH_DAMAGE]);
+					player.SetInt("hits", match_stats[i][MATCH_HITS]);
+					player.SetInt("shots", match_stats[i][MATCH_SHOTS]);
+					player.SetInt("last_alive", match_stats[i][MATCH_LAST]);
+					player.SetInt("clutch_won", match_stats[i][MATCH_WON]);
+					player.SetInt("1k", match_stats[i][MATCH_1K]);
+					player.SetInt("2k", match_stats[i][MATCH_2K]);
+					player.SetInt("3k", match_stats[i][MATCH_3K]);
+					player.SetInt("4k", match_stats[i][MATCH_4K]);
+					player.SetInt("5k", match_stats[i][MATCH_5K]);
+					player.SetInt("mvp", match_stats[i][MATCH_MVP]);
+					player.SetInt("c4_defused", match_stats[i][MATCH_DEFUSE]);
+					player.SetInt("c4_planted", match_stats[i][MATCH_PLANT]);
+					player.SetInt("c4_exploded", match_stats[i][MATCH_EXPLODE]);
+					player.SetInt("hostages_rescued", match_stats[i][MATCH_HOSTAGE]);
+
+					char sWeapon[100];
+					for (int j = 0; j < NUM_WEAPONS; j++)
+					{
+						Format(sWeapon, sizeof(sWeapon), "%s", weapon_list[j]);
+						ReplaceString(sWeapon, 50, "_projectile", "");
+						ReplaceString(sWeapon, 50, "weapon_", "");
+						player.SetInt(sWeapon, weapon_stats[i][j][LOG_HIT_KILLS]);
+					}
+
+					player.SetInt("generic", hitbox[i][0]);
+					player.SetInt("head", hitbox[i][1]);
+					player.SetInt("chest", hitbox[i][2]);
+					player.SetInt("stomach", hitbox[i][3]);
+					player.SetInt("left_arm", hitbox[i][4]);
+					player.SetInt("right_arm", hitbox[i][5]);
+					player.SetInt("left_leg", hitbox[i][6]);
+					player.SetInt("right_leg", hitbox[i][7]);
+
+					array.Push(player);
+					delete player;
 				}
 			}
 		}
@@ -301,26 +375,10 @@ void SaveStats(int client)
 	else
 	{
 		if(IsValidClient(client) &&  GetClientTeam(client) > 1 && WasClientInGame[client] && WasClientTeam[client] > 1)	
-			AddDataToStatsRequest(h_StRequest, client);
-	}
-	
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, "t", user_token);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, "mid", mid);
-	
-	SteamWorks_SetHTTPCallbacks(h_StRequest, OnStatsHTTPComplete);
-	
-	if(h_StRequest == INVALID_HANDLE || !SteamWorks_SendHTTPRequest(h_StRequest)) 
-	{
-		LogError("ERROR Request(%i): Save Stats", h_StRequest);
-		return;
-	}
-}
-
-void AddDataToStatsRequest(Handle h_StRequest, int client)
-{
-	char player_name[64];
-	char authid[20];
-	int team = GetClientTeam(client);
+		{
+			char player_name[64];
+			char authid[20];
+			int team = GetClientTeam(client);
 	GetClientName(client, player_name, sizeof(player_name));
 	StripFilename(player_name, sizeof(player_name));
 	
@@ -332,193 +390,97 @@ void AddDataToStatsRequest(Handle h_StRequest, int client)
 	}
 	else
 	{
-		Format(authid, sizeof(authid), "BOT_%s", player_name);
-	}
-	
-	
-	
-	if (team_switch) 
-	{
-		if (team == 2)	team = 1;
+				Format(authid, sizeof(authid), "BOT_%s", player_name);
+			}	
+
+			if (team_switch) 
+			{
+				if (team == 2)	team = 1;
 		else if (team == 3)	team = 2;
-	} 
-	else 
-	{
-		if (team == 2) team = 2;
-		else if (team == 3) team = 1;
-	}
-	
-	char steam[32], rws[32], rws2[32], round[32], k[32], d[32], a[32], hs[32], tk[32], ata[32], dmg[32], hit[32], shot[32], last[32], won[32], 
-	k1[32], k2[32], k3[32], k4[32], k5[32], mvp[32], defuse[32], plant[32], explode[32], hostage[32];
-	FloatToString(f_PlayerRWS[client], rws, sizeof(rws));
-	float rws_diff = f_PlayerRWS[client];
-	rws_diff -= f_PlayerRWS_join[client];
+			} 
+			else 
+			{
+				if (team == 3) team = 1;
+			}
 
-	FloatToString(rws_diff, rws2, sizeof(rws2));
-	IntToString(team, steam, sizeof(steam));
-	IntToString(match_stats[client][MATCH_ROUND], round, sizeof(round));
-	IntToString(match_stats[client][MATCH_KILLS], k, sizeof(k));
-	IntToString(match_stats[client][MATCH_DEATHS], d, sizeof(d));
-	IntToString(match_stats[client][MATCH_ASSIST], a, sizeof(a));
-	IntToString(match_stats[client][MATCH_HEADSHOTS], hs, sizeof(hs));
-	IntToString(match_stats[client][MATCH_TEAMKILLS], tk, sizeof(tk));
-	IntToString(match_stats[client][MATCH_ATA], ata, sizeof(ata));
-	IntToString(match_stats[client][MATCH_DAMAGE], dmg, sizeof(dmg));
-	IntToString(match_stats[client][MATCH_HITS], hit, sizeof(hit));
-	IntToString(match_stats[client][MATCH_SHOTS], shot, sizeof(shot));
-	IntToString(match_stats[client][MATCH_LAST], last, sizeof(last));
-	IntToString(match_stats[client][MATCH_WON], won, sizeof(won));
-	IntToString(match_stats[client][MATCH_1K], k1, sizeof(k1));
-	IntToString(match_stats[client][MATCH_2K], k2, sizeof(k2));
-	IntToString(match_stats[client][MATCH_3K], k3, sizeof(k3));
-	IntToString(match_stats[client][MATCH_4K], k4, sizeof(k4));
-	IntToString(match_stats[client][MATCH_5K], k5, sizeof(k5));
-	IntToString(match_stats[client][MATCH_MVP], mvp, sizeof(mvp));
-	IntToString(match_stats[client][MATCH_DEFUSE], defuse, sizeof(defuse));
-	IntToString(match_stats[client][MATCH_PLANT], plant, sizeof(plant));
-	IntToString(match_stats[client][MATCH_EXPLODE], explode, sizeof(explode));
-	IntToString(match_stats[client][MATCH_HOSTAGE], hostage, sizeof(hostage));
-	
-	char raid[32],rteam[32],rrws[32],rround[32],rk[32],rd[32],ra[32],
-	rhs[32],rtk[32],rata[32],rdmg[32],rhit[32],rshot[32],rlast[32],rwon[32],
-	rk1[32],rk2[32],rk3[32],rk4[32],rk5[32],rmvp[32],rrws2[32],
-	rdefuse[32],rplant[32],rexplode[32],rhostage[32];
-	
-	Format(raid, sizeof(raid), "aid[%d]", addedtorequest);
-	Format(rteam, sizeof(rteam), "team[%d]", addedtorequest);
-	Format(rrws, sizeof(rrws), "rws[%d]", addedtorequest);
-	Format(rround, sizeof(rround), "round[%d]", addedtorequest);
-	Format(rk, sizeof(rk), "k[%d]", addedtorequest);
-	Format(rd, sizeof(rd), "d[%d]", addedtorequest);
-	Format(ra, sizeof(ra), "a[%d]", addedtorequest);
-	Format(rhs, sizeof(rhs), "hs[%d]", addedtorequest);
-	Format(rtk, sizeof(rtk), "tk[%d]", addedtorequest);
-	Format(rata, sizeof(rata), "ata[%d]", addedtorequest);
-	Format(rdmg, sizeof(rdmg), "dmg[%d]", addedtorequest);
-	Format(rhit, sizeof(rhit), "hit[%d]", addedtorequest);
-	Format(rshot, sizeof(rshot), "shot[%d]", addedtorequest);
-	Format(rlast, sizeof(rlast), "last[%d]", addedtorequest);
-	Format(rwon, sizeof(rwon), "won[%d]", addedtorequest);
-	Format(rk1, sizeof(rk1), "k1[%d]", addedtorequest);
-	Format(rk2, sizeof(rk2), "k2[%d]", addedtorequest);
-	Format(rk3, sizeof(rk3), "k3[%d]", addedtorequest);
-	Format(rk4, sizeof(rk4), "k4[%d]", addedtorequest);
-	Format(rk5, sizeof(rk5), "k5[%d]", addedtorequest);
-	Format(rmvp, sizeof(rmvp), "mvp[%d]", addedtorequest);
-	Format(rrws2, sizeof(rrws2), "rws2[%d]", addedtorequest);
-	Format(rdefuse, sizeof(rdefuse), "defuse[%d]", addedtorequest);
-	Format(rplant, sizeof(rplant), "plant[%d]", addedtorequest);
-	Format(rexplode, sizeof(rexplode), "explode[%d]", addedtorequest);
-	Format(rhostage, sizeof(rhostage), "hostage[%d]", addedtorequest);
-	
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,raid, authid);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rteam, steam);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rrws, rws);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rround, round);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rk, k);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rd, d);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,ra, a);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rhs, hs);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rtk, tk);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rata, ata);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rdmg, dmg);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rhit, hit);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rshot, shot);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rlast, last);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rwon, won);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rk1, k1);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rk2, k2);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rk3, k3);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rk4, k4);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rk5, k5);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rmvp, mvp);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rrws2, rws2);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rdefuse, defuse);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rplant, plant);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rexplode, explode);
-	SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest,rhostage, hostage);
+			float rws_diff = f_PlayerRWS[client];
+			rws_diff -= f_PlayerRWS_join[client];
 
+			JSONObject player = new JSONObject();
+			player.SetString("id", authid);
+			player.SetFloat("rws", f_PlayerRWS[client]);
+			player.SetFloat("rws2", rws_diff);
+			player.SetInt("team", team);
+			player.SetInt("rounds_played", match_stats[client][MATCH_ROUND]);
+			player.SetInt("kills", match_stats[client][MATCH_KILLS]);
+			player.SetInt("deaths", match_stats[client][MATCH_DEATHS]);
+			player.SetInt("assists", match_stats[client][MATCH_ASSIST]);
+			player.SetInt("head_shots", match_stats[client][MATCH_HEADSHOTS]);
+			player.SetInt("team_kills", match_stats[client][MATCH_TEAMKILLS]);
+			player.SetInt("assists_team_attack", match_stats[client][MATCH_ATA]);
+			player.SetInt("damage", match_stats[client][MATCH_DAMAGE]);
+			player.SetInt("hits", match_stats[client][MATCH_HITS]);
+			player.SetInt("shots", match_stats[client][MATCH_SHOTS]);
+			player.SetInt("last_alive", match_stats[client][MATCH_LAST]);
+			player.SetInt("clutch_won", match_stats[client][MATCH_WON]);
+			player.SetInt("1k", match_stats[client][MATCH_1K]);
+			player.SetInt("2k", match_stats[client][MATCH_2K]);
+			player.SetInt("3k", match_stats[client][MATCH_3K]);
+			player.SetInt("4k", match_stats[client][MATCH_4K]);
+			player.SetInt("5k", match_stats[client][MATCH_5K]);
+			player.SetInt("mvp", match_stats[client][MATCH_MVP]);
+			player.SetInt("c4_defused", match_stats[client][MATCH_DEFUSE]);
+			player.SetInt("c4_planted", match_stats[client][MATCH_PLANT]);
+			player.SetInt("c4_exploded", match_stats[client][MATCH_EXPLODE]);
+			player.SetInt("hostages_rescued", match_stats[client][MATCH_HOSTAGE]);
 
-	// add weapons
-	char sWeapon[100], kills[10];
-	for (int i = 0; i < NUM_WEAPONS; i++)
-	{
-		Format(sWeapon, sizeof(sWeapon), "%s", weapon_list[i]);
-		ReplaceString(sWeapon, 50, "_projectile", "");
-		ReplaceString(sWeapon, 50, "weapon_", "");
-		Format(sWeapon, sizeof(sWeapon), "%s[%d]", sWeapon, addedtorequest);
-		IntToString(weapon_kills[client][i], kills, sizeof(kills));
-		SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, sWeapon, kills);
+			char sWeapon[100];
+			for (int i = 0; i < NUM_WEAPONS; i++)
+			{
+				Format(sWeapon, sizeof(sWeapon), "%s", weapon_list[i]);
+				ReplaceString(sWeapon, 50, "_projectile", "");
+				ReplaceString(sWeapon, 50, "weapon_", "");
+				player.SetInt(sWeapon, weapon_stats[client][i][LOG_HIT_KILLS]);
+			}
+
+			player.SetInt("generic", hitbox[client][0]);
+			player.SetInt("head", hitbox[client][1]);
+			player.SetInt("chest", hitbox[client][2]);
+			player.SetInt("stomach", hitbox[client][3]);
+			player.SetInt("left_arm", hitbox[client][4]);
+			player.SetInt("right_arm", hitbox[client][5]);
+			player.SetInt("left_leg", hitbox[client][6]);
+			player.SetInt("right_leg", hitbox[client][7]);
+
+			array.Push(player);
+			delete player;
+		}
 	}
 
-	char h0[32], h1[32], h2[32], h3[32], h4[32], h5[32], h6[32], h7[32];
-	Format(h0, sizeof(h0), "generic[%d]", addedtorequest);
-	Format(h1, sizeof(h1), "head[%d]", addedtorequest);
-	Format(h2, sizeof(h2), "chest[%d]", addedtorequest);
-	Format(h3, sizeof(h3), "stomach[%d]", addedtorequest);
-	Format(h4, sizeof(h4), "left_arm[%d]", addedtorequest);
-	Format(h5, sizeof(h5), "right_arm[%d]", addedtorequest);
-	Format(h6, sizeof(h6), "left_leg[%d]", addedtorequest);
-	Format(h7, sizeof(h7), "right_leg[%d]", addedtorequest);
-	
-	int ihitbox = 0;
-	char shitbox[10];
-	for (int i = 0; i <= 7; i++)
-	{
-		ihitbox = hitbox[client][i];
-		IntToString(ihitbox, shitbox, sizeof(shitbox));
-		
-		if(i == 0)			SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, h0, shitbox);
-		else if(i == 1)		SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, h1, shitbox);
-		else if(i == 2)		SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, h2, shitbox);
-		else if(i == 3)		SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, h3, shitbox);
-		else if(i == 4)		SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, h4, shitbox);
-		else if(i == 5)		SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, h5, shitbox);
-		else if(i == 6)		SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, h6, shitbox);
-		else if(i == 7)		SteamWorks_SetHTTPRequestGetOrPostParameter(h_StRequest, h7, shitbox);
-		
-		ihitbox = 0;
-		Format(shitbox, sizeof(shitbox), "");
-	}
+	stats.Set("p", array);
+	httpClient.Post("stats.php", stats, OnStatsSaved);
+	delete stats;
+	delete array;
 }
 
-public int OnStatsHTTPComplete(Handle h_StRequest, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, any data) 
-{
-	if (bRequestSuccessful && eStatusCode == k_EHTTPStatusCode200OK) 
-	{
-		int length = 2048;
-		if(SteamWorks_GetHTTPResponseBodySize(h_StRequest, length) && length > 2048) {
-			length = 4096;
-		}
-		char[] response = new char[length];
-		SteamWorks_GetHTTPResponseBodyData(h_StRequest, response, length);
-		
-		if(StrContains(response, "<br />") != -1) 
-		{
-			LogError("Failed to update stats to server. Error: %s", response);
-			return;
-		}
-		
-		KeyValues tempKV = CreateKeyValues("response");
-		if(StringToKeyValues(tempKV, response, "response")) 
-		{
-			if (tempKV.JumpToKey("response", false)) 
-			{
-				char temp_response[32];
-				tempKV.GetString("response", temp_response, sizeof(temp_response), "Unknown");
-				
-				if (StrEqual(temp_response, "Unknown")) 
-					LogError("Failed to update stats to server. Error: Unable to get response from server.");
-			}
-			else	LogError("Failed to update stats to server. Error: Unable to get response from server.");
-		}
-		else LogError("Failed to update stats to server. Error: Unable to process reponse from server.");
-		
-		delete tempKV;
-	} 
-	else	LogError("SteamWorks error (status code %i)", view_as<int>(eStatusCode));
+public void OnStatsSaved(HTTPResponse response, int client) {
+	if (response.Status != HTTPStatus_OK) {
+		LogError("Failed to update stats to server. Error: %s", response.Status);
+		return;
+	}
+	if (response.Data == null) {
+		LogError("Failed to update stats to server. Error: Unable to get response from server.", response);
+		return;
+	}
+
+	JSONObject res = view_as<JSONObject>(response.Data);
 	
-	delete h_StRequest;
+	if(!res.HasKey("success")) {
+		LogError("Failed to update stats to server. Error: Unable to get response from server.");
+		return;
+	}
+
+	delete res;
 }
 
 void UploadResultsRound() {

@@ -3,7 +3,7 @@
 		(
 		SELECT
 			a.rank AS 'Rank',
-		   a.steam_id_64,
+				a.steam_id_64,
 				a.rws,
 				a.team,
 				a.kills,
@@ -157,24 +157,24 @@
 		FROM ".$stats_table.", ".$result_table." 
 		WHERE (".$result_table.".t_overall_score > ".$result_table.".ct_overall_score AND 
 			".$stats_table.".team = 1 AND 
-			".$result_table.".id = ".$stats_table.".id AND 
-			".$stats_table.".steam_id_64 = ?)
+			".$result_table.".id = ".$stats_table.".match_id AND 
+			".$stats_table.".steam_id_64 = :id1)
 			 OR (".$result_table.".ct_overall_score > ".$result_table.".t_overall_score AND
 			  ".$stats_table.".team = 2 AND 
-			  ".$result_table.".id = ".$stats_table.".id AND
-			   ".$stats_table.".steam_id_64 = ?)";
+			  ".$result_table.".id = ".$stats_table.".match_id AND
+			   ".$stats_table.".steam_id_64 = :id2)";
 
 	$playerWinSQL = "
 		SELECT DISTINCT ".$result_table.".id 
 		FROM ".$stats_table.", ".$result_table." 
 		WHERE (".$result_table.".t_overall_score > ".$result_table.".ct_overall_score AND
 			 ".$stats_table.".team = 2 AND
-			  ".$result_table.".id = ".$stats_table.".id AND
-			   ".$stats_table.".steam_id_64 = ?) 
+			  ".$result_table.".id = ".$stats_table.".match_id AND
+			   ".$stats_table.".steam_id_64 = :id1) 
 			   OR (".$result_table.".ct_overall_score > ".$result_table.".t_overall_score AND
 				".$stats_table.".team = 1 AND
-				 ".$result_table.".id = ".$stats_table.".id AND
-				  ".$stats_table.".steam_id_64 = ?)";
+				 ".$result_table.".id = ".$stats_table.".match_id AND
+				  ".$stats_table.".steam_id_64 = :id2)";
 
 	$playerDrawSQL = "
 		SELECT DISTINCT ".$result_table.".id 

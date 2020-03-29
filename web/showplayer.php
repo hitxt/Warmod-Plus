@@ -52,35 +52,52 @@
 	$sql = "SELECT * FROM ".$player_table." WHERE steam_id_64 = :id";
 	$sth = $pdo->prepare($sql);
 	$sth->execute($input);
-	$result = $sth->fetchAll();
+	$result1 = $sth->fetchAll();
 
 	// player stats
+	$input = array(
+		":id" => $id,
+	);
 	$sql = $playerStatsSQL." WHERE ".$stats_table.".steam_id_64 = :id";
 	$sth = $pdo->prepare($sql);
 	$sth->execute($input);
 	$result2 = $sth->fetchAll();
 	
 	// player rank
+	$input = array(
+		":id" => $id,
+	);
 	$sql = $playerRankSQL." WHERE steam_id_64 = :id";
 	$sth = $pdo->prepare($sql);
 	$sth->execute($input);
 	$result3 = $sth->fetchAll();
 
 	// matches
+	$input = array(
+		":id1" => $id,
+		":id2" => $id,
+	);
 	$sth = $pdo->prepare($playerWinSQL);
 	$sth->execute($input);
-	$win = count( $sth->fetchAll() );
+	$win = $sth->rowCount();
 
+	$input = array(
+		":id1" => $id,
+		":id2" => $id,
+	);
 	$sth = $pdo->prepare($playerLoseSQL);
 	$sth->execute($input);
 	$lose = count( $sth->fetchAll() );
 
+	$input = array(
+		":id" => $id,
+	);
 	$sth = $pdo->prepare($playerDrawSQL);
 	$sth->execute($input);
 	$draw = count( $sth->fetchAll() );
 
-	if(!empty($result) && !empty($result2) && !empty($result3)){
-		$result = array_merge($result[0], $result2[0], $result3[0]);
+	if(!empty($result1) && !empty($result2) && !empty($result3)){
+		$result = array_merge($result1[0], $result2[0], $result3[0]);
 		$player = new Player($result);
 		$player->cc = geoip_country_code_by_addr($gi, $player->last_ip);
 		$player->cn = geoip_country_name_by_addr($gi, $player->last_ip);
